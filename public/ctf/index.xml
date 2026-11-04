@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Ctf on C01DC0FF33</title>
+		<link>http://localhost:37194/ctf/</link>
+		<description>Recent content in Ctf on C01DC0FF33</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 01 Nov 2024 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:37194/ctf/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>ISFCR CryoVault Finals</title>
+				<link>http://localhost:37194/ctf/isfcr-cryovault-finals/</link>
+				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/ctf/isfcr-cryovault-finals/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>ISFCR CryoVault Quals</title>
+				<link>http://localhost:37194/ctf/isfcr-cryovault-quals/</link>
+				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/ctf/isfcr-cryovault-quals/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Netrunner Gaultnet CTF</title>
+				<link>http://localhost:37194/ctf/netrunner-gaultnet-ctf/</link>
+				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/ctf/netrunner-gaultnet-ctf/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>H7CTF</title>
+				<link>http://localhost:37194/ctf/h7ctf/</link>
+				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/ctf/h7ctf/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>XploitX CTF</title>
+				<link>http://localhost:37194/ctf/xploitx-ctf/</link>
+				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/ctf/xploitx-ctf/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>CyberShield CTF</title>
+				<link>http://localhost:37194/ctf/cybershield-ctf/</link>
+				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/ctf/cybershield-ctf/</guid>
+				<description></description>
+			</item>
+	</channel>
+</rss>

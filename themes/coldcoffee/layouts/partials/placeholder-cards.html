@@ -1,0 +1,28 @@
+{{/* placeholder-cards.html — shown on home when no writeups exist */}}
+{{ $placeholders := slice
+  (dict "cat" "IoT & Hardware"      "ctf" "ISFCR CryoVault Quals"  "title" "ECHO-9: Firmware Secrets"    "desc" "Extract hidden flags from an embedded device firmware image using binwalk and entropy analysis." "diff" "Medium")
+  (dict "cat" "Cryptography"        "ctf" "H7CTF Qualifiers"        "title" "Writeup incoming"             "desc" "Publishing soon — challenge solved, writeup being drafted."                                      "diff" "Medium")
+  (dict "cat" "Digital Forensics"   "ctf" "XploitX CTF"             "title" "Writeup incoming"             "desc" "Publishing soon — challenge solved, writeup being drafted."                                      "diff" "Hard")
+  (dict "cat" "Reverse Engineering" "ctf" "Netrunner Gaultnet"       "title" "Writeup incoming"             "desc" "Publishing soon — challenge solved, writeup being drafted."                                      "diff" "Medium")
+  (dict "cat" "Web Exploitation"    "ctf" "ISFCR CryoVault Finals"   "title" "Writeup incoming"             "desc" "Publishing soon — challenge solved, writeup being drafted."                                      "diff" "Easy")
+  (dict "cat" "Mobile"              "ctf" "Breach Point CTF"         "title" "Writeup incoming"             "desc" "Publishing soon — challenge solved, writeup being drafted."                                      "diff" "Hard")
+}}
+{{ range $placeholders }}
+<article class="card writeup-card">
+  <a href="/writeups/" class="card-home-body">
+    <div class="card-art" aria-hidden="true">
+      {{ partial "svg/art-card.html" (dict "category" .cat) }}
+      <span class="card-art-label">{{ .cat }}</span>
+    </div>
+    <div class="card-content">
+      <div class="card-meta"><span>{{ .ctf }}</span><span>{{ .cat }}</span></div>
+      <h3>{{ .title }}</h3>
+      <p class="clamp-3">{{ .desc }}</p>
+      <div class="card-meta card-bottom">
+        <span>{{ .diff }}</span>
+        <span class="read-label">Coming soon</span>
+      </div>
+    </div>
+  </a>
+</article>
+{{ end }}

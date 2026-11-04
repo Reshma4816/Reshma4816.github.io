@@ -1,0 +1,117 @@
+{{ define "main" }}
+<div class="layout-page about-page">
+  <div class="page-int">
+
+    <!-- ── ABOUT HERO ──────────────────────────────────────────── -->
+    <section class="about-hero" aria-label="About hero">
+      <div class="cyber-background" aria-hidden="true">
+        <img class="hero-bg-img" src="/images/bg-burgundy.webp" alt="">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+      </div>
+      <div class="about-hero-inner wrap">
+        <div class="about-portrait-wrap">
+          <div class="about-portrait">
+            <span class="photo-name-bg" aria-hidden="true">RESHMA</span>
+            <img src="/images/reshma.jpg"
+                 alt="Reshma Al — C01DC0FF33"
+                 loading="eager" width="480" height="600">
+            <div class="photo-hud" aria-hidden="true">
+              <div class="hud-tl">CYBERSECURITY<br>CTF PLAYER<br>RESEARCHER<br>BUILDER</div>
+              <div class="hud-tr">+ ─ TRUST_IS_A<br><span style="color:var(--rose)">VULNERABILITY</span></div>
+              <div class="hud-bl">CSE<br>RAJALAKSHMI ENGINEERING<br>THIRD YEAR</div>
+              <div class="hud-br"><span class="hud-dot"></span> ACTIVE<br>FORENSICS<br>CRYPTOGRAPHY<br>BINARY EXPLOIT</div>
+            </div>
+            <div class="photo-corner photo-corner--tl"></div>
+            <div class="photo-corner photo-corner--tr"></div>
+            <div class="photo-corner photo-corner--bl"></div>
+            <div class="photo-corner photo-corner--br"></div>
+          </div>
+        </div>
+        <div class="about-hero-copy">
+          <p class="eyebrow">Researcher · Builder · CTF Player</p>
+          <h1>Not just flags —<br><span class="text-muted">understanding.</span></h1>
+          <div class="tag-row">
+            <span class="badge badge-rose">C01DC0FF33</span>
+            <span class="badge">Coldcoffee</span>
+            <span class="badge badge-gold">SOC Aspirant</span>
+            <span class="badge">DFIR</span>
+            <span class="badge">Reverse Engineering</span>
+            <span class="badge">CTF Player</span>
+          </div>
+          <p class="about-bio">
+            I'm <strong>Reshma Al</strong>, handle C01DC0FF33 — Coldcoffee in the CTF world.
+            Third-year CSE undergrad at Rajalakshmi Engineering College, working toward a career in
+            <strong>SOC analysis and digital forensics</strong>. I break things to understand them,
+            write it all down so someone else doesn't have to start from scratch.
+          </p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="/writeups/">Browse Writeups {{ partial "svg/arrow-up-right.html" . }}</a>
+            <a class="btn-ghost" href="/connect/">Connect {{ partial "svg/arrow-right.html" . }}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SKILLS ──────────────────────────────────────────────── -->
+    <section class="section-standard" data-reveal>
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / What I work with</p>
+            <h2>Tools of <span class="text-muted">the trade.</span></h2>
+          </div>
+        </div>
+        <div class="skills-grid">
+          {{ $skills := slice "Digital Forensics" "SOC Analysis" "Incident Response" "Reverse Engineering" "Binary Exploitation" "Web Exploitation" "Cryptography" "OSINT & IoT" "Steganography" "Memory Forensics" "Network Analysis" "Threat Hunting" }}
+          {{ range $skills }}
+          <div class="skill-row"><div class="skill-dot"></div>{{ . }}</div>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ACHIEVEMENTS / PODIUM ──────────────────────────────── -->
+    <section class="section-standard events-section" data-reveal>
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / Competition record</p>
+            <h2>Flags captured.<br><span class="text-muted">Lessons kept.</span></h2>
+          </div>
+          <a class="section-link" href="/ctfs/">All CTF events {{ partial "svg/arrow-up-right.html" . }}</a>
+        </div>
+        <div class="event-grid">
+          {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
+          {{ range ($ctfs.ByWeight) }}
+          <a href="{{ .RelPermalink }}" class="event-tile">
+            {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
+            <div class="event-top">
+              <span class="event-number">{{ printf "%02d" .Weight }}</span>
+              {{ with .Params.placement }}<span class="place-badge {{ if eq . "2nd" }}place-gold{{ else if eq . "6th" }}place-rose{{ else if eq . "16th" }}place-rose{{ else if eq . "Top 20" }}place-rose{{ else if eq . "Top 30" }}place-muted{{ else if eq . "Top 35" }}place-muted{{ else }}place-muted{{ end }}">{{ . }}</span>{{ end }}
+              <span class="event-arrow">{{ partial "svg/arrow-up-right.html" . }}</span>
+            </div>
+            <h3><span>{{ .Params.short_name | default .Title }}</span> <span class="event-year">{{ .Params.year }}</span></h3>
+            <div class="event-bottom">
+              <span class="event-count">
+                <svg width="13" height="15" viewBox="0 0 13 15" fill="none"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
+                {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Competed{{ end }}
+              </span>
+              <span class="event-signal"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT (bio markdown) ─────────────────────────────── -->
+    {{ if .Content }}
+    <section class="section-standard" data-reveal>
+      <div class="wrap prose">{{ .Content }}</div>
+    </section>
+    {{ end }}
+
+  </div>
+</div>
+{{ end }}

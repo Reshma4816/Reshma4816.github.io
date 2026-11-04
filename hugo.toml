@@ -1,0 +1,64 @@
+baseURL = "https://c01dc0ff33.pages.dev/"
+locale = "en"
+title = "C01DC0FF33"
+theme = "coldcoffee"
+enableRobotsTXT = true
+enableGitInfo = false
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+
+[params]
+  handle         = "C01DC0FF33"
+  name           = "Reshma Al"
+  tagline        = "Coldcoffee"
+  description    = "CTF writeups, forensics notes and security research — crypto, rev, pwn, web, DFIR and more."
+  location       = "Chennai, Tamil Nadu, India"
+  college        = "Rajalakshmi Engineering College"
+  year           = "Third Year · CSE"
+  email          = "reshmaalagesan@gmail.com"
+  github         = "https://github.com/Reshma4816"
+  linkedin       = "https://www.linkedin.com/in/reshma-al-030049332"
+  tryhackme      = "https://tryhackme.com/p/Reshmaalagesan"
+  phone          = "+91 9884453399"
+  og_image       = "/images/og-default.png"
+
+[menu]
+  [[menu.main]]
+    name   = "Home"
+    url    = "/"
+    weight = 1
+  [[menu.main]]
+    name   = "Writeups"
+    url    = "/writeups/"
+    weight = 2
+  [[menu.main]]
+    name   = "CTFs"
+    url    = "/ctfs/"
+    weight = 3
+  [[menu.main]]
+    name   = "About"
+    url    = "/about/"
+    weight = 4
+  [[menu.main]]
+    name   = "Connect"
+    url    = "/connect/"
+    weight = 5
+
+[outputs]
+  home    = ["HTML", "RSS"]
+  section = ["HTML"]
+  term    = ["HTML"]
+
+[taxonomies]
+  category = "categories"
+  ctf      = "ctf"
+  tag      = "tags"
+
+[markup]
+  [markup.highlight]
+    style              = "monokai"
+    lineNos            = false
+    codeFences         = true
+    guessSyntax        = true
+  [markup.goldmark.renderer]
+    unsafe = true

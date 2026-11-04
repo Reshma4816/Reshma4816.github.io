@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Tags on C01DC0FF33</title>
+		<link>http://localhost:37194/tags/</link>
+		<description>Recent content in Tags on C01DC0FF33</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 01 Nov 2024 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:37194/tags/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>64bit</title>
+				<link>http://localhost:37194/tags/64bit/</link>
+				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/64bit/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Pwn</title>
+				<link>http://localhost:37194/tags/pwn/</link>
+				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/pwn/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Pwntools</title>
+				<link>http://localhost:37194/tags/pwntools/</link>
+				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/pwntools/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Ret2libc</title>
+				<link>http://localhost:37194/tags/ret2libc/</link>
+				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/ret2libc/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Rop</title>
+				<link>http://localhost:37194/tags/rop/</link>
+				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/rop/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Algorithm-Confusion</title>
+				<link>http://localhost:37194/tags/algorithm-confusion/</link>
+				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/algorithm-confusion/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Hmac</title>
+				<link>http://localhost:37194/tags/hmac/</link>
+				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/hmac/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Jwt</title>
+				<link>http://localhost:37194/tags/jwt/</link>
+				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/jwt/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Python</title>
+				<link>http://localhost:37194/tags/python/</link>
+				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/python/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Rsa</title>
+				<link>http://localhost:37194/tags/rsa/</link>
+				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/rsa/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Audacity</title>
+				<link>http://localhost:37194/tags/audacity/</link>
+				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/audacity/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Lsb</title>
+				<link>http://localhost:37194/tags/lsb/</link>
+				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/lsb/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Spectrogram</title>
+				<link>http://localhost:37194/tags/spectrogram/</link>
+				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/spectrogram/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Steghide</title>
+				<link>http://localhost:37194/tags/steghide/</link>
+				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/steghide/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Stegsolve</title>
+				<link>http://localhost:37194/tags/stegsolve/</link>
+				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/stegsolve/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Lsass</title>
+				<link>http://localhost:37194/tags/lsass/</link>
+				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/lsass/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Memory-Forensics</title>
+				<link>http://localhost:37194/tags/memory-forensics/</link>
+				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/memory-forensics/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Mimikatz</title>
+				<link>http://localhost:37194/tags/mimikatz/</link>
+				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/mimikatz/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Volatility</title>
+				<link>http://localhost:37194/tags/volatility/</link>
+				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/volatility/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Windows</title>
+				<link>http://localhost:37194/tags/windows/</link>
+				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/windows/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Burpsuite</title>
+				<link>http://localhost:37194/tags/burpsuite/</link>
+				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/burpsuite/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Cache</title>
+				<link>http://localhost:37194/tags/cache/</link>
+				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/cache/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Http-Headers</title>
+				<link>http://localhost:37194/tags/http-headers/</link>
+				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/http-headers/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Web-Cache-Poisoning</title>
+				<link>http://localhost:37194/tags/web-cache-poisoning/</link>
+				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/web-cache-poisoning/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Frequency-Analysis</title>
+				<link>http://localhost:37194/tags/frequency-analysis/</link>
+				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/frequency-analysis/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Known-Plaintext</title>
+				<link>http://localhost:37194/tags/known-plaintext/</link>
+				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/known-plaintext/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Xor</title>
+				<link>http://localhost:37194/tags/xor/</link>
+				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/xor/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Binwalk</title>
+				<link>http://localhost:37194/tags/binwalk/</link>
+				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/binwalk/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Embedded</title>
+				<link>http://localhost:37194/tags/embedded/</link>
+				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/embedded/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Entropy</title>
+				<link>http://localhost:37194/tags/entropy/</link>
+				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/entropy/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Firmware</title>
+				<link>http://localhost:37194/tags/firmware/</link>
+				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
+				<guid>http://localhost:37194/tags/firmware/</guid>
+				<description></description>
+			</item>
+	</channel>
+</rss>

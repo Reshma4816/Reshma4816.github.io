@@ -1,0 +1,57 @@
+{{ define "main" }}
+<article class="layout-page writeup-page">
+  <div class="wrap">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/writeups/">Writeups</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ .Title }}</span>
+    </nav>
+
+    <header class="writeup-header">
+      <div class="writeup-badges">
+        {{ with .Params.category }}<span class="badge badge-rose">{{ . }}</span>{{ end }}
+        {{ with .Params.difficulty }}<span class="badge">{{ . }}</span>{{ end }}
+        {{ with .Params.points }}<span class="badge">{{ . }} pts</span>{{ end }}
+      </div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="writeup-desc">{{ . }}</p>{{ end }}
+      <div class="writeup-meta">
+        <span>{{ .Date.Format "02 Jan 2006" }}</span>
+        <span>·</span>
+        <span>{{ .ReadingTime }} min read</span>
+        {{ with .Params.ctf }}<span>·</span><span>{{ . }}</span>{{ end }}
+      </div>
+    </header>
+
+    <div class="writeup-body prose">
+      {{ .Content }}
+    </div>
+
+    {{ with .Params.reference }}
+    <div class="reference-banner">
+      <span class="badge">Reference</span>
+      <a href="{{ $.Params.referenceUrl }}" target="_blank" rel="noopener">{{ . }}</a>
+    </div>
+    {{ end }}
+
+    <!-- Prev / Next -->
+    <nav class="prev-next" aria-label="Previous and next writeup">
+      {{ with .PrevInSection }}
+      <a href="{{ .RelPermalink }}" class="prev-next-link">
+        ← {{ .Title }}
+      </a>
+      {{ end }}
+      {{ with .NextInSection }}
+      <a href="{{ .RelPermalink }}" class="prev-next-link" style="margin-left:auto;text-align:right">
+        {{ .Title }} →
+      </a>
+      {{ end }}
+    </nav>
+
+  </div>
+</article>
+{{ end }}

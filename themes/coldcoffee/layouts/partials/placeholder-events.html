@@ -1,0 +1,23 @@
+{{/* placeholder-events.html */}}
+{{ $events := slice
+  (dict "num" "01" "title" "CyberShield CTF"        "year" "2024" "place" "2nd"    "cls" "place-gold")
+  (dict "num" "02" "title" "Netrunner Gaultnet CTF"  "year" "2024" "place" "Top 20" "cls" "place-rose")
+  (dict "num" "03" "title" "XploitX CTF"             "year" "2024" "place" "6th"    "cls" "place-rose")
+  (dict "num" "04" "title" "H7CTF Qualifiers"        "year" "2024" "place" "16th"   "cls" "place-rose")
+  (dict "num" "05" "title" "ISFCR CryoVault Quals"   "year" "2024" "place" "Top 30" "cls" "place-muted")
+  (dict "num" "06" "title" "root@localhost CTF"       "year" "2024" "place" "Top 35" "cls" "place-muted")
+}}
+{{ range $events }}
+<a href="/ctfs/" class="event-tile">
+  <div class="event-top">
+    <span class="event-number">{{ .num }}</span>
+    <span class="place-badge {{ .cls }}">{{ .place }}</span>
+    <span class="event-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 18 18 6M6 6h12v12"/></svg></span>
+  </div>
+  <h3><span>{{ .title }}</span> <span class="event-year">{{ .year }}</span></h3>
+  <div class="event-bottom">
+    <span class="event-count">{{ .place }}</span>
+    <span class="event-signal"><i></i><i></i><i></i><i></i><i></i></span>
+  </div>
+</a>
+{{ end }}

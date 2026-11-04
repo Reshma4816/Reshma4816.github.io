@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=37194&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Writeups | C01DC0FF33</title>
+  <meta name="description" content="CTF writeups archive by Reshma (C01DC0FF33).">
+  <link rel="canonical" href="http://localhost:37194/writeups/">
+
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:37194/writeups/">
+  <meta property="og:title" content="Writeups | C01DC0FF33">
+  <meta property="og:description" content="CTF writeups archive by Reshma (C01DC0FF33).">
+  <meta name="twitter:card" content="summary_large_image">
+
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="/css/main.css">
+
+  
+  
+</head>
+<body class="min-h-screen">
+  <div class="flex-col-layout">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    
+    
+
+    
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
+        </a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <nav id="primary-navigation" aria-label="Primary navigation">
+          
+          <a href="/">Home</a>
+          
+          <a href="/writeups/" aria-current="page">Writeups</a>
+          
+          <a href="/ctfs/">CTFs</a>
+          
+          <a href="/about/">About</a>
+          
+          <a href="/connect/">Connect</a>
+          
+        </nav>
+      </div>
+    </header>
+
+    
+    <main id="main-content" class="flex-1">
+      
+<div class="layout-page">
+  <div class="wrap">
+
+    <header class="section-hero-sm" data-reveal>
+      <p class="eyebrow">7 writeups · all open</p>
+      <h1>The full <span class="text-muted">archive.</span></h1>
+      <p style="color:var(--muted);margin-top:.75rem;max-width:52ch;line-height:1.68;font-size:1rem;">
+        Every solve I've written up — the method, the rabbit holes, and the flag.
+        Sorted newest first.
+      </p>
+    </header>
+
+    
+    <div class="latest-grid" data-reveal>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/isfcr-finals-ret2libc/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-binary-exploitation" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <rect x="50" y="42" width="100" height="20" rx="2" fill="#150609"/>
+  <rect x="50" y="68" width="100" height="20" rx="2" fill="#150609"/>
+  <rect x="50" y="94" width="100" height="20" rx="2" fill="#150609"/>
+  <rect x="50" y="120" width="100" height="20" rx="2" fill="#150609"/>
+  <path d="M100 142v12M100 30v12" stroke-opacity=".6"/>
+  <path d="M75 52h50M60 78h80M65 104h70M55 130h90" stroke-opacity=".4" stroke-dasharray="4 6"/>
+  <circle cx="100" cy="90" r="0" fill="none"/>
+  <path d="M85 78 L100 90 L115 78" stroke="#d4577a" stroke-opacity=".8"/>
+
+  
+</svg>
+
+            <span class="card-art-label">Binary Exploitation</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>ISFCR CryoVault Finals</span>
+              <span>Binary Exploitation</span>
+            </div>
+            <h3>Binary Exploitation: ret2libc on 64-bit</h3>
+            <p class="clamp-3">Stack buffer overflow into ret2libc — leak libc base via puts, calculate system() offset, pop shell.</p>
+            <div class="card-meta card-bottom">
+              <span>01 Nov 2024 · 1 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/isfcr-jwt-algorithm-confusion/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-web-exploitation" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <path d="M48 42h104v67H48z" fill="#150609"/>
+  <path d="M48 59h104"/>
+  <circle cx="57" cy="51" r="1.6" fill="#d4577a"/>
+  <circle cx="65" cy="51" r="1.6" fill="#d4577a"/>
+  <circle cx="73" cy="51" r="1.6" fill="#d4577a"/>
+  <g class="art-nodes">
+    <path d="M76 76 65 85l11 9m48-18 11 9-11 9M105 72 95 99m5 11v23H64m36 0h36"/>
+    <circle cx="64" cy="140" r="6" fill="#2a0a14"/>
+    <circle cx="100" cy="140" r="6" fill="#2a0a14"/>
+    <circle cx="136" cy="140" r="6" fill="#2a0a14"/>
+  </g>
+
+  
+</svg>
+
+            <span class="card-art-label">Web Exploitation</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>ISFCR CryoVault Quals</span>
+              <span>Web Exploitation</span>
+            </div>
+            <h3>Broken JWT: Algorithm Confusion Attack</h3>
+            <p class="clamp-3">Forge an admin JWT by exploiting RS256-to-HS256 algorithm confusion using the server&#39;s public key as HMAC secret.</p>
+            <div class="card-meta card-bottom">
+              <span>18 Oct 2024 · 1 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/netrunner-steghide-lsb/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-steganography" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <rect x="45" y="45" width="110" height="90" rx="4" fill="#150609"/>
+  <path d="M60 60h10v10H60zM75 60h10v10H75zM90 60h10v10H90z" fill="#d4577a" fill-opacity=".3"/>
+  <path d="M60 75h10v10H60zM90 75h10v10H90zM105 75h10v10H105z" fill="#d4577a" fill-opacity=".5"/>
+  <path d="M75 90h10v10H75zM105 90h10v10H105zM120 90h10v10H120z" fill="#d4577a" fill-opacity=".2"/>
+  <path d="M60 105h10v10H60zM75 105h10v10H75zM120 105h10v10H120z" fill="#d4577a" fill-opacity=".4"/>
+  <circle cx="100" cy="90" r="20" fill="none" stroke="#d4577a" stroke-dasharray="3 5" stroke-opacity=".6"/>
+
+  
+</svg>
+
+            <span class="card-art-label">Steganography</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>Netrunner Gaultnet CTF</span>
+              <span>Steganography</span>
+            </div>
+            <h3>Hidden in Plain Sight: Steghide LSB</h3>
+            <p class="clamp-3">Extract a hidden message from a PNG using LSB steganography and recover the passphrase via audio spectrogram analysis.</p>
+            <div class="card-meta card-bottom">
+              <span>05 Sep 2024 · 1 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/h7ctf-memory-dump/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-digital-forensics" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <path d="M38 60V39h23m78 0h23v21M38 120v21h23m78 0h23v-21" stroke-opacity=".6"/>
+  <path d="M48 90q52-61 104 0-52 61-104 0z" fill="#150609"/>
+  <g class="art-scan">
+    <circle cx="100" cy="90" r="25" fill="#150609"/>
+    <circle cx="100" cy="90" r="8" fill="#d4577a"/>
+  </g>
+
+  
+</svg>
+
+            <span class="card-art-label">Digital Forensics</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>H7CTF</span>
+              <span>Digital Forensics</span>
+            </div>
+            <h3>Memory Dump: Credential Extraction</h3>
+            <p class="clamp-3">Extract plaintext credentials from a Windows memory dump using Volatility 3 and LSASS process analysis.</p>
+            <div class="card-meta card-bottom">
+              <span>20 Aug 2024 · 1 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/xploitx-web-cache-poisoning/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-web-exploitation" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <path d="M48 42h104v67H48z" fill="#150609"/>
+  <path d="M48 59h104"/>
+  <circle cx="57" cy="51" r="1.6" fill="#d4577a"/>
+  <circle cx="65" cy="51" r="1.6" fill="#d4577a"/>
+  <circle cx="73" cy="51" r="1.6" fill="#d4577a"/>
+  <g class="art-nodes">
+    <path d="M76 76 65 85l11 9m48-18 11 9-11 9M105 72 95 99m5 11v23H64m36 0h36"/>
+    <circle cx="64" cy="140" r="6" fill="#2a0a14"/>
+    <circle cx="100" cy="140" r="6" fill="#2a0a14"/>
+    <circle cx="136" cy="140" r="6" fill="#2a0a14"/>
+  </g>
+
+  
+</svg>
+
+            <span class="card-art-label">Web Exploitation</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>XploitX CTF</span>
+              <span>Web Exploitation</span>
+            </div>
+            <h3>Web Cache Poisoning via Unkeyed Header</h3>
+            <p class="clamp-3">Exploit an unkeyed HTTP header to poison the shared cache and serve a malicious response to all users.</p>
+            <div class="card-meta card-bottom">
+              <span>14 Jul 2024 · 1 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/cybershield-xor-cipher/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-cryptography" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <g class="art-orbit">
+    <ellipse cx="92" cy="90" rx="39" ry="53" transform="rotate(-28 92 90)"/>
+    <ellipse cx="108" cy="90" rx="39" ry="53" transform="rotate(28 108 90)" stroke="#9b3040"/>
+    <circle cx="100" cy="90" r="58" stroke-dasharray="3 10" stroke-opacity=".4"/>
+  </g>
+  <path d="M100 23v10m0 114v10M34 90h10m112 0h10" stroke-opacity=".6"/>
+
+  
+</svg>
+
+            <span class="card-art-label">Cryptography</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>CyberShield CTF</span>
+              <span>Cryptography</span>
+            </div>
+            <h3>Flag in the Noise: XOR Layered Cipher</h3>
+            <p class="clamp-3">Multi-layer XOR encryption with a rotating key recovered through frequency analysis and known-plaintext attack.</p>
+            <div class="card-meta card-bottom">
+              <span>10 Jun 2024 · 2 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+      <article class="card writeup-card">
+        <a href="/writeups/echo-9-firmware-secrets/" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            
+
+<svg viewBox="0 0 200 180" class="ctf-visual art-iot-hardware" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+  
+  <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
+
+  
+  
+  <rect x="62" y="52" width="76" height="76" rx="6" fill="#150609" stroke="#d4577a" stroke-width="1.2"/>
+  <rect x="74" y="64" width="52" height="52" rx="3" fill="#1a0509"/>
+  <path d="M62 72h-16M62 88h-16M62 104h-16M138 72h16M138 88h16M138 104h16" stroke-opacity=".6"/>
+  <path d="M80 52v-16M100 52v-16M120 52v-16M80 128v16M100 128v16M120 128v16" stroke-opacity=".6"/>
+  <circle cx="100" cy="90" r="12" fill="#2a0a14" stroke="#d4577a"/>
+  <circle cx="100" cy="90" r="5" fill="#d4577a" opacity=".6"/>
+
+  
+</svg>
+
+            <span class="card-art-label">IoT &amp; Hardware</span>
+            <span class="card-arrow"><svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>ISFCR CryoVault Quals</span>
+              <span>IoT &amp; Hardware</span>
+            </div>
+            <h3>ECHO-9: Firmware Secrets</h3>
+            <p class="clamp-3">Extract hidden flags from an embedded device firmware image using binwalk, entropy analysis and careful filesystem enumeration.</p>
+            <div class="card-meta card-bottom">
+              <span>15 Mar 2024 · 1 min read</span>
+              <span class="read-label">Read writeup <svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      
+    </div>
+    
+
+  </div>
+</div>
+
+    </main>
+
+    
+    <footer class="archive-footer">
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33
+          </a>
+          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          
+          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+        </nav>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
+
+      <div class="footer-bottom">
+        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
+</a>
+      </div>
+    </footer>
+  </div>
+
+  
+  <div id="grain" aria-hidden="true"></div>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

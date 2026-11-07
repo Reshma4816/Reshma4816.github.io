@@ -1,318 +1,80 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>GHOST-13 | C01DC0FF33</title>
-  <meta name="description" content="Reconstructing PLC firmware, DTMF audio tones, and exploiting ECDSA nonce reuse across Modbus telemetry.">
-  <link rel="canonical" href="https://c01dc0ff33.pages.dev/writeups/cryovault/ghost-13/">
-
-  
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/cryovault/ghost-13/">
-  <meta property="og:title" content="GHOST-13 | C01DC0FF33">
-  <meta property="og:description" content="Reconstructing PLC firmware, DTMF audio tones, and exploiting ECDSA nonce reuse across Modbus telemetry.">
-  <meta name="twitter:card" content="summary_large_image">
-
-  
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-
-  
-  <link rel="stylesheet" href="/css/main.css">
-
-  
-  
-</head>
-<body class="min-h-screen">
-  <div class="flex-col-layout">
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
-    
-    
-
-    
-    <header class="site-header">
-      <div class="site-nav">
-        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
-        </a>
-        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <nav id="primary-navigation" aria-label="Primary navigation">
-          
-          <a href="/">Home</a>
-          
-          <a href="/writeups/">Writeups</a>
-          
-          <a href="/ctfs/">CTFs</a>
-          
-          <a href="/about/">About</a>
-          
-          <a href="/connect/">Connect</a>
-          
-        </nav>
-      </div>
-    </header>
-
-    
-    <main id="main-content" class="flex-1">
-      
-<article class="layout-page writeup-page">
-  <div class="wrap">
-
-    
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span aria-hidden="true">/</span>
-      <a href="/writeups/">Writeups</a>
-      <span aria-hidden="true">/</span>
-      
-        
-        <a href="/writeups/cryovault/">ISFCR CryoVault Quals</a>
-        <span aria-hidden="true">/</span>
-        
-      
-      <span aria-current="page">GHOST-13</span>
-    </nav>
-
-    <header class="writeup-header">
-      <div class="writeup-badges">
-        <span class="badge badge-rose">IoT</span>
-        <span class="badge badge-ctf">ISFCR CryoVault Quals 2026</span>
-        <span class="badge badge-diff-hard">Hard</span>
-        <span class="badge badge-pts">500 pts</span>
-      </div>
-      <h1>GHOST-13</h1>
-      <p class="writeup-desc">Reconstructing PLC firmware, DTMF audio tones, and exploiting ECDSA nonce reuse across Modbus telemetry.</p>
-      
-      <div class="writeup-meta">
-        <span class="author-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Reshma Al (Coldcoffee)
-        </span>
-        <span>·</span>
-        <span>11 Oct 2026</span>
-        <span>·</span>
-        <span>3 min read</span>
-        
-        <span>·</span>
-        <span class="tools-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Python 3, pycryptodome, ecdsa, Scipy Goertzel FFT</span>
-        
-      </div>
-    </header>
-
-    <div class="writeup-body prose">
-      <div class="flag-callout">
-  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
-  <code>isfcr{ghost13_dc8f84a256fa64108b6c75a151a1474d}</code>
-  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('isfcr{ghost13_dc8f84a256fa64108b6c75a151a1474d}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
-</div>
-<h2 id="1-challenge-architecture--artifact-triage">1. Challenge Architecture &amp; Artifact Triage</h2>
-<p>The challenge environment provided:</p>
-<ol>
-<li><code>firmware.bin</code>: A raw binary dump of a micro-PLC supervisory controller.</li>
-<li><code>telemetry.pcapng</code>: Modbus TCP capture between the Human-Machine Interface (HMI) and the controller.</li>
-<li><code>alarm_buzzer.wav</code>: A short 3-second audio recording from the controller&rsquo;s acoustic test buzzer.</li>
-</ol>
-<hr>
-<h2 id="2-acoustic-analysis-dtmf-tone-demodulation">2. Acoustic Analysis: DTMF Tone Demodulation</h2>
-<p>Examining <code>alarm_buzzer.wav</code> using Audacity and Python&rsquo;s SciPy spectral analysis:</p>
-<ul>
-<li>The audio comprises 8 distinct tone bursts separated by 40ms silence intervals.</li>
-<li>Running a Goertzel algorithm against standard Dual-Tone Multi-Frequency (DTMF) keypad frequencies:
-<ul>
-<li>Low frequencies: 697 Hz, 770 Hz, 852 Hz, 941 Hz</li>
-<li>High frequencies: 1209 Hz, 1336 Hz, 1477 Hz, 1633 Hz</li>
-</ul>
-</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">wavfile</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">rate</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">wavfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;alarm_buzzer.wav&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># Decoded DTMF key sequences: [5, 3, 9, 7, 7, 9, 9, 7]</span>
-</span></span></code></pre></div><p>The audio sequence gave the controller maintenance PIN: <code>53977997</code>.</p>
-<hr>
-<h2 id="3-cryptanalysis-ecdsa-nonce-reuse-over-modbus">3. Cryptanalysis: ECDSA Nonce Reuse over Modbus</h2>
-<p>Filtering the network capture for Modbus function code 16 (<code>Write Multiple Registers</code>):</p>
-<ul>
-<li>The HMI sends cryptographically signed control directives over curve SECP256k1.</li>
-<li>Two consecutive signed telemetry packets shared the <strong>exact same $r$ coordinate</strong>:
-$$r_1 = r_2 = \text{0x7c9b&hellip;}$$</li>
-</ul>
-<p>In ECDSA, reusing the ephemeral nonce $k$ across two different messages $m_1$ and $m_2$ allows immediate algebraic recovery of the private signing key $d$:</p>
-<p>$$s_1 \equiv k^{-1}(z_1 + r d) \pmod n$$
-$$s_2 \equiv k^{-1}(z_2 + r d) \pmod n$$</p>
-<p>Subtracting the two equations eliminates the private key $d$:
-$$s_1 - s_2 \equiv k^{-1}(z_1 - z_2) \pmod n \implies k \equiv \frac{z_1 - z_2}{s_1 - s_2} \pmod n$$</p>
-<p>Once $k$ is computed, the private key $d$ is derived as:
-$$d \equiv r^{-1}(s_1 k - z_1) \pmod n$$</p>
-<hr>
-<h2 id="4-exploit--recovery-script">4. Exploit &amp; Recovery Script</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python3</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">sha256</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">ecdsa</span> <span class="kn">import</span> <span class="n">SECP256k1</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">n</span> <span class="o">=</span> <span class="n">SECP256k1</span><span class="o">.</span><span class="n">order</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Intercepted signatures sharing nonce r</span>
-</span></span><span class="line"><span class="cl"><span class="n">r</span> <span class="o">=</span> <span class="mh">0x7c9b5a12ef84310d7a119cba01239845efca01928475a1029384756102938475</span>
-</span></span><span class="line"><span class="cl"><span class="n">s1</span> <span class="o">=</span> <span class="mh">0x3a4b</span><span class="o">...</span>
-</span></span><span class="line"><span class="cl"><span class="n">s2</span> <span class="o">=</span> <span class="mh">0x8f1c</span><span class="o">...</span>
-</span></span><span class="line"><span class="cl"><span class="n">z1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sha256</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;CMD_STATUS_POLL_01&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">z2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sha256</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;CMD_OVERRIDE_VALVE_02&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Recover ephemeral nonce k</span>
-</span></span><span class="line"><span class="cl"><span class="n">k</span> <span class="o">=</span> <span class="p">((</span><span class="n">z1</span> <span class="o">-</span> <span class="n">z2</span><span class="p">)</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">s1</span> <span class="o">-</span> <span class="n">s2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">%</span> <span class="n">n</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Recover private signing key d</span>
-</span></span><span class="line"><span class="cl"><span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">s1</span> <span class="o">*</span> <span class="n">k</span> <span class="o">-</span> <span class="n">z1</span><span class="p">))</span> <span class="o">%</span> <span class="n">n</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;[+] Recovered ECDSA private key: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Derive master firmware decryption key using KDF(d, PIN)</span>
-</span></span><span class="line"><span class="cl"><span class="n">kdf_seed</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s2">&#34;53977997&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">aes_key</span> <span class="o">=</span> <span class="n">sha256</span><span class="p">(</span><span class="n">kdf_seed</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Decrypt encrypted diagnostic config partition</span>
-</span></span><span class="line"><span class="cl"><span class="n">enc_blob</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;config.enc&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">aes_key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_GCM</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="n">enc_blob</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl"><span class="n">flag</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt_and_verify</span><span class="p">(</span><span class="n">enc_blob</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="o">-</span><span class="mi">16</span><span class="p">],</span> <span class="n">enc_blob</span><span class="p">[</span><span class="o">-</span><span class="mi">16</span><span class="p">:])</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;[+] Flag captured: </span><span class="si">{</span><span class="n">flag</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><hr>
-<h2 id="5-key-takeaways">5. Key Takeaways</h2>
-<ul>
-<li>Embedded firmware must use RFC 6979 deterministic nonce generation to eliminate the risk of random number generator failure and catastrophic ECDSA nonce collisions.</li>
-</ul>
-
-    </div>
-
-    
-    <div class="writeup-tags-footer">
-      <span class="tags-label">Tags:</span>
-      
-      <span class="tag-pill">IoT</span>
-      
-      <span class="tag-pill">ISFCR CryoVault Quals 2026</span>
-      
-      <span class="tag-pill">Coldcoffee Solves</span>
-      
-    </div>
-    
-
-    
-    <nav class="prev-next" aria-label="Previous and next writeup">
-      
-      <a href="/writeups/cryovault/ghosts-in-the-bulb/" class="prev-next-link prev-link">
-        <span class="pn-dir">← Previous Solve</span>
-        <span class="pn-title">Ghosts in the Bulb</span>
-      </a>
-      
-      
-      <a href="/writeups/cryovault/free-lunch/" class="prev-next-link next-link">
-        <span class="pn-dir">Next Solve →</span>
-        <span class="pn-title">free-lunch</span>
-      </a>
-      
-    </nav>
-
-  </div>
-</article>
-
-    </main>
-
-    
-    <footer class="archive-footer">
-      <div class="footer-top">
-        <div>
-          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33
-          </a>
-          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          
-          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-        </nav>
-      </div>
-
-      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
-
-      <div class="footer-bottom">
-        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
-        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
-        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
-</a>
-      </div>
-    </footer>
-  </div>
-
-  
-  <div id="grain" aria-hidden="true"></div>
-
-  <script src="/js/main.js" defer></script>
-</body>
-</html>
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>GHOST-13 | C01DC0FF33</title><meta name=description content="Reconstructing PLC firmware, DTMF audio tones, and exploiting ECDSA nonce reuse across Modbus telemetry."><link rel=canonical href=https://c01dc0ff33.pages.dev/writeups/cryovault/ghost-13/><meta property="og:type" content="article"><meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/cryovault/ghost-13/"><meta property="og:title" content="GHOST-13 | C01DC0FF33"><meta property="og:description" content="Reconstructing PLC firmware, DTMF audio tones, and exploiting ECDSA nonce reuse across Modbus telemetry."><meta name=twitter:card content="summary_large_image"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel=stylesheet><link rel=stylesheet href=/css/main.css></head><body class=min-h-screen><div class=flex-col-layout><a class=skip-link href=#main-content>Skip to content</a><header class=site-header><div class=site-nav><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33<span class=brand-sub> / coldcoffee</span>
+</a><button type=button class=menu-toggle aria-expanded=false aria-controls=primary-navigation>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/></svg>
+<span class=sr-only>Toggle navigation</span></button><nav id=primary-navigation aria-label="Primary navigation"><a href=/>Home</a>
+<a href=/writeups/>Writeups</a>
+<a href=/ctfs/>CTFs</a>
+<a href=/about/>About</a>
+<a href=/connect/>Connect</a></nav></div></header><main id=main-content class=flex-1><article class="layout-page writeup-page"><div class=wrap><nav class=breadcrumb aria-label=Breadcrumb><a href=/>Home</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/>Writeups</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/cryovault/>ISFCR CryoVault Quals</a>
+<span aria-hidden=true>/</span>
+<span aria-current=page>GHOST-13</span></nav><header class=writeup-header><div class=writeup-badges><span class="badge badge-rose">IoT</span>
+<span class="badge badge-ctf">ISFCR CryoVault Quals 2026</span>
+<span class="badge badge-diff-hard">Hard</span>
+<span class="badge badge-pts">500 pts</span></div><h1>GHOST-13</h1><p class=writeup-desc>Reconstructing PLC firmware, DTMF audio tones, and exploiting ECDSA nonce reuse across Modbus telemetry.</p><div class=writeup-meta><span class=author-tag><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Reshma Al (Coldcoffee)
+</span><span>·</span>
+<span>11 Oct 2026</span>
+<span>·</span>
+<span>3 min read</span>
+<span>·</span>
+<span class=tools-tag><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4.0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12.0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg> Python 3, pycryptodome, ecdsa, Scipy Goertzel FFT</span></div></header><div class="writeup-body prose"><div class=flag-callout><span class=flag-label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Captured Flag</span>
+<code>isfcr{ghost13_dc8f84a256fa64108b6c75a151a1474d}</code>
+<button class=flag-copy-btn onclick='navigator.clipboard.writeText("isfcr{ghost13_dc8f84a256fa64108b6c75a151a1474d}"),this.innerText="Copied!",setTimeout(()=>this.innerText="Copy",2e3)'>Copy</button></div><h2 id=1-challenge-architecture--artifact-triage>1. Challenge Architecture & Artifact Triage</h2><p>The challenge environment provided:</p><ol><li><code>firmware.bin</code>: A raw binary dump of a micro-PLC supervisory controller.</li><li><code>telemetry.pcapng</code>: Modbus TCP capture between the Human-Machine Interface (HMI) and the controller.</li><li><code>alarm_buzzer.wav</code>: A short 3-second audio recording from the controller&rsquo;s acoustic test buzzer.</li></ol><hr><h2 id=2-acoustic-analysis-dtmf-tone-demodulation>2. Acoustic Analysis: DTMF Tone Demodulation</h2><p>Examining <code>alarm_buzzer.wav</code> using Audacity and Python&rsquo;s SciPy spectral analysis:</p><ul><li>The audio comprises 8 distinct tone bursts separated by 40ms silence intervals.</li><li>Running a Goertzel algorithm against standard Dual-Tone Multi-Frequency (DTMF) keypad frequencies:<ul><li>Low frequencies: 697 Hz, 770 Hz, 852 Hz, 941 Hz</li><li>High frequencies: 1209 Hz, 1336 Hz, 1477 Hz, 1633 Hz</li></ul></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scipy.io</span> <span class=kn>import</span> <span class=n>wavfile</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>rate</span><span class=p>,</span> <span class=n>data</span> <span class=o>=</span> <span class=n>wavfile</span><span class=o>.</span><span class=n>read</span><span class=p>(</span><span class=s1>&#39;alarm_buzzer.wav&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># Decoded DTMF key sequences: [5, 3, 9, 7, 7, 9, 9, 7]</span>
+</span></span></code></pre></div><p>The audio sequence gave the controller maintenance PIN: <code>53977997</code>.</p><hr><h2 id=3-cryptanalysis-ecdsa-nonce-reuse-over-modbus>3. Cryptanalysis: ECDSA Nonce Reuse over Modbus</h2><p>Filtering the network capture for Modbus function code 16 (<code>Write Multiple Registers</code>):</p><ul><li>The HMI sends cryptographically signed control directives over curve SECP256k1.</li><li>Two consecutive signed telemetry packets shared the <strong>exact same $r$ coordinate</strong>:
+$$r_1 = r_2 = \text{0x7c9b&mldr;}$$</li></ul><p>In ECDSA, reusing the ephemeral nonce $k$ across two different messages $m_1$ and $m_2$ allows immediate algebraic recovery of the private signing key $d$:</p><p>$$s_1 \equiv k^{-1}(z_1 + r d) \pmod n$$
+$$s_2 \equiv k^{-1}(z_2 + r d) \pmod n$$</p><p>Subtracting the two equations eliminates the private key $d$:
+$$s_1 - s_2 \equiv k^{-1}(z_1 - z_2) \pmod n \implies k \equiv \frac{z_1 - z_2}{s_1 - s_2} \pmod n$$</p><p>Once $k$ is computed, the private key $d$ is derived as:
+$$d \equiv r^{-1}(s_1 k - z_1) \pmod n$$</p><hr><h2 id=4-exploit--recovery-script>4. Exploit & Recovery Script</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=ch>#!/usr/bin/env python3</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>hashlib</span> <span class=kn>import</span> <span class=n>sha256</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>ecdsa</span> <span class=kn>import</span> <span class=n>SECP256k1</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>Crypto.Cipher</span> <span class=kn>import</span> <span class=n>AES</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>n</span> <span class=o>=</span> <span class=n>SECP256k1</span><span class=o>.</span><span class=n>order</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Intercepted signatures sharing nonce r</span>
+</span></span><span class=line><span class=cl><span class=n>r</span> <span class=o>=</span> <span class=mh>0x7c9b5a12ef84310d7a119cba01239845efca01928475a1029384756102938475</span>
+</span></span><span class=line><span class=cl><span class=n>s1</span> <span class=o>=</span> <span class=mh>0x3a4b</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>s2</span> <span class=o>=</span> <span class=mh>0x8f1c</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>z1</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>sha256</span><span class=p>(</span><span class=sa>b</span><span class=s2>&#34;CMD_STATUS_POLL_01&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>hexdigest</span><span class=p>(),</span> <span class=mi>16</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>z2</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>sha256</span><span class=p>(</span><span class=sa>b</span><span class=s2>&#34;CMD_OVERRIDE_VALVE_02&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>hexdigest</span><span class=p>(),</span> <span class=mi>16</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Recover ephemeral nonce k</span>
+</span></span><span class=line><span class=cl><span class=n>k</span> <span class=o>=</span> <span class=p>((</span><span class=n>z1</span> <span class=o>-</span> <span class=n>z2</span><span class=p>)</span> <span class=o>*</span> <span class=nb>pow</span><span class=p>(</span><span class=n>s1</span> <span class=o>-</span> <span class=n>s2</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>n</span><span class=p>))</span> <span class=o>%</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Recover private signing key d</span>
+</span></span><span class=line><span class=cl><span class=n>d</span> <span class=o>=</span> <span class=p>(</span><span class=nb>pow</span><span class=p>(</span><span class=n>r</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>n</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=n>s1</span> <span class=o>*</span> <span class=n>k</span> <span class=o>-</span> <span class=n>z1</span><span class=p>))</span> <span class=o>%</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;[+] Recovered ECDSA private key: </span><span class=si>{</span><span class=nb>hex</span><span class=p>(</span><span class=n>d</span><span class=p>)</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Derive master firmware decryption key using KDF(d, PIN)</span>
+</span></span><span class=line><span class=cl><span class=n>kdf_seed</span> <span class=o>=</span> <span class=n>d</span><span class=o>.</span><span class=n>to_bytes</span><span class=p>(</span><span class=mi>32</span><span class=p>,</span> <span class=s1>&#39;big&#39;</span><span class=p>)</span> <span class=o>+</span> <span class=sa>b</span><span class=s2>&#34;53977997&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>aes_key</span> <span class=o>=</span> <span class=n>sha256</span><span class=p>(</span><span class=n>kdf_seed</span><span class=p>)</span><span class=o>.</span><span class=n>digest</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Decrypt encrypted diagnostic config partition</span>
+</span></span><span class=line><span class=cl><span class=n>enc_blob</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;config.enc&#39;</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>read</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>cipher</span> <span class=o>=</span> <span class=n>AES</span><span class=o>.</span><span class=n>new</span><span class=p>(</span><span class=n>aes_key</span><span class=p>,</span> <span class=n>AES</span><span class=o>.</span><span class=n>MODE_GCM</span><span class=p>,</span> <span class=n>nonce</span><span class=o>=</span><span class=n>enc_blob</span><span class=p>[:</span><span class=mi>12</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>flag</span> <span class=o>=</span> <span class=n>cipher</span><span class=o>.</span><span class=n>decrypt_and_verify</span><span class=p>(</span><span class=n>enc_blob</span><span class=p>[</span><span class=mi>12</span><span class=p>:</span><span class=o>-</span><span class=mi>16</span><span class=p>],</span> <span class=n>enc_blob</span><span class=p>[</span><span class=o>-</span><span class=mi>16</span><span class=p>:])</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;[+] Flag captured: </span><span class=si>{</span><span class=n>flag</span><span class=o>.</span><span class=n>decode</span><span class=p>()</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></div><hr><h2 id=5-key-takeaways>5. Key Takeaways</h2><ul><li>Embedded firmware must use RFC 6979 deterministic nonce generation to eliminate the risk of random number generator failure and catastrophic ECDSA nonce collisions.</li></ul></div><div class=writeup-tags-footer><span class=tags-label>Tags:</span>
+<span class=tag-pill>IoT</span>
+<span class=tag-pill>ISFCR CryoVault Quals 2026</span>
+<span class=tag-pill>Coldcoffee Solves</span></div><nav class=prev-next aria-label="Previous and next writeup"><a href=/writeups/cryovault/ghosts-in-the-bulb/ class="prev-next-link prev-link"><span class=pn-dir>← Previous Solve</span>
+<span class=pn-title>Ghosts in the Bulb</span>
+</a><a href=/writeups/cryovault/free-lunch/ class="prev-next-link next-link"><span class=pn-dir>Next Solve →</span>
+<span class=pn-title>free-lunch</span></a></nav></div></article></main><footer class=archive-footer><div class=footer-top><div><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33</a><p>Sip. Solve. Decode.<br>Write it down. Share it.</p></div><nav aria-label="Footer navigation"><a href=/>Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/writeups/>Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/ctfs/>CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/about/>About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/connect/>Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/index.xml>RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg></a></nav></div><div class=footer-wordmark aria-hidden=true>C01DC0FF33<span>_</span></div><div class=footer-bottom><span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+<span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+<a href=#main-content>BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a></div></footer></div><div id=grain aria-hidden=true></div><script src=/js/main.js defer></script></body></html>

@@ -1,10 +1,10 @@
-{{/* art-card.html — generates category-specific SVG art like hotwater */}}
-{{ $cat := .category | lower }}
+{{/* art-card.html — generates category-specific SVG art like hotwater & s31zur3 */}}
+{{ $cat := .category | lower | default "misc" }}
 <svg viewBox="0 0 200 180" class="ctf-visual art-{{ $cat | urlize }}" fill="none" stroke="#d4577a" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
   <!-- shared grid lines -->
   <path d="M40 30v120M70 30v120m30-120v120m30-120v120m30-120v120M30 40h140M30 70h140M30 100h140M30 130h140" stroke="#3a0a18" stroke-opacity=".25" stroke-width=".6"/>
 
-  {{ if eq $cat "cryptography" }}
+  {{ if or (eq $cat "cryptography") (eq $cat "crypto") }}
   <!-- orbital ellipses — crypto -->
   <g class="art-orbit">
     <ellipse cx="92" cy="90" rx="39" ry="53" transform="rotate(-28 92 90)"/>
@@ -13,7 +13,7 @@
   </g>
   <path d="M100 23v10m0 114v10M34 90h10m112 0h10" stroke-opacity=".6"/>
 
-  {{ else if eq $cat "reverse engineering" }}
+  {{ else if or (eq $cat "reverse engineering") (eq $cat "rev") }}
   <!-- layered diamonds — RE -->
   <g class="art-layer"><path d="M100 44l48 25-48 25L52 69z" fill="#150609"/></g>
   <g class="art-layer"><path d="M100 71l48 25-48 25-48-25z" fill="#150609"/></g>
@@ -22,7 +22,7 @@
     <path d="M70 35v15m0 81v15M85 35v15m0 81v15M100 35v15m0 81v15M115 35v15m0 81v15M130 35v15m0 81v15" stroke-opacity=".55"/>
   </g>
 
-  {{ else if eq $cat "digital forensics" }}
+  {{ else if or (eq $cat "digital forensics") (eq $cat "forensics") (eq $cat "forensic") }}
   <!-- magnifier / forensics -->
   <path d="M38 60V39h23m78 0h23v21M38 120v21h23m78 0h23v-21" stroke-opacity=".6"/>
   <path d="M48 90q52-61 104 0-52 61-104 0z" fill="#150609"/>
@@ -31,7 +31,7 @@
     <circle cx="100" cy="90" r="8" fill="#d4577a"/>
   </g>
 
-  {{ else if eq $cat "binary exploitation" }}
+  {{ else if or (eq $cat "binary exploitation") (eq $cat "pwn") (eq $cat "boot2root") }}
   <!-- stack frames — binary exploitation -->
   <rect x="50" y="42" width="100" height="20" rx="2" fill="#150609"/>
   <rect x="50" y="68" width="100" height="20" rx="2" fill="#150609"/>
@@ -42,7 +42,7 @@
   <circle cx="100" cy="90" r="0" fill="none"/>
   <path d="M85 78 L100 90 L115 78" stroke="#d4577a" stroke-opacity=".8"/>
 
-  {{ else if eq $cat "web exploitation" }}
+  {{ else if or (eq $cat "web exploitation") (eq $cat "web") }}
   <!-- browser window — web -->
   <path d="M48 42h104v67H48z" fill="#150609"/>
   <path d="M48 59h104"/>
@@ -65,7 +65,7 @@
     <circle cx="100" cy="90" r="8" fill="#d4577a"/>
   </g>
 
-  {{ else if eq $cat "mobile" }}
+  {{ else if or (eq $cat "mobile security") (eq $cat "mobile") }}
   <!-- phone — mobile -->
   <path d="M82 36h38q9 0 9 9v92q0 9-9 9H82q-9 0-9-9V45q0-9 9-9z" fill="#150609"/>
   <path d="M91 44h20M95 137h12"/>
@@ -73,16 +73,7 @@
     <path d="M101 115V72h15M83 85h18m40-37v87M61 65v60" stroke-opacity=".65"/>
   </g>
 
-  {{ else if eq $cat "steganography" }}
-  <!-- pixel grid — steg -->
-  <rect x="45" y="45" width="110" height="90" rx="4" fill="#150609"/>
-  <path d="M60 60h10v10H60zM75 60h10v10H75zM90 60h10v10H90z" fill="#d4577a" fill-opacity=".3"/>
-  <path d="M60 75h10v10H60zM90 75h10v10H90zM105 75h10v10H105z" fill="#d4577a" fill-opacity=".5"/>
-  <path d="M75 90h10v10H75zM105 90h10v10H105zM120 90h10v10H120z" fill="#d4577a" fill-opacity=".2"/>
-  <path d="M60 105h10v10H60zM75 105h10v10H75zM120 105h10v10H120z" fill="#d4577a" fill-opacity=".4"/>
-  <circle cx="100" cy="90" r="20" fill="none" stroke="#d4577a" stroke-dasharray="3 5" stroke-opacity=".6"/>
-
-  {{ else if eq $cat "iot & hardware" }}
+  {{ else if or (eq $cat "iot") (eq $cat "iot & hardware") }}
   <!-- chip — IoT -->
   <rect x="62" y="52" width="76" height="76" rx="6" fill="#150609" stroke="#d4577a" stroke-width="1.2"/>
   <rect x="74" y="64" width="52" height="52" rx="3" fill="#1a0509"/>
@@ -91,14 +82,17 @@
   <circle cx="100" cy="90" r="12" fill="#2a0a14" stroke="#d4577a"/>
   <circle cx="100" cy="90" r="5" fill="#d4577a" opacity=".6"/>
 
-  {{ else if eq $cat "cloud & devops" }}
-  <!-- cloud nodes -->
-  <path d="M60 100 Q60 70 100 70 Q130 70 140 90 Q155 90 155 105 Q155 120 140 120 H65 Q50 120 50 107 Q50 95 60 100Z" fill="#150609"/>
-  <path d="M85 120v20M100 120v25M115 120v20"/>
-  <circle cx="85" cy="145" r="5" fill="#2a0a14"/>
-  <circle cx="100" cy="150" r="5" fill="#2a0a14"/>
-  <circle cx="115" cy="145" r="5" fill="#2a0a14"/>
-  <path d="M85 145h30" stroke-opacity=".4"/>
+  {{ else if or (eq $cat "machine learning") (eq $cat "ml") }}
+  <!-- neural net / weights -->
+  <circle cx="65" cy="65" r="7" fill="#150609" stroke="#d4577a"/>
+  <circle cx="65" cy="115" r="7" fill="#150609" stroke="#d4577a"/>
+  <circle cx="100" cy="50" r="7" fill="#150609" stroke="#d4577a"/>
+  <circle cx="100" cy="90" r="8" fill="#d4577a"/>
+  <circle cx="100" cy="130" r="7" fill="#150609" stroke="#d4577a"/>
+  <circle cx="135" cy="70" r="7" fill="#150609" stroke="#d4577a"/>
+  <circle cx="135" cy="110" r="7" fill="#150609" stroke="#d4577a"/>
+  <path d="M72 65L93 50M72 65L92 90M72 65L93 130M72 115L93 50M72 115L92 90M72 115L93 130" stroke="#d4577a" stroke-opacity=".35"/>
+  <path d="M107 50L128 70M108 90L128 70M108 90L128 110M107 130L128 110" stroke="#d4577a" stroke-opacity=".35"/>
 
   {{ else }}
   <!-- miscellaneous — dice dots -->

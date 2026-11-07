@@ -1,352 +1,71 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>FrostVM: Bytecode Virtual Machine Inversion &amp; State-Machine Pathfinding | C01DC0FF33</title>
-  <meta name="description" content="Disassembling custom stack-based VM bytecode, reversing opcode handlers, and solving graph pathfinding constraints.">
-  <link rel="canonical" href="https://c01dc0ff33.pages.dev/writeups/netrunner/frostvm-bytecode/">
-
-  
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/netrunner/frostvm-bytecode/">
-  <meta property="og:title" content="FrostVM: Bytecode Virtual Machine Inversion &amp; State-Machine Pathfinding | C01DC0FF33">
-  <meta property="og:description" content="Disassembling custom stack-based VM bytecode, reversing opcode handlers, and solving graph pathfinding constraints.">
-  <meta name="twitter:card" content="summary_large_image">
-
-  
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-
-  
-  <link rel="stylesheet" href="/css/main.css">
-
-  
-  
-</head>
-<body class="min-h-screen">
-  <div class="flex-col-layout">
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
-    
-    
-
-    
-    <header class="site-header">
-      <div class="site-nav">
-        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
-        </a>
-        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <nav id="primary-navigation" aria-label="Primary navigation">
-          
-          <a href="/">Home</a>
-          
-          <a href="/writeups/">Writeups</a>
-          
-          <a href="/ctfs/">CTFs</a>
-          
-          <a href="/about/">About</a>
-          
-          <a href="/connect/">Connect</a>
-          
-        </nav>
-      </div>
-    </header>
-
-    
-    <main id="main-content" class="flex-1">
-      
-<article class="layout-page writeup-page">
-  <div class="wrap">
-
-    
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span aria-hidden="true">/</span>
-      <a href="/writeups/">Writeups</a>
-      <span aria-hidden="true">/</span>
-      
-        
-        <a href="/writeups/netrunner/">Netrunner Gaultnet CTF</a>
-        <span aria-hidden="true">/</span>
-        
-      
-      <span aria-current="page">FrostVM: Bytecode Virtual Machine Inversion &amp; State-Machine Pathfinding</span>
-    </nav>
-
-    <header class="writeup-header">
-      <div class="writeup-badges">
-        <span class="badge badge-rose">Reverse Engineering</span>
-        <span class="badge badge-ctf">Netrunner Gaultnet CTF</span>
-        <span class="badge badge-diff-hard">Hard</span>
-        <span class="badge badge-pts">400 pts</span>
-      </div>
-      <h1>FrostVM: Bytecode Virtual Machine Inversion &amp; State-Machine Pathfinding</h1>
-      <p class="writeup-desc">Disassembling custom stack-based VM bytecode, reversing opcode handlers, and solving graph pathfinding constraints.</p>
-      
-      <div class="writeup-meta">
-        <span class="author-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Reshma Al (Coldcoffee)
-        </span>
-        <span>·</span>
-        <span>28 Oct 2026</span>
-        <span>·</span>
-        <span>2 min read</span>
-        
-        <span>·</span>
-        <span class="tools-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Ghidra, Python 3, NetworkX, Capstone</span>
-        
-      </div>
-    </header>
-
-    <div class="writeup-body prose">
-      <div class="flag-callout">
-  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
-  <code>NR{fr0st_vm_byt3c0d3_inv3rs10n_m4z3_cl34r3d}</code>
-  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('NR{fr0st_vm_byt3c0d3_inv3rs10n_m4z3_cl34r3d}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
-</div>
-<h2 id="1-challenge-architecture--virtual-machine-triage">1. Challenge Architecture &amp; Virtual Machine Triage</h2>
-<p>In Netrunner 2026, the <strong>FrostVM</strong> challenge provided an ELF 64-bit binary <code>frost_vm</code> alongside an encrypted bytecode payload <code>maze.fvm</code>.</p>
-<p>Running <code>file</code> and <code>checksec</code>:</p>
-<ul>
-<li>Arch: x86-64 Linux</li>
-<li>Mitigations: Full RELRO, Canary, NX, PIE</li>
-</ul>
-<p>Disassembling the VM dispatcher in Ghidra revealed a classic fetch-decode-execute loop with:</p>
-<ul>
-<li>16 general-purpose 64-bit registers (<code>V0</code>–<code>V15</code>).</li>
-<li>A dedicated 4096-entry LIFO operand stack.</li>
-<li>A virtual program counter (<code>VPC</code>) indexing into <code>maze.fvm</code>.</li>
-</ul>
-<hr>
-<h2 id="2-opcode-specification--reversing">2. Opcode Specification &amp; Reversing</h2>
-<p>Analyzing the switch table at <code>0x1420</code> identified 12 distinct opcodes:</p>
-<table>
-	<thead>
-			<tr>
-					<th>Opcode</th>
-					<th>Mnemonic</th>
-					<th>Operation</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td><code>0x10</code></td>
-					<td><code>PUSH imm</code></td>
-					<td>Push 64-bit immediate to stack</td>
-			</tr>
-			<tr>
-					<td><code>0x11</code></td>
-					<td><code>POP reg</code></td>
-					<td>Pop top of stack into register</td>
-			</tr>
-			<tr>
-					<td><code>0x20</code></td>
-					<td><code>ADD reg, reg</code></td>
-					<td>In-place modular addition</td>
-			</tr>
-			<tr>
-					<td><code>0x21</code></td>
-					<td><code>XOR reg, reg</code></td>
-					<td>Bitwise XOR</td>
-			</tr>
-			<tr>
-					<td><code>0x22</code></td>
-					<td><code>ROTL reg, imm</code></td>
-					<td>64-bit bitwise cyclic left rotation</td>
-			</tr>
-			<tr>
-					<td><code>0x30</code></td>
-					<td><code>JMP offset</code></td>
-					<td>Unconditional relative jump</td>
-			</tr>
-			<tr>
-					<td><code>0x31</code></td>
-					<td><code>JZ reg, offset</code></td>
-					<td>Jump if register is zero</td>
-			</tr>
-			<tr>
-					<td><code>0x40</code></td>
-					<td><code>MAZE_MOVE</code></td>
-					<td>Update internal 2D labyrinth coordinate</td>
-			</tr>
-			<tr>
-					<td><code>0x50</code></td>
-					<td><code>CHECK_WIN</code></td>
-					<td>Compare current labyrinth state against target</td>
-			</tr>
-	</tbody>
-</table>
-<hr>
-<h2 id="3-maze-solver--flag-extraction">3. Maze Solver &amp; Flag Extraction</h2>
-<p>The bytecode constructs a $32 \times 32$ maze where valid movement commands (<code>U</code>, <code>D</code>, <code>L</code>, <code>R</code>) are checked against dynamic wall bitmasks computed by:</p>
-<p>$$\text{mask}(x, y) = (x^3 + 7y + 13) \pmod{64}$$</p>
-<p>Invalid moves trigger an immediate <code>VM_TRAP</code> fault.</p>
-<p>We wrote a Python disassembler and solved the maze using BFS pathfinding in NetworkX:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python3</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">bytecode</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;maze.fvm&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># Extract maze dimensions and wall constraints</span>
-</span></span><span class="line"><span class="cl"><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">grid_2d_graph</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">is_wall</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">13</span><span class="p">)</span> <span class="o">%</span> <span class="mi">64</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">53</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Remove wall nodes</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">is_wall</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">            <span class="n">G</span><span class="o">.</span><span class="n">remove_node</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">path</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Convert path coordinates to direction string</span>
-</span></span><span class="line"><span class="cl"><span class="n">moves</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dy</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">dx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">moves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">dx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">moves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">dy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">moves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">dy</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">moves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">solution</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;[+] Shortest path (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span><span class="si">}</span><span class="s2"> steps): </span><span class="si">{</span><span class="n">solution</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><p>Sending the movement sequence to the challenge server decrypted the master flag: <code>NR{fr0st_vm_byt3c0d3_inv3rs10n_m4z3_cl34r3d}</code>.</p>
-<hr>
-<h2 id="4-key-takeaways">4. Key Takeaways</h2>
-<ul>
-<li>Bytecode VMs can be reversed systematically by tabulating the dispatcher jump table and mapping opcode semantics to high-level graph/path constraints.</li>
-</ul>
-
-    </div>
-
-    
-    <div class="writeup-tags-footer">
-      <span class="tags-label">Tags:</span>
-      
-      <span class="tag-pill">Reverse Engineering</span>
-      
-      <span class="tag-pill">Netrunner Gaultnet CTF</span>
-      
-      <span class="tag-pill">Coldcoffee Solves</span>
-      
-    </div>
-    
-
-    
-    <nav class="prev-next" aria-label="Previous and next writeup">
-      
-      
-      <a href="/writeups/netrunner/nexus-pwn-bof/" class="prev-next-link next-link">
-        <span class="pn-dir">Next Solve →</span>
-        <span class="pn-title">Coolant Pump Daemon: Stack Buffer Overflow &amp; ROP Chain</span>
-      </a>
-      
-    </nav>
-
-  </div>
-</article>
-
-    </main>
-
-    
-    <footer class="archive-footer">
-      <div class="footer-top">
-        <div>
-          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33
-          </a>
-          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          
-          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-        </nav>
-      </div>
-
-      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
-
-      <div class="footer-bottom">
-        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
-        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
-        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
-</a>
-      </div>
-    </footer>
-  </div>
-
-  
-  <div id="grain" aria-hidden="true"></div>
-
-  <script src="/js/main.js" defer></script>
-</body>
-</html>
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>FrostVM: Bytecode Virtual Machine Inversion & State-Machine Pathfinding | C01DC0FF33</title><meta name=description content="Disassembling custom stack-based VM bytecode, reversing opcode handlers, and solving graph pathfinding constraints."><link rel=canonical href=https://c01dc0ff33.pages.dev/writeups/netrunner/frostvm-bytecode/><meta property="og:type" content="article"><meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/netrunner/frostvm-bytecode/"><meta property="og:title" content="FrostVM: Bytecode Virtual Machine Inversion & State-Machine Pathfinding | C01DC0FF33"><meta property="og:description" content="Disassembling custom stack-based VM bytecode, reversing opcode handlers, and solving graph pathfinding constraints."><meta name=twitter:card content="summary_large_image"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel=stylesheet><link rel=stylesheet href=/css/main.css></head><body class=min-h-screen><div class=flex-col-layout><a class=skip-link href=#main-content>Skip to content</a><header class=site-header><div class=site-nav><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33<span class=brand-sub> / coldcoffee</span>
+</a><button type=button class=menu-toggle aria-expanded=false aria-controls=primary-navigation>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/></svg>
+<span class=sr-only>Toggle navigation</span></button><nav id=primary-navigation aria-label="Primary navigation"><a href=/>Home</a>
+<a href=/writeups/>Writeups</a>
+<a href=/ctfs/>CTFs</a>
+<a href=/about/>About</a>
+<a href=/connect/>Connect</a></nav></div></header><main id=main-content class=flex-1><article class="layout-page writeup-page"><div class=wrap><nav class=breadcrumb aria-label=Breadcrumb><a href=/>Home</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/>Writeups</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/netrunner/>Netrunner Gaultnet CTF</a>
+<span aria-hidden=true>/</span>
+<span aria-current=page>FrostVM: Bytecode Virtual Machine Inversion & State-Machine Pathfinding</span></nav><header class=writeup-header><div class=writeup-badges><span class="badge badge-rose">Reverse Engineering</span>
+<span class="badge badge-ctf">Netrunner Gaultnet CTF</span>
+<span class="badge badge-diff-hard">Hard</span>
+<span class="badge badge-pts">400 pts</span></div><h1>FrostVM: Bytecode Virtual Machine Inversion & State-Machine Pathfinding</h1><p class=writeup-desc>Disassembling custom stack-based VM bytecode, reversing opcode handlers, and solving graph pathfinding constraints.</p><div class=writeup-meta><span class=author-tag><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Reshma Al (Coldcoffee)
+</span><span>·</span>
+<span>28 Oct 2026</span>
+<span>·</span>
+<span>2 min read</span>
+<span>·</span>
+<span class=tools-tag><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4.0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12.0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg> Ghidra, Python 3, NetworkX, Capstone</span></div></header><div class="writeup-body prose"><div class=flag-callout><span class=flag-label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Captured Flag</span>
+<code>NR{fr0st_vm_byt3c0d3_inv3rs10n_m4z3_cl34r3d}</code>
+<button class=flag-copy-btn onclick='navigator.clipboard.writeText("NR{fr0st_vm_byt3c0d3_inv3rs10n_m4z3_cl34r3d}"),this.innerText="Copied!",setTimeout(()=>this.innerText="Copy",2e3)'>Copy</button></div><h2 id=1-challenge-architecture--virtual-machine-triage>1. Challenge Architecture & Virtual Machine Triage</h2><p>In Netrunner 2026, the <strong>FrostVM</strong> challenge provided an ELF 64-bit binary <code>frost_vm</code> alongside an encrypted bytecode payload <code>maze.fvm</code>.</p><p>Running <code>file</code> and <code>checksec</code>:</p><ul><li>Arch: x86-64 Linux</li><li>Mitigations: Full RELRO, Canary, NX, PIE</li></ul><p>Disassembling the VM dispatcher in Ghidra revealed a classic fetch-decode-execute loop with:</p><ul><li>16 general-purpose 64-bit registers (<code>V0</code>–<code>V15</code>).</li><li>A dedicated 4096-entry LIFO operand stack.</li><li>A virtual program counter (<code>VPC</code>) indexing into <code>maze.fvm</code>.</li></ul><hr><h2 id=2-opcode-specification--reversing>2. Opcode Specification & Reversing</h2><p>Analyzing the switch table at <code>0x1420</code> identified 12 distinct opcodes:</p><table><thead><tr><th>Opcode</th><th>Mnemonic</th><th>Operation</th></tr></thead><tbody><tr><td><code>0x10</code></td><td><code>PUSH imm</code></td><td>Push 64-bit immediate to stack</td></tr><tr><td><code>0x11</code></td><td><code>POP reg</code></td><td>Pop top of stack into register</td></tr><tr><td><code>0x20</code></td><td><code>ADD reg, reg</code></td><td>In-place modular addition</td></tr><tr><td><code>0x21</code></td><td><code>XOR reg, reg</code></td><td>Bitwise XOR</td></tr><tr><td><code>0x22</code></td><td><code>ROTL reg, imm</code></td><td>64-bit bitwise cyclic left rotation</td></tr><tr><td><code>0x30</code></td><td><code>JMP offset</code></td><td>Unconditional relative jump</td></tr><tr><td><code>0x31</code></td><td><code>JZ reg, offset</code></td><td>Jump if register is zero</td></tr><tr><td><code>0x40</code></td><td><code>MAZE_MOVE</code></td><td>Update internal 2D labyrinth coordinate</td></tr><tr><td><code>0x50</code></td><td><code>CHECK_WIN</code></td><td>Compare current labyrinth state against target</td></tr></tbody></table><hr><h2 id=3-maze-solver--flag-extraction>3. Maze Solver & Flag Extraction</h2><p>The bytecode constructs a $32 \times 32$ maze where valid movement commands (<code>U</code>, <code>D</code>, <code>L</code>, <code>R</code>) are checked against dynamic wall bitmasks computed by:</p><p>$$\text{mask}(x, y) = (x^3 + 7y + 13) \pmod{64}$$</p><p>Invalid moves trigger an immediate <code>VM_TRAP</code> fault.</p><p>We wrote a Python disassembler and solved the maze using BFS pathfinding in NetworkX:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=ch>#!/usr/bin/env python3</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>networkx</span> <span class=k>as</span> <span class=nn>nx</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>bytecode</span> <span class=o>=</span> <span class=nb>open</span><span class=p>(</span><span class=s1>&#39;maze.fvm&#39;</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span><span class=o>.</span><span class=n>read</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># Extract maze dimensions and wall constraints</span>
+</span></span><span class=line><span class=cl><span class=n>G</span> <span class=o>=</span> <span class=n>nx</span><span class=o>.</span><span class=n>grid_2d_graph</span><span class=p>(</span><span class=mi>32</span><span class=p>,</span> <span class=mi>32</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>is_wall</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>((</span><span class=n>x</span><span class=o>**</span><span class=mi>3</span> <span class=o>+</span> <span class=mi>7</span><span class=o>*</span><span class=n>y</span> <span class=o>+</span> <span class=mi>13</span><span class=p>)</span> <span class=o>%</span> <span class=mi>64</span><span class=p>)</span> <span class=ow>in</span> <span class=p>[</span><span class=mi>3</span><span class=p>,</span> <span class=mi>17</span><span class=p>,</span> <span class=mi>29</span><span class=p>,</span> <span class=mi>41</span><span class=p>,</span> <span class=mi>53</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Remove wall nodes</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>32</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>y</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>32</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>is_wall</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            <span class=n>G</span><span class=o>.</span><span class=n>remove_node</span><span class=p>((</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>start</span> <span class=o>=</span> <span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>target</span> <span class=o>=</span> <span class=p>(</span><span class=mi>31</span><span class=p>,</span> <span class=mi>31</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>path</span> <span class=o>=</span> <span class=n>nx</span><span class=o>.</span><span class=n>shortest_path</span><span class=p>(</span><span class=n>G</span><span class=p>,</span> <span class=n>start</span><span class=p>,</span> <span class=n>target</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Convert path coordinates to direction string</span>
+</span></span><span class=line><span class=cl><span class=n>moves</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=nb>len</span><span class=p>(</span><span class=n>path</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>dx</span> <span class=o>=</span> <span class=n>path</span><span class=p>[</span><span class=n>i</span><span class=o>+</span><span class=mi>1</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span> <span class=o>-</span> <span class=n>path</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>dy</span> <span class=o>=</span> <span class=n>path</span><span class=p>[</span><span class=n>i</span><span class=o>+</span><span class=mi>1</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span> <span class=o>-</span> <span class=n>path</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=n>dx</span> <span class=o>==</span> <span class=mi>1</span><span class=p>:</span> <span class=n>moves</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=s1>&#39;R&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>elif</span> <span class=n>dx</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>:</span> <span class=n>moves</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=s1>&#39;L&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>elif</span> <span class=n>dy</span> <span class=o>==</span> <span class=mi>1</span><span class=p>:</span> <span class=n>moves</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=s1>&#39;D&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>elif</span> <span class=n>dy</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>:</span> <span class=n>moves</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=s1>&#39;U&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>solution</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>moves</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;[+] Shortest path (</span><span class=si>{</span><span class=nb>len</span><span class=p>(</span><span class=n>solution</span><span class=p>)</span><span class=si>}</span><span class=s2> steps): </span><span class=si>{</span><span class=n>solution</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></div><p>Sending the movement sequence to the challenge server decrypted the master flag: <code>NR{fr0st_vm_byt3c0d3_inv3rs10n_m4z3_cl34r3d}</code>.</p><hr><h2 id=4-key-takeaways>4. Key Takeaways</h2><ul><li>Bytecode VMs can be reversed systematically by tabulating the dispatcher jump table and mapping opcode semantics to high-level graph/path constraints.</li></ul></div><div class=writeup-tags-footer><span class=tags-label>Tags:</span>
+<span class=tag-pill>Reverse Engineering</span>
+<span class=tag-pill>Netrunner Gaultnet CTF</span>
+<span class=tag-pill>Coldcoffee Solves</span></div><nav class=prev-next aria-label="Previous and next writeup"><a href=/writeups/netrunner/nexus-pwn-bof/ class="prev-next-link next-link"><span class=pn-dir>Next Solve →</span>
+<span class=pn-title>Coolant Pump Daemon: Stack Buffer Overflow & ROP Chain</span></a></nav></div></article></main><footer class=archive-footer><div class=footer-top><div><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33</a><p>Sip. Solve. Decode.<br>Write it down. Share it.</p></div><nav aria-label="Footer navigation"><a href=/>Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/writeups/>Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/ctfs/>CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/about/>About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/connect/>Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/index.xml>RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg></a></nav></div><div class=footer-wordmark aria-hidden=true>C01DC0FF33<span>_</span></div><div class=footer-bottom><span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+<span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+<a href=#main-content>BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a></div></footer></div><div id=grain aria-hidden=true></div><script src=/js/main.js defer></script></body></html>

@@ -1,8 +1,10 @@
-﻿---
+---
 title: "Sea of Secrets CTF"
 short_name: "Sea of Secrets"
-year: "October 2026"
-weight: 9
-placement: "Top 20"
-
+year: "November 2026"
+placement: "6th"
+weight: 4
+writeup_count: 7
+writeup_slug: "sea-of-secrets"
+target_url: "/writeups/sea-of-secrets/"
 ---

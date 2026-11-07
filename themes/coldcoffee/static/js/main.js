@@ -68,15 +68,44 @@
   });
 })();
 
+/* ─── ABOUT POSTER CURTAIN REVEAL ──────────────────────────── */
+(function () {
+  var curtain = document.getElementById('poster-curtain');
+  if (!curtain) return;
+  setTimeout(function () {
+    curtain.style.transition = 'transform 1.1s cubic-bezier(0.77, 0, 0.175, 1)';
+    curtain.style.transform = 'scaleY(0)';
+    setTimeout(function () {
+      curtain.style.display = 'none';
+    }, 1200);
+  }, 250);
+})();
+
 /* ─── SECTION REVEAL (Intersection Observer) ────────────────── */
-document.querySelectorAll('[data-reveal]').forEach(function (el) {
+if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.1 });
-  io.observe(el);
-});
+  }, { threshold: 0.02, rootMargin: '0px 0px 80px 0px' });
+
+  document.querySelectorAll('[data-reveal]').forEach(function (el) {
+    // If element is already within or near viewport, mark visible immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 80 && rect.bottom > -80) {
+      el.classList.add('visible');
+    } else {
+      io.observe(el);
+    }
+  });
+} else {
+  document.querySelectorAll('[data-reveal]').forEach(function (el) {
+    el.classList.add('visible');
+  });
+}
 
 /* ─── CARD CURSOR GLOW ──────────────────────────────────────── */
 document.querySelectorAll('.writeup-card, .event-tile').forEach(function (card) {

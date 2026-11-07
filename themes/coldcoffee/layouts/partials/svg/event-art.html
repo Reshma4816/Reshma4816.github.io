@@ -51,6 +51,19 @@
   <circle cx="300" cy="180" r="100" fill="none" stroke="rgba(241,217,181,.05)" stroke-dasharray="5 15"/>
   <defs><linearGradient id="ea-cv" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a0509"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
 
+  {{ else if eq $slug "pinaka-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-pin)"/>
+  <path d="M120 180 C120 70 200 40 300 40 C400 40 480 70 480 180 C480 290 400 320 300 320 C200 320 120 290 120 180Z" fill="none" stroke="rgba(212,87,122,.08)" stroke-width="1.2"/>
+  <path d="M80 180h440M300 40v280" stroke="rgba(241,217,181,.05)" stroke-width=".8"/>
+  <circle cx="300" cy="180" r="60" stroke="rgba(212,87,122,.09)" stroke-dasharray="4 8"/>
+  <defs><linearGradient id="ea-pin" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1c060d"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "sea-of-secrets-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-sos)"/>
+  <path d="M50 140 Q175 100 300 140 T550 140 M50 180 Q175 140 300 180 T550 180 M50 220 Q175 180 300 220 T550 220" fill="none" stroke="rgba(212,87,122,.08)" stroke-width="1"/>
+  <circle cx="300" cy="180" r="90" stroke="rgba(241,217,181,.05)" stroke-dasharray="3 10"/>
+  <defs><linearGradient id="ea-sos" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#15060b"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
   {{ else }}
   <!-- generic event art -->
   <path d="M0 0h600v360H0z" fill="url(#ea-gen)"/>

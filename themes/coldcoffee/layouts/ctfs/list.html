@@ -4,13 +4,13 @@
 
     <header class="section-hero-sm" data-reveal>
       <p class="eyebrow">All CTF events · {{ len (where .Site.RegularPages "Section" "ctfs") }} competitions</p>
-      <h1>Flags captured.<br><span class="text-muted">Lessons kept.</span></h1>
+      <h1>New arenas.<br><span class="text-muted">Same hustle.</span></h1>
     </header>
 
     <div class="event-grid" data-reveal>
       {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
       {{ range $ctfs.ByWeight }}
-      <a href="{{ .RelPermalink }}" class="event-tile" aria-label="{{ .Title }}">
+      <a href="{{ .Params.target_url | default .RelPermalink }}" class="event-tile" aria-label="{{ .Title }}">
         {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
         <div class="event-top">
           <span class="event-number">{{ printf "%02d" .Weight }}</span>

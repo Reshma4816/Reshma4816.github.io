@@ -1,319 +1,74 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Nala&#39;s Blueprint - The Secret Geometry | C01DC0FF33</title>
-  <meta name="description" content="Exploiting biased ephemeral nonces in ECDSA curve calculations to reconstruct bridge blueprint coordinates.">
-  <link rel="canonical" href="https://c01dc0ff33.pages.dev/writeups/pinaka/nala-blueprint/">
-
-  
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/pinaka/nala-blueprint/">
-  <meta property="og:title" content="Nala&#39;s Blueprint - The Secret Geometry | C01DC0FF33">
-  <meta property="og:description" content="Exploiting biased ephemeral nonces in ECDSA curve calculations to reconstruct bridge blueprint coordinates.">
-  <meta name="twitter:card" content="summary_large_image">
-
-  
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-
-  
-  <link rel="stylesheet" href="/css/main.css">
-
-  
-  
-</head>
-<body class="min-h-screen">
-  <div class="flex-col-layout">
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
-    
-    
-
-    
-    <header class="site-header">
-      <div class="site-nav">
-        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
-        </a>
-        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <nav id="primary-navigation" aria-label="Primary navigation">
-          
-          <a href="/">Home</a>
-          
-          <a href="/writeups/">Writeups</a>
-          
-          <a href="/ctfs/">CTFs</a>
-          
-          <a href="/about/">About</a>
-          
-          <a href="/connect/">Connect</a>
-          
-        </nav>
-      </div>
-    </header>
-
-    
-    <main id="main-content" class="flex-1">
-      
-<article class="layout-page writeup-page">
-  <div class="wrap">
-
-    
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span aria-hidden="true">/</span>
-      <a href="/writeups/">Writeups</a>
-      <span aria-hidden="true">/</span>
-      
-        
-        <a href="/writeups/pinaka/">Pinaka CTF</a>
-        <span aria-hidden="true">/</span>
-        
-      
-      <span aria-current="page">Nala&#39;s Blueprint - The Secret Geometry</span>
-    </nav>
-
-    <header class="writeup-header">
-      <div class="writeup-badges">
-        <span class="badge badge-rose">Cryptography</span>
-        <span class="badge badge-ctf">Pinaka CTF 2026</span>
-        <span class="badge badge-diff-medium">Medium</span>
-        <span class="badge badge-pts">300 pts</span>
-      </div>
-      <h1>Nala&#39;s Blueprint - The Secret Geometry</h1>
-      <p class="writeup-desc">Exploiting biased ephemeral nonces in ECDSA curve calculations to reconstruct bridge blueprint coordinates.</p>
-      
-      <div class="writeup-meta">
-        <span class="author-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Reshma Al (Coldcoffee)
-        </span>
-        <span>·</span>
-        <span>01 Nov 2026</span>
-        <span>·</span>
-        <span>3 min read</span>
-        
-        <span>·</span>
-        <span class="tools-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Python 3, SageMath, fpylll</span>
-        
-      </div>
-    </header>
-
-    <div class="writeup-body prose">
-      <div class="flag-callout">
-  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
-  <code>PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}</code>
-  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
-</div>
-<p><strong>Category:</strong> Crypto · <strong>Difficulty:</strong> Hard
-<strong>Flag:</strong> <code>PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}</code></p>
-<hr>
-<h2 id="the-story">The story</h2>
-<p>Nala&rsquo;s archive survived, but it was wounded. The pier measurements were
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Nala's Blueprint - The Secret Geometry | C01DC0FF33</title><meta name=description content="Exploiting biased ephemeral nonces in ECDSA curve calculations to reconstruct bridge blueprint coordinates."><link rel=canonical href=https://c01dc0ff33.pages.dev/writeups/pinaka/nala-blueprint/><meta property="og:type" content="article"><meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/pinaka/nala-blueprint/"><meta property="og:title" content="Nala's Blueprint - The Secret Geometry | C01DC0FF33"><meta property="og:description" content="Exploiting biased ephemeral nonces in ECDSA curve calculations to reconstruct bridge blueprint coordinates."><meta name=twitter:card content="summary_large_image"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel=stylesheet><link rel=stylesheet href=/css/main.css></head><body class=min-h-screen><div class=flex-col-layout><a class=skip-link href=#main-content>Skip to content</a><header class=site-header><div class=site-nav><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33<span class=brand-sub> / coldcoffee</span>
+</a><button type=button class=menu-toggle aria-expanded=false aria-controls=primary-navigation>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/></svg>
+<span class=sr-only>Toggle navigation</span></button><nav id=primary-navigation aria-label="Primary navigation"><a href=/>Home</a>
+<a href=/writeups/>Writeups</a>
+<a href=/ctfs/>CTFs</a>
+<a href=/about/>About</a>
+<a href=/connect/>Connect</a></nav></div></header><main id=main-content class=flex-1><article class="layout-page writeup-page"><div class=wrap><nav class=breadcrumb aria-label=Breadcrumb><a href=/>Home</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/>Writeups</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/pinaka/>Pinaka CTF</a>
+<span aria-hidden=true>/</span>
+<span aria-current=page>Nala's Blueprint - The Secret Geometry</span></nav><header class=writeup-header><div class=writeup-badges><span class="badge badge-rose">Cryptography</span>
+<span class="badge badge-ctf">Pinaka CTF 2026</span>
+<span class="badge badge-diff-medium">Medium</span>
+<span class="badge badge-pts">300 pts</span></div><h1>Nala's Blueprint - The Secret Geometry</h1><p class=writeup-desc>Exploiting biased ephemeral nonces in ECDSA curve calculations to reconstruct bridge blueprint coordinates.</p><div class=writeup-meta><span class=author-tag><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Reshma Al (Coldcoffee)
+</span><span>·</span>
+<span>01 Nov 2026</span>
+<span>·</span>
+<span>3 min read</span>
+<span>·</span>
+<span class=tools-tag><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4.0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12.0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg> Python 3, SageMath, fpylll</span></div></header><div class="writeup-body prose"><div class=flag-callout><span class=flag-label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Captured Flag</span>
+<code>PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}</code>
+<button class=flag-copy-btn onclick='navigator.clipboard.writeText("PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}"),this.innerText="Copied!",setTimeout(()=>this.innerText="Copy",2e3)'>Copy</button></div><p><strong>Category:</strong> Crypto · <strong>Difficulty:</strong> Hard
+<strong>Flag:</strong> <code>PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}</code></p><hr><h2 id=the-story>The story</h2><p>Nala&rsquo;s archive survived, but it was wounded. The pier measurements were
 protected by a damaged error-correcting code, and the blueprint was locked
 under a cipher. The scribes made one careless mistake: they used the <strong>same
-nonce twice</strong>. That was the crack in the seal.</p>
-<p>The solve had three steps.</p>
-<hr>
-<h2 id="step-1-open-the-box-and-read-the-rules">Step 1: Open the box and read the rules</h2>
-<p>The zip held four files:</p>
-<ul>
-<li><code>parity.rsc</code>: a Reed-Solomon codeword with some bad symbols</li>
-<li><code>archive.sealed</code>: two encrypted records, the <em>manifest</em> and the <em>blueprint</em></li>
-<li><code>blueprint_format.txt</code>: the public formats of both files</li>
-<li><code>README.md</code>: the story and the goal</li>
-</ul>
-<p>The formats file was the key. It spelled out exactly what the manifest
-plaintext looks like, which matters later.</p>
-<hr>
-<h2 id="step-2-heal-the-measurements-reed-solomon">Step 2: Heal the measurements (Reed-Solomon)</h2>
-<p>Reading <code>parity.rsc</code> gave:</p>
-<ul>
-<li>prime <code>p = 65537</code></li>
-<li><code>k = 12</code> true measurements</li>
-<li><code>n = 24</code> recorded symbols</li>
-<li>4 symbols marked <strong>erased</strong> (thrown away)</li>
-</ul>
-<p>That leaves 20 symbols, and some of them were silently corrupted. The code can
+nonce twice</strong>. That was the crack in the seal.</p><p>The solve had three steps.</p><hr><h2 id=step-1-open-the-box-and-read-the-rules>Step 1: Open the box and read the rules</h2><p>The zip held four files:</p><ul><li><code>parity.rsc</code>: a Reed-Solomon codeword with some bad symbols</li><li><code>archive.sealed</code>: two encrypted records, the <em>manifest</em> and the <em>blueprint</em></li><li><code>blueprint_format.txt</code>: the public formats of both files</li><li><code>README.md</code>: the story and the goal</li></ul><p>The formats file was the key. It spelled out exactly what the manifest
+plaintext looks like, which matters later.</p><hr><h2 id=step-2-heal-the-measurements-reed-solomon>Step 2: Heal the measurements (Reed-Solomon)</h2><p>Reading <code>parity.rsc</code> gave:</p><ul><li>prime <code>p = 65537</code></li><li><code>k = 12</code> true measurements</li><li><code>n = 24</code> recorded symbols</li><li>4 symbols marked <strong>erased</strong> (thrown away)</li></ul><p>That leaves 20 symbols, and some of them were silently corrupted. The code can
 fix <code>e</code> errors and <code>f</code> erasures when <code>2e + f ≤ n − k</code>. Here <code>2e + 4 ≤ 12</code>, so
-up to <strong>4 errors</strong> can be fixed.</p>
-<p>I used <strong>Berlekamp–Welch</strong>, which sets up a linear system mod p, solves it, and
+up to <strong>4 errors</strong> can be fixed.</p><p>I used <strong>Berlekamp–Welch</strong>, which sets up a linear system mod p, solves it, and
 divides to get the original polynomial. It reported errors at x = 8, 11, 14
-and 18. The 12 coefficients of the polynomial are the pier heights:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">601, 1228, 1795, 2302, 2749, 3136, 3463, 3730, 3937, 4084, 4171, 4198
-</span></span></code></pre></div><hr>
-<h2 id="step-3-check-the-arch-geometry">Step 3: Check the arch (geometry)</h2>
-<p>The heights should lie on one parabola <code>h(i) = A·i² + B·i + C</code>. They do:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">h(i) = -30·i² + 657·i + 601
-</span></span></code></pre></div><p>That confirms the decode is right. The keystone apex is the vertex height:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">apex = C − B²/(4A) = 601 − 657²/(−120) = 167923/40
-</span></span></code></pre></div><hr>
-<h2 id="step-4-break-the-seal-nonce-reuse">Step 4: Break the seal (nonce reuse)</h2>
-<p>Both records were encrypted with the same key <strong>and the same nonce</strong>
-(<code>fec3116eaaad0420617b4b5a</code>), so they used the same keystream:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">manifest_ct  = manifest  XOR keystream
-</span></span><span class="line"><span class="cl">blueprint_ct = blueprint XOR keystream
+and 18. The 12 coefficients of the polynomial are the pier heights:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>601, 1228, 1795, 2302, 2749, 3136, 3463, 3730, 3937, 4084, 4171, 4198
+</span></span></code></pre></div><hr><h2 id=step-3-check-the-arch-geometry>Step 3: Check the arch (geometry)</h2><p>The heights should lie on one parabola <code>h(i) = A·i² + B·i + C</code>. They do:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>h(i) = -30·i² + 657·i + 601
+</span></span></code></pre></div><p>That confirms the decode is right. The keystone apex is the vertex height:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>apex = C − B²/(4A) = 601 − 657²/(−120) = 167923/40
+</span></span></code></pre></div><hr><h2 id=step-4-break-the-seal-nonce-reuse>Step 4: Break the seal (nonce reuse)</h2><p>Both records were encrypted with the same key <strong>and the same nonce</strong>
+(<code>fec3116eaaad0420617b4b5a</code>), so they used the same keystream:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>manifest_ct  = manifest  XOR keystream
+</span></span><span class=line><span class=cl>blueprint_ct = blueprint XOR keystream
 </span></span></code></pre></div><p>I knew the manifest plaintext because I could rebuild it from the public
-format, using my apex and measurements:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">keystone_apex=167923/40
-</span></span><span class="line"><span class="cl">piers=12
-</span></span><span class="line"><span class="cl">h00=601
-</span></span><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl">h11=4198
-</span></span><span class="line"><span class="cl">SETU-MANIFEST-v1
-</span></span><span class="line"><span class="cl">.......(dots padded to 512 bytes)
-</span></span></code></pre></div><p>Then two XORs:</p>
-<ol>
-<li><code>manifest_ct XOR manifest</code> gives the <strong>keystream</strong></li>
-<li><code>blueprint_ct XOR keystream</code> gives the <strong>blueprint plaintext</strong></li>
-</ol>
-<p>The blueprint decrypted cleanly:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">keystone_seal=3b4c5970eeaf629a1bfb38d05c46166458a654cc4fdb4ce4b7b26506e461bcee
-</span></span><span class="line"><span class="cl">SETU-BLUEPRINT-v1
-</span></span><span class="line"><span class="cl">engineer=Nala-Setukarma
-</span></span><span class="line"><span class="cl">span_units=adams-bridge
+format, using my apex and measurements:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>keystone_apex=167923/40
+</span></span><span class=line><span class=cl>piers=12
+</span></span><span class=line><span class=cl>h00=601
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>h11=4198
+</span></span><span class=line><span class=cl>SETU-MANIFEST-v1
+</span></span><span class=line><span class=cl>.......(dots padded to 512 bytes)
+</span></span></code></pre></div><p>Then two XORs:</p><ol><li><code>manifest_ct XOR manifest</code> gives the <strong>keystream</strong></li><li><code>blueprint_ct XOR keystream</code> gives the <strong>blueprint plaintext</strong></li></ol><p>The blueprint decrypted cleanly:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>keystone_seal=3b4c5970eeaf629a1bfb38d05c46166458a654cc4fdb4ce4b7b26506e461bcee
+</span></span><span class=line><span class=cl>SETU-BLUEPRINT-v1
+</span></span><span class=line><span class=cl>engineer=Nala-Setukarma
+</span></span><span class=line><span class=cl>span_units=adams-bridge
 </span></span></code></pre></div><p>Readable text confirmed that every earlier step was correct. No key and no
-brute force were needed.</p>
-<hr>
-<h2 id="step-5-present-to-the-validator">Step 5: Present to the validator</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -X POST https://pinaka-s05-cyber-xo-x.vercel.app/setu/keystone <span class="se">\
-</span></span></span><span class="line"><span class="cl">  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl">  -d <span class="s1">&#39;{&#34;measurements&#34;:[601,1228,1795,2302,2749,3136,3463,3730,3937,4084,4171,4198],&#34;keystone_apex&#34;:[167923,40],&#34;seal&#34;:&#34;3b4c5970eeaf629a1bfb38d05c46166458a654cc4fdb4ce4b7b26506e461bcee&#34;}&#39;</span>
-</span></span></code></pre></div><p>Response:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;flag&#34;</span><span class="p">:</span><span class="s2">&#34;PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}&#34;</span><span class="p">,</span><span class="nt">&#34;status&#34;</span><span class="p">:</span><span class="s2">&#34;blueprint-sealed&#34;</span><span class="p">}</span>
-</span></span></code></pre></div>
-    </div>
-
-    
-    <div class="writeup-tags-footer">
-      <span class="tags-label">Tags:</span>
-      
-      <span class="tag-pill">Cryptography</span>
-      
-      <span class="tag-pill">Pinaka CTF</span>
-      
-      <span class="tag-pill">Pinaka 2026</span>
-      
-      <span class="tag-pill">Coldcoffee Solves</span>
-      
-    </div>
-    
-
-    
-    <nav class="prev-next" aria-label="Previous and next writeup">
-      
-      <a href="/writeups/pinaka/ashokavana-veiled-sanctuary/" class="prev-next-link prev-link">
-        <span class="pn-dir">← Previous Solve</span>
-        <span class="pn-title">Ashokavana - The Veiled Sanctuary</span>
-      </a>
-      
-      
-      <a href="/writeups/pinaka/four-directions-search-without-borders/" class="prev-next-link next-link">
-        <span class="pn-dir">Next Solve →</span>
-        <span class="pn-title">The Four Directions - Search Without Borders</span>
-      </a>
-      
-    </nav>
-
-  </div>
-</article>
-
-    </main>
-
-    
-    <footer class="archive-footer">
-      <div class="footer-top">
-        <div>
-          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33
-          </a>
-          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          
-          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-        </nav>
-      </div>
-
-      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
-
-      <div class="footer-bottom">
-        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
-        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
-        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
-</a>
-      </div>
-    </footer>
-  </div>
-
-  
-  <div id="grain" aria-hidden="true"></div>
-
-  <script src="/js/main.js" defer></script>
-</body>
-</html>
+brute force were needed.</p><hr><h2 id=step-5-present-to-the-validator>Step 5: Present to the validator</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -X POST https://pinaka-s05-cyber-xo-x.vercel.app/setu/keystone <span class=se>\
+</span></span></span><span class=line><span class=cl>  -H <span class=s1>&#39;Content-Type: application/json&#39;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>  -d <span class=s1>&#39;{&#34;measurements&#34;:[601,1228,1795,2302,2749,3136,3463,3730,3937,4084,4171,4198],&#34;keystone_apex&#34;:[167923,40],&#34;seal&#34;:&#34;3b4c5970eeaf629a1bfb38d05c46166458a654cc4fdb4ce4b7b26506e461bcee&#34;}&#39;</span>
+</span></span></code></pre></div><p>Response:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span><span class=nt>&#34;flag&#34;</span><span class=p>:</span><span class=s2>&#34;PINAKA{nala_blueprint_ecc_geometry_and_nonce_reuse}&#34;</span><span class=p>,</span><span class=nt>&#34;status&#34;</span><span class=p>:</span><span class=s2>&#34;blueprint-sealed&#34;</span><span class=p>}</span>
+</span></span></code></pre></div></div><div class=writeup-tags-footer><span class=tags-label>Tags:</span>
+<span class=tag-pill>Cryptography</span>
+<span class=tag-pill>Pinaka CTF</span>
+<span class=tag-pill>Pinaka 2026</span>
+<span class=tag-pill>Coldcoffee Solves</span></div><nav class=prev-next aria-label="Previous and next writeup"><a href=/writeups/pinaka/ashokavana-veiled-sanctuary/ class="prev-next-link prev-link"><span class=pn-dir>← Previous Solve</span>
+<span class=pn-title>Ashokavana - The Veiled Sanctuary</span>
+</a><a href=/writeups/pinaka/four-directions-search-without-borders/ class="prev-next-link next-link"><span class=pn-dir>Next Solve →</span>
+<span class=pn-title>The Four Directions - Search Without Borders</span></a></nav></div></article></main><footer class=archive-footer><div class=footer-top><div><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33</a><p>Sip. Solve. Decode.<br>Write it down. Share it.</p></div><nav aria-label="Footer navigation"><a href=/>Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/writeups/>Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/ctfs/>CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/about/>About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/connect/>Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/index.xml>RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg></a></nav></div><div class=footer-wordmark aria-hidden=true>C01DC0FF33<span>_</span></div><div class=footer-bottom><span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+<span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+<a href=#main-content>BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a></div></footer></div><div id=grain aria-hidden=true></div><script src=/js/main.js defer></script></body></html>

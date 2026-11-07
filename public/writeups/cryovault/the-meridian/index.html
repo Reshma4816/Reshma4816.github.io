@@ -1,274 +1,53 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>The Meridian | C01DC0FF33</title>
-  <meta name="description" content="JavaScript client-side provenance verification and cryptographic key schedule reconstruction.">
-  <link rel="canonical" href="https://c01dc0ff33.pages.dev/writeups/cryovault/the-meridian/">
-
-  
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/cryovault/the-meridian/">
-  <meta property="og:title" content="The Meridian | C01DC0FF33">
-  <meta property="og:description" content="JavaScript client-side provenance verification and cryptographic key schedule reconstruction.">
-  <meta name="twitter:card" content="summary_large_image">
-
-  
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-
-  
-  <link rel="stylesheet" href="/css/main.css">
-
-  
-  
-</head>
-<body class="min-h-screen">
-  <div class="flex-col-layout">
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
-    
-    
-
-    
-    <header class="site-header">
-      <div class="site-nav">
-        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
-        </a>
-        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <nav id="primary-navigation" aria-label="Primary navigation">
-          
-          <a href="/">Home</a>
-          
-          <a href="/writeups/">Writeups</a>
-          
-          <a href="/ctfs/">CTFs</a>
-          
-          <a href="/about/">About</a>
-          
-          <a href="/connect/">Connect</a>
-          
-        </nav>
-      </div>
-    </header>
-
-    
-    <main id="main-content" class="flex-1">
-      
-<article class="layout-page writeup-page">
-  <div class="wrap">
-
-    
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span aria-hidden="true">/</span>
-      <a href="/writeups/">Writeups</a>
-      <span aria-hidden="true">/</span>
-      
-        
-        <a href="/writeups/cryovault/">ISFCR CryoVault Quals</a>
-        <span aria-hidden="true">/</span>
-        
-      
-      <span aria-current="page">The Meridian</span>
-    </nav>
-
-    <header class="writeup-header">
-      <div class="writeup-badges">
-        <span class="badge badge-rose">Web Exploitation</span>
-        <span class="badge badge-ctf">ISFCR CryoVault Quals 2026</span>
-        <span class="badge badge-diff-medium">Medium</span>
-        <span class="badge badge-pts">300 pts</span>
-      </div>
-      <h1>The Meridian</h1>
-      <p class="writeup-desc">JavaScript client-side provenance verification and cryptographic key schedule reconstruction.</p>
-      
-      <div class="writeup-meta">
-        <span class="author-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Reshma Al (Coldcoffee)
-        </span>
-        <span>·</span>
-        <span>11 Oct 2026</span>
-        <span>·</span>
-        <span>1 min read</span>
-        
-        <span>·</span>
-        <span class="tools-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Burp Suite, Node.js, Chrome DevTools</span>
-        
-      </div>
-    </header>
-
-    <div class="writeup-body prose">
-      <div class="flag-callout">
-  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
-  <code>isfcr{d33p_m3rg3_p0llut3s_th3_pr0v3n4nc3_v4ult_1n_th3_m3r1d14n}</code>
-  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('isfcr{d33p_m3rg3_p0llut3s_th3_pr0v3n4nc3_v4ult_1n_th3_m3r1d14n}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
-</div>
-<h2 id="1-web-reconnaissance--source-audit">1. Web Reconnaissance &amp; Source Audit</h2>
-<p>The Meridian is a client-side art provenance catalog built with React.
-Inspecting network traffic in Chrome DevTools revealed that the administrative exhibition vault is loaded as an encrypted blob <code>vault.dat</code>.</p>
-<p>The client codebase (<code>bundle.js</code>) contains the derivation routine:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">unlockVault</span><span class="p">(</span><span class="nx">exhibits</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">verified</span> <span class="o">=</span> <span class="nx">exhibits</span>
-</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">verifyProvenance</span><span class="p">(</span><span class="nx">e</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">accessionYear</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">accessionYear</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">sumYears</span> <span class="o">=</span> <span class="nx">verified</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">acc</span> <span class="o">+</span> <span class="nx">e</span><span class="p">.</span><span class="nx">accessionYear</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">rounds</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">+</span> <span class="p">(</span><span class="nx">sumYears</span> <span class="o">%</span> <span class="mi">4096</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">key</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">deriveSchedule</span><span class="p">(</span><span class="nx">verified</span><span class="p">,</span> <span class="nx">rounds</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">decryptAES</span><span class="p">(</span><span class="nx">vaultBlob</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><hr>
-<h2 id="2-provenance-logic--prototype-pollution">2. Provenance Logic &amp; Prototype Pollution</h2>
-<p>Audit of the provenance validator identified:</p>
-<ol>
-<li>Five exhibits pass validation:
-<ul>
-<li><em>E. Vantar</em> (1971)</li>
-<li><em>R. Oikawa</em> (1984)</li>
-<li><em>H. Delacroix</em> (1990)</li>
-<li><em>K. Adeyemi</em> (2003)</li>
-<li><em>S. Marchetti</em> (2011)</li>
-</ul>
-</li>
-<li>Sum of accession years: $1971 + 1984 + 1990 + 2003 + 2011 = 9959$.</li>
-<li>Modular round offset: $9959 \pmod{4096} = 1767$.</li>
-<li>Total hashing rounds: $1000 + 1767 = 2767$ iterations of SHA-256.</li>
-</ol>
-<p>Running the key derivation routine in Node.js decrypted the encrypted vault payload, exposing the capture flag.</p>
-
-    </div>
-
-    
-    <div class="writeup-tags-footer">
-      <span class="tags-label">Tags:</span>
-      
-      <span class="tag-pill">Web Exploitation</span>
-      
-      <span class="tag-pill">ISFCR CryoVault Quals 2026</span>
-      
-      <span class="tag-pill">Coldcoffee Solves</span>
-      
-    </div>
-    
-
-    
-    <nav class="prev-next" aria-label="Previous and next writeup">
-      
-      <a href="/writeups/cryovault/the-recurrence/" class="prev-next-link prev-link">
-        <span class="pn-dir">← Previous Solve</span>
-        <span class="pn-title">The Recurrence</span>
-      </a>
-      
-      
-      <a href="/writeups/cryovault/the-last-committed-message/" class="prev-next-link next-link">
-        <span class="pn-dir">Next Solve →</span>
-        <span class="pn-title">The last committed message</span>
-      </a>
-      
-    </nav>
-
-  </div>
-</article>
-
-    </main>
-
-    
-    <footer class="archive-footer">
-      <div class="footer-top">
-        <div>
-          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33
-          </a>
-          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          
-          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-        </nav>
-      </div>
-
-      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
-
-      <div class="footer-bottom">
-        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
-        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
-        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
-</a>
-      </div>
-    </footer>
-  </div>
-
-  
-  <div id="grain" aria-hidden="true"></div>
-
-  <script src="/js/main.js" defer></script>
-</body>
-</html>
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>The Meridian | C01DC0FF33</title><meta name=description content="JavaScript client-side provenance verification and cryptographic key schedule reconstruction."><link rel=canonical href=https://c01dc0ff33.pages.dev/writeups/cryovault/the-meridian/><meta property="og:type" content="article"><meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/cryovault/the-meridian/"><meta property="og:title" content="The Meridian | C01DC0FF33"><meta property="og:description" content="JavaScript client-side provenance verification and cryptographic key schedule reconstruction."><meta name=twitter:card content="summary_large_image"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel=stylesheet><link rel=stylesheet href=/css/main.css></head><body class=min-h-screen><div class=flex-col-layout><a class=skip-link href=#main-content>Skip to content</a><header class=site-header><div class=site-nav><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33<span class=brand-sub> / coldcoffee</span>
+</a><button type=button class=menu-toggle aria-expanded=false aria-controls=primary-navigation>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/></svg>
+<span class=sr-only>Toggle navigation</span></button><nav id=primary-navigation aria-label="Primary navigation"><a href=/>Home</a>
+<a href=/writeups/>Writeups</a>
+<a href=/ctfs/>CTFs</a>
+<a href=/about/>About</a>
+<a href=/connect/>Connect</a></nav></div></header><main id=main-content class=flex-1><article class="layout-page writeup-page"><div class=wrap><nav class=breadcrumb aria-label=Breadcrumb><a href=/>Home</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/>Writeups</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/cryovault/>ISFCR CryoVault Quals</a>
+<span aria-hidden=true>/</span>
+<span aria-current=page>The Meridian</span></nav><header class=writeup-header><div class=writeup-badges><span class="badge badge-rose">Web Exploitation</span>
+<span class="badge badge-ctf">ISFCR CryoVault Quals 2026</span>
+<span class="badge badge-diff-medium">Medium</span>
+<span class="badge badge-pts">300 pts</span></div><h1>The Meridian</h1><p class=writeup-desc>JavaScript client-side provenance verification and cryptographic key schedule reconstruction.</p><div class=writeup-meta><span class=author-tag><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Reshma Al (Coldcoffee)
+</span><span>·</span>
+<span>11 Oct 2026</span>
+<span>·</span>
+<span>1 min read</span>
+<span>·</span>
+<span class=tools-tag><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4.0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12.0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg> Burp Suite, Node.js, Chrome DevTools</span></div></header><div class="writeup-body prose"><div class=flag-callout><span class=flag-label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Captured Flag</span>
+<code>isfcr{d33p_m3rg3_p0llut3s_th3_pr0v3n4nc3_v4ult_1n_th3_m3r1d14n}</code>
+<button class=flag-copy-btn onclick='navigator.clipboard.writeText("isfcr{d33p_m3rg3_p0llut3s_th3_pr0v3n4nc3_v4ult_1n_th3_m3r1d14n}"),this.innerText="Copied!",setTimeout(()=>this.innerText="Copy",2e3)'>Copy</button></div><h2 id=1-web-reconnaissance--source-audit>1. Web Reconnaissance & Source Audit</h2><p>The Meridian is a client-side art provenance catalog built with React.
+Inspecting network traffic in Chrome DevTools revealed that the administrative exhibition vault is loaded as an encrypted blob <code>vault.dat</code>.</p><p>The client codebase (<code>bundle.js</code>) contains the derivation routine:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>unlockVault</span><span class=p>(</span><span class=nx>exhibits</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>verified</span> <span class=o>=</span> <span class=nx>exhibits</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=nx>filter</span><span class=p>(</span><span class=nx>e</span> <span class=p>=&gt;</span> <span class=nx>verifyProvenance</span><span class=p>(</span><span class=nx>e</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=p>.</span><span class=nx>sort</span><span class=p>((</span><span class=nx>a</span><span class=p>,</span> <span class=nx>b</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>a</span><span class=p>.</span><span class=nx>accessionYear</span> <span class=o>-</span> <span class=nx>b</span><span class=p>.</span><span class=nx>accessionYear</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>sumYears</span> <span class=o>=</span> <span class=nx>verified</span><span class=p>.</span><span class=nx>reduce</span><span class=p>((</span><span class=nx>acc</span><span class=p>,</span> <span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>acc</span> <span class=o>+</span> <span class=nx>e</span><span class=p>.</span><span class=nx>accessionYear</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>rounds</span> <span class=o>=</span> <span class=mi>1000</span> <span class=o>+</span> <span class=p>(</span><span class=nx>sumYears</span> <span class=o>%</span> <span class=mi>4096</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>key</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>deriveSchedule</span><span class=p>(</span><span class=nx>verified</span><span class=p>,</span> <span class=nx>rounds</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>decryptAES</span><span class=p>(</span><span class=nx>vaultBlob</span><span class=p>,</span> <span class=nx>key</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><hr><h2 id=2-provenance-logic--prototype-pollution>2. Provenance Logic & Prototype Pollution</h2><p>Audit of the provenance validator identified:</p><ol><li>Five exhibits pass validation:<ul><li><em>E. Vantar</em> (1971)</li><li><em>R. Oikawa</em> (1984)</li><li><em>H. Delacroix</em> (1990)</li><li><em>K. Adeyemi</em> (2003)</li><li><em>S. Marchetti</em> (2011)</li></ul></li><li>Sum of accession years: $1971 + 1984 + 1990 + 2003 + 2011 = 9959$.</li><li>Modular round offset: $9959 \pmod{4096} = 1767$.</li><li>Total hashing rounds: $1000 + 1767 = 2767$ iterations of SHA-256.</li></ol><p>Running the key derivation routine in Node.js decrypted the encrypted vault payload, exposing the capture flag.</p></div><div class=writeup-tags-footer><span class=tags-label>Tags:</span>
+<span class=tag-pill>Web Exploitation</span>
+<span class=tag-pill>ISFCR CryoVault Quals 2026</span>
+<span class=tag-pill>Coldcoffee Solves</span></div><nav class=prev-next aria-label="Previous and next writeup"><a href=/writeups/cryovault/the-recurrence/ class="prev-next-link prev-link"><span class=pn-dir>← Previous Solve</span>
+<span class=pn-title>The Recurrence</span>
+</a><a href=/writeups/cryovault/the-last-committed-message/ class="prev-next-link next-link"><span class=pn-dir>Next Solve →</span>
+<span class=pn-title>The last committed message</span></a></nav></div></article></main><footer class=archive-footer><div class=footer-top><div><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33</a><p>Sip. Solve. Decode.<br>Write it down. Share it.</p></div><nav aria-label="Footer navigation"><a href=/>Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/writeups/>Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/ctfs/>CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/about/>About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/connect/>Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/index.xml>RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg></a></nav></div><div class=footer-wordmark aria-hidden=true>C01DC0FF33<span>_</span></div><div class=footer-bottom><span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+<span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+<a href=#main-content>BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a></div></footer></div><div id=grain aria-hidden=true></div><script src=/js/main.js defer></script></body></html>

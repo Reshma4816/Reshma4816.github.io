@@ -46,17 +46,6 @@
         {{ partial "svg/cup-large.html" . }}
         <span class="artifact-coordinate" style="align-self:flex-end">INSPECT → UNDERSTAND</span>
       </div>
-      <div class="floating-panels">
-        <a href="/writeups/?cat=cryptography" class="floating-panel">
-          <span class="panel-index">01 / CRYPTOGRAPHY {{ partial "svg/arrow-up-right.html" . }}</span>
-          <code>find the hidden structure</code>
-          <span class="signal-bars">▂ ▅ ▃ ▇ ▄ ▆ ▂ ▅</span>
-        </a>
-        <a href="/writeups/?cat=digital-forensics" class="floating-panel">
-          <span class="panel-index">02 / DIGITAL FORENSICS {{ partial "svg/arrow-up-right.html" . }}</span>
-          <code>the disk remembers all</code>
-        </a>
-      </div>
     </div>
   </div>
 
@@ -129,29 +118,28 @@
     </div>
 
     <div class="event-grid">
-      {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
-      {{ range $ctfs.ByWeight }}
-      <a href="{{ .RelPermalink }}" class="event-tile" aria-label="{{ .Title }}">
-        {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
-        <div class="event-top">
-          <span class="event-number">{{ printf "%02d" .Weight }}</span>
-          {{ with .Params.placement }}<span class="place-badge {{ if eq . "2nd" }}place-gold{{ else if eq . "6th" }}place-rose{{ else if eq . "16th" }}place-rose{{ else if eq . "Top 20" }}place-rose{{ else if eq . "Top 30" }}place-muted{{ else if eq . "Top 35" }}place-muted{{ else }}place-muted{{ end }}">{{ . }}</span>{{ end }}
-          <span class="event-arrow" aria-hidden="true">{{ partial "svg/arrow-up-right.html" . }}</span>
-        </div>
-        <h3>
-          <span class="event-title-name">{{ .Params.short_name | default .Title }}</span>
-          <span class="event-year">{{ .Params.year }}</span>
-        </h3>
-        <div class="event-bottom">
-          <span class="event-count">
-            <svg width="13" height="15" viewBox="0 0 13 15" fill="none" aria-hidden="true"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
-            {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Competed{{ end }}
-          </span>
-          <span class="event-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-        </div>
-      </a>
-      {{ else }}
-      {{ partial "placeholder-events.html" . }}
+      {{ $home_ctf_slugs := slice "pinaka-ctf" "sea-of-secrets-ctf" "isfcr-cryovault-finals" "isfcr-cryovault-quals" "h7ctf-quals" "breach-point-ctf" }}
+      {{ range $idx, $slug := $home_ctf_slugs }}
+        {{ with $.Site.GetPage (printf "ctfs/%s" $slug) }}
+        <a href="{{ .Params.target_url | default .RelPermalink }}" class="event-tile" aria-label="{{ .Title }}">
+          {{ partial "svg/event-art.html" (dict "slug" $slug) }}
+          <div class="event-top">
+            <span class="event-number">{{ printf "%02d" (add $idx 1) }}</span>
+            <span class="event-arrow" aria-hidden="true">{{ partial "svg/arrow-up-right.html" . }}</span>
+          </div>
+          <h3>
+            <span class="event-title-name">{{ .Params.short_name | default .Title }}</span>
+            <span class="event-year">{{ .Params.year }}</span>
+          </h3>
+          <div class="event-bottom">
+            <span class="event-count">
+              <svg width="13" height="15" viewBox="0 0 13 15" fill="none" aria-hidden="true"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
+              {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Competed{{ end }}
+            </span>
+            <span class="event-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </a>
+        {{ end }}
       {{ end }}
     </div>
   </div>

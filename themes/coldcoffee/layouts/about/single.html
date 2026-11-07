@@ -2,68 +2,69 @@
 <div class="layout-page about-page">
   <div class="page-int">
 
-    <!-- ── ABOUT HERO ──────────────────────────────────────────── -->
-    <section class="about-hero" aria-label="About hero">
+    <!-- ── ABOUT HERO / POSTER REVEAL ────────────────────────────── -->
+    <section class="about-hero" aria-label="About Reshma Al">
       <div class="cyber-background" aria-hidden="true">
         <img class="hero-bg-img" src="/images/bg-burgundy.webp" alt="">
         <div class="orb orb-a"></div>
         <div class="orb orb-b"></div>
       </div>
       <div class="about-hero-inner wrap">
-        <div class="about-portrait-wrap">
-          <div class="about-portrait">
-            <span class="photo-name-bg" aria-hidden="true">RESHMA</span>
-            <img src="/images/reshma.jpg"
-                 alt="Reshma Al — C01DC0FF33"
-                 loading="eager" width="480" height="600">
-            <div class="photo-hud" aria-hidden="true">
-              <div class="hud-tl">CYBERSECURITY<br>CTF PLAYER<br>RESEARCHER<br>BUILDER</div>
-              <div class="hud-tr">+ ─ TRUST_IS_A<br><span style="color:var(--rose)">VULNERABILITY</span></div>
-              <div class="hud-bl">CSE<br>RAJALAKSHMI ENGINEERING<br>THIRD YEAR</div>
-              <div class="hud-br"><span class="hud-dot"></span> ACTIVE<br>FORENSICS<br>CRYPTOGRAPHY<br>BINARY EXPLOIT</div>
-            </div>
+        
+        <!-- Full Cinematic Poster Frame -->
+        <div class="about-poster-wrap" data-reveal>
+          <div class="about-poster-card">
+            <div class="about-poster-curtain" id="poster-curtain" aria-hidden="true"></div>
+            <img class="about-poster-img"
+                 src="/images/reshma-poster.png"
+                 alt="Reshma Al (C01DC0FF33) — Explore, Analyse, Break, Learn, Repeat · CTF Player | Researcher"
+                 loading="eager" width="1024" height="603">
+            <div class="poster-scanlines" aria-hidden="true"></div>
             <div class="photo-corner photo-corner--tl"></div>
             <div class="photo-corner photo-corner--tr"></div>
             <div class="photo-corner photo-corner--bl"></div>
             <div class="photo-corner photo-corner--br"></div>
+            <div class="poster-footer-hud" aria-hidden="true">
+              <span><i class="hud-dot"></i> PROFILE_RENDER // C01DC0FF33</span>
+              <span>CLASSIFIED / ARCHIVE_001</span>
+            </div>
           </div>
         </div>
-        <div class="about-hero-copy">
-          <p class="eyebrow">Researcher · Builder · CTF Player</p>
+
+        <!-- Bio & Presentation -->
+        <div class="about-hero-copy" data-reveal>
+          <p class="eyebrow">The person behind C01DC0FF33</p>
           <h1>Not just flags —<br><span class="text-muted">understanding.</span></h1>
           <div class="tag-row">
             <span class="badge badge-rose">C01DC0FF33</span>
             <span class="badge">Coldcoffee</span>
-            <span class="badge badge-gold">SOC Aspirant</span>
-            <span class="badge">DFIR</span>
-            <span class="badge">Reverse Engineering</span>
             <span class="badge">CTF Player</span>
+            <span class="badge">Security Researcher</span>
+            <span class="badge">Reverse Engineering</span>
           </div>
           <p class="about-bio">
-            I'm <strong>Reshma Al</strong>, handle C01DC0FF33 — Coldcoffee in the CTF world.
-            Third-year CSE undergrad at Rajalakshmi Engineering College, working toward a career in
-            <strong>SOC analysis and digital forensics</strong>. I break things to understand them,
-            write it all down so someone else doesn't have to start from scratch.
+            I'm Reshma Al, handle C01DC0FF33 — Coldcoffee in the CTF world. Third-year CSE undergrad at REC who treats every system like a puzzle that needs to be disassembled. I break things to see how they tick, then leave the blueprints behind so you don't have to start from scratch. Pull up a chair, grab a cup, and let’s dive into the logic. ☕👨💻
           </p>
           <div class="hero-actions">
             <a class="btn-primary" href="/writeups/">Browse Writeups {{ partial "svg/arrow-up-right.html" . }}</a>
             <a class="btn-ghost" href="/connect/">Connect {{ partial "svg/arrow-right.html" . }}</a>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- ── SKILLS ──────────────────────────────────────────────── -->
+    <!-- ── SKILLS / THE BREWING STATION ───────────────────────────── -->
     <section class="section-standard" data-reveal>
       <div class="wrap">
         <div class="section-heading">
           <div>
             <p class="eyebrow">02 / What I work with</p>
-            <h2>Tools of <span class="text-muted">the trade.</span></h2>
+            <h2>The Brewing <span class="text-muted">Station.</span></h2>
           </div>
         </div>
         <div class="skills-grid">
-          {{ $skills := slice "Digital Forensics" "SOC Analysis" "Incident Response" "Reverse Engineering" "Binary Exploitation" "Web Exploitation" "Cryptography" "OSINT & IoT" "Steganography" "Memory Forensics" "Network Analysis" "Threat Hunting" }}
+          {{ $skills := slice "Digital Forensics" "Reverse Engineering" "Binary Exploitation" "Cryptography" "Steganography" "OSINT" "IoT" "Cloud Security" }}
           {{ range $skills }}
           <div class="skill-row"><div class="skill-dot"></div>{{ . }}</div>
           {{ end }}
@@ -71,19 +72,20 @@
       </div>
     </section>
 
-    <!-- ── ACHIEVEMENTS / PODIUM ──────────────────────────────── -->
+    <!-- ── ACHIEVEMENTS / KEY RECORDS ─────────────────────────────── -->
     <section class="section-standard events-section" data-reveal>
       <div class="wrap">
         <div class="section-heading">
           <div>
             <p class="eyebrow">03 / Competition record</p>
-            <h2>Flags captured.<br><span class="text-muted">Lessons kept.</span></h2>
+            <h2>Key records.<br><span class="text-muted">Great experience.</span></h2>
           </div>
           <a class="section-link" href="/ctfs/">All CTF events {{ partial "svg/arrow-up-right.html" . }}</a>
         </div>
         <div class="event-grid">
           {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
           {{ range ($ctfs.ByWeight) }}
+          {{ if and (ne .File.ContentBaseName "lunar-ctf-quals") (ne .File.ContentBaseName "breach-point-ctf") (ne .File.ContentBaseName "pinaka-ctf") }}
           <a href="{{ .RelPermalink }}" class="event-tile">
             {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
             <div class="event-top">
@@ -95,11 +97,12 @@
             <div class="event-bottom">
               <span class="event-count">
                 <svg width="13" height="15" viewBox="0 0 13 15" fill="none"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
-                {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Competed{{ end }}
+                {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Ranked{{ end }}
               </span>
               <span class="event-signal"><i></i><i></i><i></i><i></i><i></i></span>
             </div>
           </a>
+          {{ end }}
           {{ end }}
         </div>
       </div>

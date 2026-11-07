@@ -1,339 +1,105 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>The Last Astra - An Unprovable Command | C01DC0FF33</title>
-  <meta name="description" content="Zero-knowledge command verification bypass exploiting weak polynomial commitment evaluation.">
-  <link rel="canonical" href="https://c01dc0ff33.pages.dev/writeups/pinaka/last-astra/">
-
-  
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/pinaka/last-astra/">
-  <meta property="og:title" content="The Last Astra - An Unprovable Command | C01DC0FF33">
-  <meta property="og:description" content="Zero-knowledge command verification bypass exploiting weak polynomial commitment evaluation.">
-  <meta name="twitter:card" content="summary_large_image">
-
-  
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-
-  
-  <link rel="stylesheet" href="/css/main.css">
-
-  
-  
-</head>
-<body class="min-h-screen">
-  <div class="flex-col-layout">
-    <a class="skip-link" href="#main-content">Skip to content</a>
-
-    
-    
-
-    
-    <header class="site-header">
-      <div class="site-nav">
-        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
-        </a>
-        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <nav id="primary-navigation" aria-label="Primary navigation">
-          
-          <a href="/">Home</a>
-          
-          <a href="/writeups/">Writeups</a>
-          
-          <a href="/ctfs/">CTFs</a>
-          
-          <a href="/about/">About</a>
-          
-          <a href="/connect/">Connect</a>
-          
-        </nav>
-      </div>
-    </header>
-
-    
-    <main id="main-content" class="flex-1">
-      
-<article class="layout-page writeup-page">
-  <div class="wrap">
-
-    
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span aria-hidden="true">/</span>
-      <a href="/writeups/">Writeups</a>
-      <span aria-hidden="true">/</span>
-      
-        
-        <a href="/writeups/pinaka/">Pinaka CTF</a>
-        <span aria-hidden="true">/</span>
-        
-      
-      <span aria-current="page">The Last Astra - An Unprovable Command</span>
-    </nav>
-
-    <header class="writeup-header">
-      <div class="writeup-badges">
-        <span class="badge badge-rose">Cryptography</span>
-        <span class="badge badge-ctf">Pinaka CTF 2026</span>
-        <span class="badge badge-diff-medium">Medium</span>
-        <span class="badge badge-pts">300 pts</span>
-      </div>
-      <h1>The Last Astra - An Unprovable Command</h1>
-      <p class="writeup-desc">Zero-knowledge command verification bypass exploiting weak polynomial commitment evaluation.</p>
-      
-      <div class="writeup-meta">
-        <span class="author-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Reshma Al (Coldcoffee)
-        </span>
-        <span>·</span>
-        <span>01 Nov 2026</span>
-        <span>·</span>
-        <span>3 min read</span>
-        
-        <span>·</span>
-        <span class="tools-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Python 3, pycryptodome, SageMath</span>
-        
-      </div>
-    </header>
-
-    <div class="writeup-body prose">
-      <div class="flag-callout">
-  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
-  <code>PINAKA{last_astra_unprovable_command_shattered}</code>
-  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('PINAKA{last_astra_unprovable_command_shattered}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
-</div>
-<h2 id="challenge">Challenge</h2>
-<p>The service is an &ldquo;Astra command desk&rdquo; that fires an order only if <strong>both</strong> of two
-seals accept a submitted command against that order&rsquo;s published syndrome:</p>
-<ul>
-<li><strong>Dharma Seal</strong> — checks <code>0 &lt;= v_j &lt; B</code> and <code>A·v ≡ t (mod p)</code></li>
-<li><strong>Rigor Seal</strong> — checks <code>0 &lt;= v_j &lt; B</code> and <code>A·v ≡ t (mod p2)</code></li>
-</ul>
-<p>The sanction matrix is block-diagonal: <code>A = I_m ⊗ (B^0, B^1, ..., B^{k-1})</code>, so a
+<!doctype html><html lang=en data-theme=dark><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>The Last Astra - An Unprovable Command | C01DC0FF33</title><meta name=description content="Zero-knowledge command verification bypass exploiting weak polynomial commitment evaluation."><link rel=canonical href=https://c01dc0ff33.pages.dev/writeups/pinaka/last-astra/><meta property="og:type" content="article"><meta property="og:url" content="https://c01dc0ff33.pages.dev/writeups/pinaka/last-astra/"><meta property="og:title" content="The Last Astra - An Unprovable Command | C01DC0FF33"><meta property="og:description" content="Zero-knowledge command verification bypass exploiting weak polynomial commitment evaluation."><meta name=twitter:card content="summary_large_image"><link rel=icon type=image/svg+xml href=/favicon.svg><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel=stylesheet><link rel=stylesheet href=/css/main.css></head><body class=min-h-screen><div class=flex-col-layout><a class=skip-link href=#main-content>Skip to content</a><header class=site-header><div class=site-nav><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33<span class=brand-sub> / coldcoffee</span>
+</a><button type=button class=menu-toggle aria-expanded=false aria-controls=primary-navigation>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/></svg>
+<span class=sr-only>Toggle navigation</span></button><nav id=primary-navigation aria-label="Primary navigation"><a href=/>Home</a>
+<a href=/writeups/>Writeups</a>
+<a href=/ctfs/>CTFs</a>
+<a href=/about/>About</a>
+<a href=/connect/>Connect</a></nav></div></header><main id=main-content class=flex-1><article class="layout-page writeup-page"><div class=wrap><nav class=breadcrumb aria-label=Breadcrumb><a href=/>Home</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/>Writeups</a>
+<span aria-hidden=true>/</span>
+<a href=/writeups/pinaka/>Pinaka CTF</a>
+<span aria-hidden=true>/</span>
+<span aria-current=page>The Last Astra - An Unprovable Command</span></nav><header class=writeup-header><div class=writeup-badges><span class="badge badge-rose">Cryptography</span>
+<span class="badge badge-ctf">Pinaka CTF 2026</span>
+<span class="badge badge-diff-medium">Medium</span>
+<span class="badge badge-pts">300 pts</span></div><h1>The Last Astra - An Unprovable Command</h1><p class=writeup-desc>Zero-knowledge command verification bypass exploiting weak polynomial commitment evaluation.</p><div class=writeup-meta><span class=author-tag><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Reshma Al (Coldcoffee)
+</span><span>·</span>
+<span>01 Nov 2026</span>
+<span>·</span>
+<span>3 min read</span>
+<span>·</span>
+<span class=tools-tag><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4.0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12.0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg> Python 3, pycryptodome, SageMath</span></div></header><div class="writeup-body prose"><div class=flag-callout><span class=flag-label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Captured Flag</span>
+<code>PINAKA{last_astra_unprovable_command_shattered}</code>
+<button class=flag-copy-btn onclick='navigator.clipboard.writeText("PINAKA{last_astra_unprovable_command_shattered}"),this.innerText="Copied!",setTimeout(()=>this.innerText="Copy",2e3)'>Copy</button></div><h2 id=challenge>Challenge</h2><p>The service is an &ldquo;Astra command desk&rdquo; that fires an order only if <strong>both</strong> of two
+seals accept a submitted command against that order&rsquo;s published syndrome:</p><ul><li><strong>Dharma Seal</strong> — checks <code>0 &lt;= v_j &lt; B</code> and <code>A·v ≡ t (mod p)</code></li><li><strong>Rigor Seal</strong> — checks <code>0 &lt;= v_j &lt; B</code> and <code>A·v ≡ t (mod p2)</code></li></ul><p>The sanction matrix is block-diagonal: <code>A = I_m ⊗ (B^0, B^1, ..., B^{k-1})</code>, so a
 command is a vector <code>v</code> of <code>n = m*k</code> bounded integers, and each register&rsquo;s
-syndrome is just <code>v</code> read as a base-<code>B</code> number: <code>t_i = Σ v[i*k+l] * B^l</code>.</p>
-<p>The goal was to make the desk fire the forbidden order <code>loose-last-astra</code>. Its
+syndrome is just <code>v</code> read as a base-<code>B</code> number: <code>t_i = Σ v[i*k+l] * B^l</code>.</p><p>The goal was to make the desk fire the forbidden order <code>loose-last-astra</code>. Its
 published syndrome has <strong>no bounded opening at all</strong> — each of its 3 register
 values is far larger than <code>B^k = 2^128</code>, which is the max value a register can
-represent. So there&rsquo;s no &ldquo;honest&rdquo; <code>v</code> that produces it directly.</p>
-<h2 id="source-review">Source review</h2>
-<p><code>pinaka_command.py</code> ships the exact verifier logic. Each seal only reduces
+represent. So there&rsquo;s no &ldquo;honest&rdquo; <code>v</code> that produces it directly.</p><h2 id=source-review>Source review</h2><p><code>pinaka_command.py</code> ships the exact verifier logic. Each seal only reduces
 <code>A·v</code> and <code>t</code> modulo its own prime and checks the two residues match — neither
 seal ever checks that <code>t</code> is itself in the achievable range <code>[0, B^k)</code>. The
-file even has a comment hinting at this:</p>
-<blockquote>
-<p>&ldquo;neither checks that the target t is itself within the achievable integer
-range&hellip; Study what the two seals do and do NOT jointly pin about the
-syndrome.&rdquo;</p>
-</blockquote>
-<p>So nothing stops a bounded <code>v</code> from matching <code>t</code> mod <code>p</code> and mod <code>p2</code> without
-<code>A·v</code> actually equaling <code>t</code> over the integers. That&rsquo;s the opening.</p>
-<h2 id="the-math">The math</h2>
-<p>For each register, I need an integer <code>s</code> with:</p>
-<ul>
-<li><code>0 &lt;= s &lt; B^k</code> (so it has a real bounded opening <code>v</code>)</li>
-<li><code>s ≡ t (mod p)</code></li>
-<li><code>s ≡ t (mod p2)</code></li>
-</ul>
-<p>Since <code>gcd(p, p2) = 1</code>, CRT gives a single residue <code>s0</code> that&rsquo;s unique modulo
-<code>p * p2</code>. Checking the sizes:</p>
-<ul>
-<li><code>B^k = 2^128 ≈ 3.4 × 10^38</code></li>
-<li><code>p * p2 ≈ 9.35 × 10^125</code></li>
-</ul>
-<p>The achievable range is tiny compared to <code>p * p2</code>, so there&rsquo;s at most one
+file even has a comment hinting at this:</p><blockquote><p>&ldquo;neither checks that the target t is itself within the achievable integer
+range&mldr; Study what the two seals do and do NOT jointly pin about the
+syndrome.&rdquo;</p></blockquote><p>So nothing stops a bounded <code>v</code> from matching <code>t</code> mod <code>p</code> and mod <code>p2</code> without
+<code>A·v</code> actually equaling <code>t</code> over the integers. That&rsquo;s the opening.</p><h2 id=the-math>The math</h2><p>For each register, I need an integer <code>s</code> with:</p><ul><li><code>0 &lt;= s &lt; B^k</code> (so it has a real bounded opening <code>v</code>)</li><li><code>s ≡ t (mod p)</code></li><li><code>s ≡ t (mod p2)</code></li></ul><p>Since <code>gcd(p, p2) = 1</code>, CRT gives a single residue <code>s0</code> that&rsquo;s unique modulo
+<code>p * p2</code>. Checking the sizes:</p><ul><li><code>B^k = 2^128 ≈ 3.4 × 10^38</code></li><li><code>p * p2 ≈ 9.35 × 10^125</code></li></ul><p>The achievable range is tiny compared to <code>p * p2</code>, so there&rsquo;s at most one
 candidate value for <code>s</code> in <code>[0, B^k)</code> — but there&rsquo;s no guarantee it actually
 falls in that window. I computed it for all three registers of the forbidden
-syndrome and checked.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sympy.ntheory.modular</span> <span class="kn">import</span> <span class="n">crt</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&#34;params.json&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">inst</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&#34;instance.json&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">B</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&#34;gadget&#34;</span><span class="p">][</span><span class="s2">&#34;B&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">k</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&#34;gadget&#34;</span><span class="p">][</span><span class="s2">&#34;k&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&#34;seals&#34;</span><span class="p">][</span><span class="s2">&#34;dharma_seal&#34;</span><span class="p">][</span><span class="s2">&#34;modulus_p&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">p2</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&#34;seals&#34;</span><span class="p">][</span><span class="s2">&#34;rigor_seal&#34;</span><span class="p">][</span><span class="s2">&#34;modulus_p2&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">Bk</span> <span class="o">=</span> <span class="n">B</span> <span class="o">**</span> <span class="n">k</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">t</span> <span class="o">=</span> <span class="n">inst</span><span class="p">[</span><span class="s2">&#34;orders&#34;</span><span class="p">][</span><span class="s2">&#34;loose-last-astra&#34;</span><span class="p">][</span><span class="s2">&#34;syndrome&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">command</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">sol</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="n">crt</span><span class="p">([</span><span class="n">p</span><span class="p">,</span> <span class="n">p2</span><span class="p">],</span> <span class="p">[</span><span class="n">ti</span> <span class="o">%</span> <span class="n">p</span><span class="p">,</span> <span class="n">ti</span> <span class="o">%</span> <span class="n">p2</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">    <span class="n">sol</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">sol</span> <span class="o">&lt;</span> <span class="n">Bk</span>          <span class="c1"># got lucky (or not lucky - math) here</span>
-</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">sol</span>
-</span></span><span class="line"><span class="cl">    <span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">%</span> <span class="n">B</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">//=</span> <span class="n">B</span>
-</span></span><span class="line"><span class="cl">    <span class="n">command</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+syndrome and checked.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>json</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sympy.ntheory.modular</span> <span class=kn>import</span> <span class=n>crt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>params</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=nb>open</span><span class=p>(</span><span class=s2>&#34;params.json&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>inst</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=nb>open</span><span class=p>(</span><span class=s2>&#34;instance.json&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>B</span> <span class=o>=</span> <span class=n>params</span><span class=p>[</span><span class=s2>&#34;gadget&#34;</span><span class=p>][</span><span class=s2>&#34;B&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>k</span> <span class=o>=</span> <span class=n>params</span><span class=p>[</span><span class=s2>&#34;gadget&#34;</span><span class=p>][</span><span class=s2>&#34;k&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=n>params</span><span class=p>[</span><span class=s2>&#34;seals&#34;</span><span class=p>][</span><span class=s2>&#34;dharma_seal&#34;</span><span class=p>][</span><span class=s2>&#34;modulus_p&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>p2</span> <span class=o>=</span> <span class=n>params</span><span class=p>[</span><span class=s2>&#34;seals&#34;</span><span class=p>][</span><span class=s2>&#34;rigor_seal&#34;</span><span class=p>][</span><span class=s2>&#34;modulus_p2&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>Bk</span> <span class=o>=</span> <span class=n>B</span> <span class=o>**</span> <span class=n>k</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>t</span> <span class=o>=</span> <span class=n>inst</span><span class=p>[</span><span class=s2>&#34;orders&#34;</span><span class=p>][</span><span class=s2>&#34;loose-last-astra&#34;</span><span class=p>][</span><span class=s2>&#34;syndrome&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>command</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>ti</span> <span class=ow>in</span> <span class=n>t</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>sol</span><span class=p>,</span> <span class=n>mod</span> <span class=o>=</span> <span class=n>crt</span><span class=p>([</span><span class=n>p</span><span class=p>,</span> <span class=n>p2</span><span class=p>],</span> <span class=p>[</span><span class=n>ti</span> <span class=o>%</span> <span class=n>p</span><span class=p>,</span> <span class=n>ti</span> <span class=o>%</span> <span class=n>p2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=n>sol</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>sol</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>assert</span> <span class=mi>0</span> <span class=o>&lt;=</span> <span class=n>sol</span> <span class=o>&lt;</span> <span class=n>Bk</span>          <span class=c1># got lucky (or not lucky - math) here</span>
+</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>sol</span>
+</span></span><span class=line><span class=cl>    <span class=n>words</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>_</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=n>k</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>words</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>x</span> <span class=o>%</span> <span class=n>B</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>//=</span> <span class=n>B</span>
+</span></span><span class=line><span class=cl>    <span class=n>command</span><span class=o>.</span><span class=n>extend</span><span class=p>(</span><span class=n>words</span><span class=p>)</span>
 </span></span></code></pre></div><p>All three registers&rsquo; CRT solutions landed inside <code>[0, B^k)</code>. That gave a
-complete 24-integer command.</p>
-<h2 id="verifying-locally">Verifying locally</h2>
-<p>Before hitting the live server, I ran it through the shipped verifier
-functions directly:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pinaka_command</span> <span class="k">as</span> <span class="nn">pc</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">params</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">load_params</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">inst</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">load_instance</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">t</span> <span class="o">=</span> <span class="n">inst</span><span class="p">[</span><span class="s2">&#34;orders&#34;</span><span class="p">][</span><span class="s2">&#34;loose-last-astra&#34;</span><span class="p">][</span><span class="s2">&#34;syndrome&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">v</span> <span class="o">=</span> <span class="n">command</span>  <span class="c1"># the 24 ints from above</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">dharma_seal</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>   <span class="c1"># True</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">rigor_seal</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>    <span class="c1"># True</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">both_seals</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>    <span class="c1"># True</span>
+complete 24-integer command.</p><h2 id=verifying-locally>Verifying locally</h2><p>Before hitting the live server, I ran it through the shipped verifier
+functions directly:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pinaka_command</span> <span class=k>as</span> <span class=nn>pc</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>params</span> <span class=o>=</span> <span class=n>pc</span><span class=o>.</span><span class=n>load_params</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>inst</span> <span class=o>=</span> <span class=n>pc</span><span class=o>.</span><span class=n>load_instance</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>t</span> <span class=o>=</span> <span class=n>inst</span><span class=p>[</span><span class=s2>&#34;orders&#34;</span><span class=p>][</span><span class=s2>&#34;loose-last-astra&#34;</span><span class=p>][</span><span class=s2>&#34;syndrome&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>v</span> <span class=o>=</span> <span class=n>command</span>  <span class=c1># the 24 ints from above</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>pc</span><span class=o>.</span><span class=n>dharma_seal</span><span class=p>(</span><span class=n>params</span><span class=p>,</span> <span class=n>v</span><span class=p>,</span> <span class=n>t</span><span class=p>))</span>   <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>pc</span><span class=o>.</span><span class=n>rigor_seal</span><span class=p>(</span><span class=n>params</span><span class=p>,</span> <span class=n>v</span><span class=p>,</span> <span class=n>t</span><span class=p>))</span>    <span class=c1># True</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>pc</span><span class=o>.</span><span class=n>both_seals</span><span class=p>(</span><span class=n>params</span><span class=p>,</span> <span class=n>v</span><span class=p>,</span> <span class=n>t</span><span class=p>))</span>    <span class=c1># True</span>
 </span></span></code></pre></div><p>Both seals accepted — even though this <code>v</code> has nothing to do with the real
 (nonexistent) opening of the forbidden syndrome. It only agrees with <code>t</code>
-modulo <code>p</code> and modulo <code>p2</code> separately.</p>
-<h2 id="getting-the-flag">Getting the flag</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s -X POST https://pinaka-l05-cyber-xo-x.vercel.app/astra/command <span class="se">\
-</span></span></span><span class="line"><span class="cl">  -H <span class="s2">&#34;Content-Type: application/json&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl">  -d <span class="s1">&#39;{
-</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;order&#34;: &#34;loose-last-astra&#34;,
-</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;command&#34;: [25891, 13729, 48228, 53333, 26052, 48198, 18635, 42774, 23357,
-</span></span></span><span class="line"><span class="cl"><span class="s1">                44623, 11421, 64876, 806, 13712, 17028, 53081, 48044, 45191,
-</span></span></span><span class="line"><span class="cl"><span class="s1">                45694, 9504, 18718, 16686, 46528, 40393]
-</span></span></span><span class="line"><span class="cl"><span class="s1">  }&#39;</span>
-</span></span></code></pre></div><p>The desk ran both seals, both accepted, and it returned the flag.</p>
-
-    </div>
-
-    
-    <div class="writeup-tags-footer">
-      <span class="tags-label">Tags:</span>
-      
-      <span class="tag-pill">Cryptography</span>
-      
-      <span class="tag-pill">Pinaka CTF</span>
-      
-      <span class="tag-pill">Pinaka 2026</span>
-      
-      <span class="tag-pill">Coldcoffee Solves</span>
-      
-    </div>
-    
-
-    
-    <nav class="prev-next" aria-label="Previous and next writeup">
-      
-      <a href="/writeups/pinaka/sampati-hundred-yojana/" class="prev-next-link prev-link">
-        <span class="pn-dir">← Previous Solve</span>
-        <span class="pn-title">Sampati - The Hundred-Yojana Sight</span>
-      </a>
-      
-      
-      <a href="/writeups/pinaka/dronagiri-last-sanjeevani/" class="prev-next-link next-link">
-        <span class="pn-dir">Next Solve →</span>
-        <span class="pn-title">Dronagiri - The Last Sanjeevani</span>
-      </a>
-      
-    </nav>
-
-  </div>
-</article>
-
-    </main>
-
-    
-    <footer class="archive-footer">
-      <div class="footer-top">
-        <div>
-          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
-  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
-  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
-  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
-  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
-  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
-  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
-  
-  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <defs>
-    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
-    </linearGradient>
-    <radialGradient id="bnc-cof" cx="50%" cy="50%">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-C01DC0FF33
-          </a>
-          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
-        </div>
-        <nav aria-label="Footer navigation">
-          
-          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-          
-          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
-</a>
-        </nav>
-      </div>
-
-      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
-
-      <div class="footer-bottom">
-        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
-        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
-        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
-</a>
-      </div>
-    </footer>
-  </div>
-
-  
-  <div id="grain" aria-hidden="true"></div>
-
-  <script src="/js/main.js" defer></script>
-</body>
-</html>
+modulo <code>p</code> and modulo <code>p2</code> separately.</p><h2 id=getting-the-flag>Getting the flag</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -s -X POST https://pinaka-l05-cyber-xo-x.vercel.app/astra/command <span class=se>\
+</span></span></span><span class=line><span class=cl>  -H <span class=s2>&#34;Content-Type: application/json&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>  -d <span class=s1>&#39;{
+</span></span></span><span class=line><span class=cl><span class=s1>    &#34;order&#34;: &#34;loose-last-astra&#34;,
+</span></span></span><span class=line><span class=cl><span class=s1>    &#34;command&#34;: [25891, 13729, 48228, 53333, 26052, 48198, 18635, 42774, 23357,
+</span></span></span><span class=line><span class=cl><span class=s1>                44623, 11421, 64876, 806, 13712, 17028, 53081, 48044, 45191,
+</span></span></span><span class=line><span class=cl><span class=s1>                45694, 9504, 18718, 16686, 46528, 40393]
+</span></span></span><span class=line><span class=cl><span class=s1>  }&#39;</span>
+</span></span></code></pre></div><p>The desk ran both seals, both accepted, and it returned the flag.</p></div><div class=writeup-tags-footer><span class=tags-label>Tags:</span>
+<span class=tag-pill>Cryptography</span>
+<span class=tag-pill>Pinaka CTF</span>
+<span class=tag-pill>Pinaka 2026</span>
+<span class=tag-pill>Coldcoffee Solves</span></div><nav class=prev-next aria-label="Previous and next writeup"><a href=/writeups/pinaka/sampati-hundred-yojana/ class="prev-next-link prev-link"><span class=pn-dir>← Previous Solve</span>
+<span class=pn-title>Sampati - The Hundred-Yojana Sight</span>
+</a><a href=/writeups/pinaka/dronagiri-last-sanjeevani/ class="prev-next-link next-link"><span class=pn-dir>Next Solve →</span>
+<span class=pn-title>Dronagiri - The Last Sanjeevani</span></a></nav></div></article></main><footer class=archive-footer><div class=footer-top><div><a class=brand href=/><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false"><ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/><path d="M22 42c-2 15 0 24 10 31H64c10-7 12-16 10-31z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/><ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/><ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/><ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/><path d="M74 53c12 0 18 7 18 14S86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/><path d="M38 33q-4-8 0-16T38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M48 31q-4-10 0-20T48-5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M58 33q4-8 0-16T58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/><defs><linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/></linearGradient><radialGradient id="bnc-cof" cx="50%" cy="50%"><stop offset="0" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/></radialGradient></defs></svg>
+C01DC0FF33</a><p>Sip. Solve. Decode.<br>Write it down. Share it.</p></div><nav aria-label="Footer navigation"><a href=/>Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/writeups/>Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/ctfs/>CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/about/>About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/connect/>Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a><a href=/index.xml>RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg></a></nav></div><div class=footer-wordmark aria-hidden=true>C01DC0FF33<span>_</span></div><div class=footer-bottom><span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+<span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+<a href=#main-content>BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a></div></footer></div><div id=grain aria-hidden=true></div><script src=/js/main.js defer></script></body></html>

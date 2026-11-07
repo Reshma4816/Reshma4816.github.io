@@ -2,176 +2,374 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:37194/ctfs/cybershield-ctf/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/pinaka-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/netrunner-gaultnet-ctf/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/isfcr-cryovault-quals/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/xploitx-ctf/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/isfcr-cryovault-finals/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/h7ctf-quals/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/h7ctf-quals/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/isfcr-cryovault-quals/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/sea-of-secrets-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/isfcr-cryovault-finals/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/breach-point-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/root-localhost-ctf/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/cybershield-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/lunar-ctf-quals/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/netrunner-gaultnet-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/sea-of-secrets-ctf/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/xploitx-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/ctfs/breach-point-ctf/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/root-localhost-ctf/</loc>
   </url><url>
-    <loc>http://localhost:37194/tags/64bit/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/lunar-ctf-quals/</loc>
   </url><url>
-    <loc>http://localhost:37194/writeups/isfcr-finals-ret2libc/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/binary-exploitation/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/coldcoffee-solves/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/isfcr-cryovault-finals/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/cryovault-2-chain/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/pwn/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/ctf/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/pwntools/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/ret2libc/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/ctf/isfcr-cryovault-finals-2026/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/rop/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault-finals-2026/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/</loc>
-    <lastmod>2024-11-01T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/</loc>
+    <lastmod>2026-11-04T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/algorithm-confusion/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/thaw-interlock/</loc>
+    <lastmod>2026-11-04T09:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/isfcr-jwt-algorithm-confusion/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/cryptography/</loc>
+    <lastmod>2026-11-04T09:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/hmac/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/ashoka-vatika/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/isfcr-cryovault-quals/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/cryovault-2026/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/jwt/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/echochamber-user/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/python/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/rsa/</loc>
-    <lastmod>2024-10-18T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/osint/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/audacity/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/pinaka-2026/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/netrunner-steghide-lsb/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/pinaka-ctf/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/lsb/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/netrunner-gaultnet-ctf/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/ctf/pinaka-ctf-2026/</loc>
+    <lastmod>2026-11-03T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/spectrogram/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/keystone-user/</loc>
+    <lastmod>2026-11-02T20:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/steghide/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/kumbhakarna-sleepless-curse/</loc>
+    <lastmod>2026-11-02T20:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/stegsolve/</loc>
-    <lastmod>2024-09-05T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/reverse-engineering/</loc>
+    <lastmod>2026-11-02T20:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/h7ctf/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/neve/</loc>
+    <lastmod>2026-11-02T11:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/lsass/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/sugriva-covenant/</loc>
+    <lastmod>2026-11-02T11:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/h7ctf-memory-dump/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/ctf/sea-of-secrets-ctf/</loc>
+    <lastmod>2026-11-01T12:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/memory-forensics/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/</loc>
+    <lastmod>2026-11-01T12:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/mimikatz/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/ctf/sea-of-secrets-ctf-2026/</loc>
+    <lastmod>2026-11-01T12:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/volatility/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/sea-of-secrets-ctf-2026/</loc>
+    <lastmod>2026-11-01T12:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/windows/</loc>
-    <lastmod>2024-08-20T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/forgoten-vault/</loc>
+    <lastmod>2026-11-01T12:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/burpsuite/</loc>
-    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/mobile-security/</loc>
+    <lastmod>2026-11-01T12:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/cache/</loc>
-    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/the-phantom-application/</loc>
+    <lastmod>2026-11-01T12:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/http-headers/</loc>
-    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/the-triangle-of-the-lost-treasure/</loc>
+    <lastmod>2026-11-01T11:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/xploitx-web-cache-poisoning/</loc>
-    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/valdora/</loc>
+    <lastmod>2026-11-01T11:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/web-cache-poisoning/</loc>
-    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/web-exploitation/</loc>
+    <lastmod>2026-11-01T11:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/xploitx-ctf/</loc>
-    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/webhack-solutions/</loc>
+    <lastmod>2026-11-01T10:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctf/cybershield-ctf/</loc>
-    <lastmod>2024-06-10T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/welcode/</loc>
+    <lastmod>2026-11-01T10:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/cybershield-xor-cipher/</loc>
-    <lastmod>2024-06-10T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/jambavan-forgotten-strength/</loc>
+    <lastmod>2026-11-01T09:59:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/frequency-analysis/</loc>
-    <lastmod>2024-06-10T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/ahalya-petrified-memory/</loc>
+    <lastmod>2026-11-01T09:49:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/known-plaintext/</loc>
-    <lastmod>2024-06-10T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/digital-forensics/</loc>
+    <lastmod>2026-11-01T09:49:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/xor/</loc>
-    <lastmod>2024-06-10T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/dronagiri-last-sanjeevani/</loc>
+    <lastmod>2026-11-01T09:38:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/binwalk/</loc>
-    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/last-astra/</loc>
+    <lastmod>2026-11-01T09:23:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/writeups/echo-9-firmware-secrets/</loc>
-    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/tags/misc/</loc>
+    <lastmod>2026-11-01T09:06:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/embedded/</loc>
-    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/sampati-hundred-yojana/</loc>
+    <lastmod>2026-11-01T09:06:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/entropy/</loc>
-    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/four-directions-search-without-borders/</loc>
+    <lastmod>2026-11-01T09:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/tags/firmware/</loc>
-    <lastmod>2024-03-15T00:00:00+00:00</lastmod>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/nala-blueprint/</loc>
+    <lastmod>2026-11-01T08:30:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/about/</loc>
+    <loc>https://c01dc0ff33.pages.dev/writeups/pinaka/ashokavana-veiled-sanctuary/</loc>
+    <lastmod>2026-11-01T08:27:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/categories/</loc>
+    <loc>https://c01dc0ff33.pages.dev/writeups/netrunner/matrix-stream/</loc>
+    <lastmod>2026-10-28T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/connect/</loc>
+    <loc>https://c01dc0ff33.pages.dev/ctf/netrunner-gaultnet-ctf/</loc>
+    <lastmod>2026-10-28T18:00:00+05:30</lastmod>
   </url><url>
-    <loc>http://localhost:37194/ctfs/</loc>
+    <loc>https://c01dc0ff33.pages.dev/tags/netrunner-gaultnet-ctf/</loc>
+    <lastmod>2026-10-28T18:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/netrunner/</loc>
+    <lastmod>2026-10-28T18:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/netrunner/neural-mesh-c2/</loc>
+    <lastmod>2026-10-28T17:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/netrunner/cyber-audit-idor/</loc>
+    <lastmod>2026-10-28T16:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/netrunner/nexus-pwn-bof/</loc>
+    <lastmod>2026-10-28T15:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/netrunner/frostvm-bytecode/</loc>
+    <lastmod>2026-10-28T14:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/echo-9/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/echochamber-root/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/end-mark/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/field-console/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/flaguard/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/fluxgate-g3/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/free-lunch/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/ghost-13/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/ghosts-in-the-bulb/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/half-truths/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/hidden-weights/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/implicit-twins/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/iot/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/isfcr-cryovault-quals-2026/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault-quals-2026/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/journal-necromancy/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/keystone-root/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/last-packet/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/leaky-eval/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/oatmeal/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/one-pound-fish/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/palimpest/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/signed-but-which-original/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-aggregate-remembers/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-deletion-echo/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-image-that-forgot/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-last-committed-message/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/the-loom/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-meridian/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-recurrence/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/the-press/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault-finals/write-hole/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cryovault/zygote-conspiracy/</loc>
+    <lastmod>2026-10-11T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/sea-of-secrets-ctf/</loc>
+    <lastmod>2026-10-05T09:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/sea-of-secrets/underwater-mesh/</loc>
+    <lastmod>2026-10-05T09:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/h7ctf/</loc>
+    <lastmod>2026-09-18T10:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/h7ctf/</loc>
+    <lastmod>2026-09-18T10:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/h7ctf/</loc>
+    <lastmod>2026-09-18T10:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/h7ctf/memory-dump/</loc>
+    <lastmod>2026-09-18T10:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/lunar-ctf-quals/</loc>
+    <lastmod>2026-09-02T15:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/lunar-ctf-quals/</loc>
+    <lastmod>2026-09-02T15:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/lunar/</loc>
+    <lastmod>2026-09-02T15:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/lunar/auth-bypass/</loc>
+    <lastmod>2026-09-02T15:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/cybershield-ctf/</loc>
+    <lastmod>2026-07-20T11:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/cybershield-ctf/</loc>
+    <lastmod>2026-07-20T11:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cybershield/</loc>
+    <lastmod>2026-07-20T11:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/cybershield/xor-cipher/</loc>
+    <lastmod>2026-07-20T11:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/xploitx-ctf/</loc>
+    <lastmod>2026-05-12T13:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/xploitx-ctf/</loc>
+    <lastmod>2026-05-12T13:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/xploitx/</loc>
+    <lastmod>2026-05-12T13:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/xploitx/web-cache-poisoning/</loc>
+    <lastmod>2026-05-12T13:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/root-localhost/</loc>
+    <lastmod>2024-11-10T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/root@localhost-ctf/</loc>
+    <lastmod>2024-11-10T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/tags/root@localhost-ctf/</loc>
+    <lastmod>2024-11-10T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/root-localhost/privilege-escalation/</loc>
+    <lastmod>2024-11-10T12:00:00+05:30</lastmod>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/about/</loc>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctf/breach-point-ctf/</loc>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/writeups/breach-point/</loc>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/categories/</loc>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/connect/</loc>
+  </url><url>
+    <loc>https://c01dc0ff33.pages.dev/ctfs/</loc>
   </url>
 </urlset>

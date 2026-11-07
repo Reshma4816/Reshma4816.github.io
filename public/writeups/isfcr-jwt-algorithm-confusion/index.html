@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=37194&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Broken JWT: Algorithm Confusion Attack | C01DC0FF33</title>
   <meta name="description" content="Forge an admin JWT by exploiting RS256-to-HS256 algorithm confusion using the server&#39;s public key as HMAC secret.">
-  <link rel="canonical" href="http://localhost:37194/writeups/isfcr-jwt-algorithm-confusion/">
+  <link rel="canonical" href="http://localhost:1313/writeups/isfcr-jwt-algorithm-confusion/">
 
   
   <meta property="og:type" content="article">
-  <meta property="og:url" content="http://localhost:37194/writeups/isfcr-jwt-algorithm-confusion/">
+  <meta property="og:url" content="http://localhost:1313/writeups/isfcr-jwt-algorithm-confusion/">
   <meta property="og:title" content="Broken JWT: Algorithm Confusion Attack | C01DC0FF33">
   <meta property="og:description" content="Forge an admin JWT by exploiting RS256-to-HS256 algorithm confusion using the server&#39;s public key as HMAC secret.">
   <meta name="twitter:card" content="summary_large_image">
@@ -94,22 +94,33 @@ C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
       <span aria-hidden="true">/</span>
       <a href="/writeups/">Writeups</a>
       <span aria-hidden="true">/</span>
+      
+      <span>Web Exploitation</span>
+      <span aria-hidden="true">/</span>
+      
       <span aria-current="page">Broken JWT: Algorithm Confusion Attack</span>
     </nav>
 
     <header class="writeup-header">
       <div class="writeup-badges">
         <span class="badge badge-rose">Web Exploitation</span>
-        <span class="badge">Hard</span>
-        <span class="badge">500 pts</span>
+        <span class="badge badge-ctf">ISFCR CryoVault Quals</span>
+        <span class="badge badge-diff-hard">Hard</span>
+        <span class="badge badge-pts">500 pts</span>
       </div>
       <h1>Broken JWT: Algorithm Confusion Attack</h1>
       <p class="writeup-desc">Forge an admin JWT by exploiting RS256-to-HS256 algorithm confusion using the server&#39;s public key as HMAC secret.</p>
+      
       <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Reshma Al (Coldcoffee)
+        </span>
+        <span>·</span>
         <span>18 Oct 2024</span>
         <span>·</span>
         <span>1 min read</span>
-        <span>·</span><span>ISFCR CryoVault Quals</span>
+        
       </div>
     </header>
 
@@ -147,17 +158,34 @@ C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
     </div>
 
     
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      
+      <span class="tag-pill">jwt</span>
+      
+      <span class="tag-pill">algorithm-confusion</span>
+      
+      <span class="tag-pill">rsa</span>
+      
+      <span class="tag-pill">hmac</span>
+      
+      <span class="tag-pill">python</span>
+      
+    </div>
+    
 
     
     <nav class="prev-next" aria-label="Previous and next writeup">
       
-      <a href="/writeups/netrunner-steghide-lsb/" class="prev-next-link">
-        ← Hidden in Plain Sight: Steghide LSB
+      <a href="/writeups/netrunner-steghide-lsb/" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">Hidden in Plain Sight: Steghide LSB</span>
       </a>
       
       
-      <a href="/writeups/isfcr-finals-ret2libc/" class="prev-next-link" style="margin-left:auto;text-align:right">
-        Binary Exploitation: ret2libc on 64-bit →
+      <a href="/writeups/isfcr-finals-ret2libc/" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">Binary Exploitation: ret2libc on 64-bit</span>
       </a>
       
     </nav>

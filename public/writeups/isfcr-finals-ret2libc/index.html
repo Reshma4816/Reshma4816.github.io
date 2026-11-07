@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=37194&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Binary Exploitation: ret2libc on 64-bit | C01DC0FF33</title>
   <meta name="description" content="Stack buffer overflow into ret2libc — leak libc base via puts, calculate system() offset, pop shell.">
-  <link rel="canonical" href="http://localhost:37194/writeups/isfcr-finals-ret2libc/">
+  <link rel="canonical" href="http://localhost:1313/writeups/isfcr-finals-ret2libc/">
 
   
   <meta property="og:type" content="article">
-  <meta property="og:url" content="http://localhost:37194/writeups/isfcr-finals-ret2libc/">
+  <meta property="og:url" content="http://localhost:1313/writeups/isfcr-finals-ret2libc/">
   <meta property="og:title" content="Binary Exploitation: ret2libc on 64-bit | C01DC0FF33">
   <meta property="og:description" content="Stack buffer overflow into ret2libc — leak libc base via puts, calculate system() offset, pop shell.">
   <meta name="twitter:card" content="summary_large_image">
@@ -94,22 +94,33 @@ C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
       <span aria-hidden="true">/</span>
       <a href="/writeups/">Writeups</a>
       <span aria-hidden="true">/</span>
+      
+      <span>Binary Exploitation</span>
+      <span aria-hidden="true">/</span>
+      
       <span aria-current="page">Binary Exploitation: ret2libc on 64-bit</span>
     </nav>
 
     <header class="writeup-header">
       <div class="writeup-badges">
         <span class="badge badge-rose">Binary Exploitation</span>
-        <span class="badge">Hard</span>
-        <span class="badge">600 pts</span>
+        <span class="badge badge-ctf">ISFCR CryoVault Finals</span>
+        <span class="badge badge-diff-hard">Hard</span>
+        <span class="badge badge-pts">600 pts</span>
       </div>
       <h1>Binary Exploitation: ret2libc on 64-bit</h1>
       <p class="writeup-desc">Stack buffer overflow into ret2libc — leak libc base via puts, calculate system() offset, pop shell.</p>
+      
       <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Reshma Al (Coldcoffee)
+        </span>
+        <span>·</span>
         <span>01 Nov 2024</span>
         <span>·</span>
         <span>1 min read</span>
-        <span>·</span><span>ISFCR CryoVault Finals</span>
+        
       </div>
     </header>
 
@@ -165,14 +176,35 @@ C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
     </div>
 
     
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      
+      <span class="tag-pill">pwn</span>
+      
+      <span class="tag-pill">ret2libc</span>
+      
+      <span class="tag-pill">rop</span>
+      
+      <span class="tag-pill">pwntools</span>
+      
+      <span class="tag-pill">64bit</span>
+      
+    </div>
+    
 
     
     <nav class="prev-next" aria-label="Previous and next writeup">
       
-      <a href="/writeups/isfcr-jwt-algorithm-confusion/" class="prev-next-link">
-        ← Broken JWT: Algorithm Confusion Attack
+      <a href="/writeups/isfcr-jwt-algorithm-confusion/" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">Broken JWT: Algorithm Confusion Attack</span>
       </a>
       
+      
+      <a href="/writeups/pinaka-vishvamitra-broken-invocation/" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">Vishvamitra: The Broken Invocation</span>
+      </a>
       
     </nav>
 

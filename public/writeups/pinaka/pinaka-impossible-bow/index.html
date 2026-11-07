@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pinaka: The Impossible Bow | C01DC0FF33</title>
+  <meta name="description" content="Reversing embedded 8MB bytecode VM blob and solving the 24-byte draw constraint.">
+  <link rel="canonical" href="http://localhost:1313/writeups/pinaka/pinaka-impossible-bow/">
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://localhost:1313/writeups/pinaka/pinaka-impossible-bow/">
+  <meta property="og:title" content="Pinaka: The Impossible Bow | C01DC0FF33">
+  <meta property="og:description" content="Reversing embedded 8MB bytecode VM blob and solving the 24-byte draw constraint.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="/css/main.css">
+
+  
+  
+</head>
+<body class="min-h-screen">
+  <div class="flex-col-layout">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    
+    
+
+    
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
+        </a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <nav id="primary-navigation" aria-label="Primary navigation">
+          
+          <a href="/">Home</a>
+          
+          <a href="/writeups/">Writeups</a>
+          
+          <a href="/ctfs/">CTFs</a>
+          
+          <a href="/about/">About</a>
+          
+          <a href="/connect/">Connect</a>
+          
+        </nav>
+      </div>
+    </header>
+
+    
+    <main id="main-content" class="flex-1">
+      
+<article class="layout-page writeup-page">
+  <div class="wrap">
+
+    
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/writeups/">Writeups</a>
+      <span aria-hidden="true">/</span>
+      
+        
+        <a href="/writeups/pinaka/">Pinaka CTF</a>
+        <span aria-hidden="true">/</span>
+        
+      
+      <span aria-current="page">Pinaka: The Impossible Bow</span>
+    </nav>
+
+    <header class="writeup-header">
+      <div class="writeup-badges">
+        <span class="badge badge-rose">Reverse Engineering</span>
+        <span class="badge badge-ctf">Pinaka CTF 2026</span>
+        <span class="badge badge-diff-hard">Hard</span>
+        <span class="badge badge-pts">450 pts</span>
+      </div>
+      <h1>Pinaka: The Impossible Bow</h1>
+      <p class="writeup-desc">Reversing embedded 8MB bytecode VM blob and solving the 24-byte draw constraint.</p>
+      
+      <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Reshma Al (Coldcoffee)
+        </span>
+        <span>·</span>
+        <span>15 Feb 2026</span>
+        <span>·</span>
+        <span>7 min read</span>
+        
+      </div>
+    </header>
+
+    <div class="writeup-body prose">
+      <div class="flag-callout">
+  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
+  <code>PINAKA{one_true_draw_bends_shivas_bow_and_rama_wins_mithila}</code>
+  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('PINAKA{one_true_draw_bends_shivas_bow_and_rama_wins_mithila}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
+</div>
+<h2 id="challenge">Challenge</h2>
+<p><code>M03_player.zip</code> contains two files:</p>
+<table>
+	<thead>
+			<tr>
+					<th>File</th>
+					<th>Size</th>
+					<th>Notes</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>pinaka_bow</code></td>
+					<td>8,142,904 B</td>
+					<td>ELF x86-64 PIE, not stripped</td>
+			</tr>
+			<tr>
+					<td><code>bow.vmx</code></td>
+					<td>8,126,152 B</td>
+					<td>byte-identical to the blob embedded in the ELF</td>
+			</tr>
+	</tbody>
+</table>
+<p>The task is to find the one 24-byte &ldquo;draw&rdquo; the checker accepts. The flag-shaped
+string inside the binary,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PINAKA{the_bow_answers_only_to_dharma_not_to_brute_force}
+</span></span></code></pre></div><p>is a decoy.</p>
+<p>The validator accepts a 24-byte draw as 48 hex characters:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">POST /bow/string   {&#34;draw&#34;:&#34;&lt;48 hex chars&gt;&#34;}
+</span></span></code></pre></div><h2 id="1-the-wrapper-main">1. The wrapper (<code>main</code>)</h2>
+<p><code>main</code> is small and does only four things:</p>
+<ol>
+<li>Requires <code>argv[1]</code> to be a hex string of even length <code>&lt;= 0x2000</code>.</li>
+<li>Decodes pairs of hex digits into a byte buffer on the stack.</li>
+<li>Checks the 8-byte magic <code>PNKBOW01</code> at <code>pinaka_blob_start</code>.</li>
+<li>Calls <code>vm_run.part.0(blob, blob_len, input, input_len)</code>.</li>
+</ol>
+<p>It treats the return value as:</p>
+<ul>
+<li><code>1</code> → <code>puts(&quot;ACCEPT&quot;)</code>, exit 0</li>
+<li><code>0</code> → <code>puts(&quot;REJECT&quot;)</code>, exit 1</li>
+<li>anything else → malformed-image error</li>
+</ul>
+<p>The blob is embedded at file offset <code>0x2083</code> and ends at <code>0x7c1f4b</code>. Extracting
+it gives exactly <code>bow.vmx</code> (8,126,152 bytes).</p>
+<h2 id="2-blob-header">2. Blob header</h2>
+<p>The first <code>0x28</code> bytes are a little-endian header:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Offset</th>
+					<th>Value</th>
+					<th>Meaning</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>0x00</code></td>
+					<td><code>PNKBOW01</code></td>
+					<td>magic</td>
+			</tr>
+			<tr>
+					<td><code>0x08</code></td>
+					<td><code>1</code></td>
+					<td>version</td>
+			</tr>
+			<tr>
+					<td><code>0x0c</code></td>
+					<td><code>24</code></td>
+					<td>required input length</td>
+			</tr>
+			<tr>
+					<td><code>0x10</code></td>
+					<td><code>32</code></td>
+					<td>VM memory size</td>
+			</tr>
+			<tr>
+					<td><code>0x14</code></td>
+					<td><code>0xba645b85</code></td>
+					<td>seed / initial decoder state</td>
+			</tr>
+			<tr>
+					<td><code>0x18</code></td>
+					<td><code>0x002f2418</code></td>
+					<td>entry PC</td>
+			</tr>
+			<tr>
+					<td><code>0x1c</code></td>
+					<td><code>1,015,724</code></td>
+					<td>instruction budget</td>
+			</tr>
+			<tr>
+					<td><code>0x20</code></td>
+					<td><code>24</code></td>
+					<td>&ldquo;accumulator&rdquo; byte checked at halt</td>
+			</tr>
+			<tr>
+					<td><code>0x24</code></td>
+					<td><code>0</code></td>
+					<td>reserved</td>
+			</tr>
+			<tr>
+					<td><code>0x28</code></td>
+					<td>…</td>
+					<td>256-byte encrypted substitution table</td>
+			</tr>
+	</tbody>
+</table>
+<p>The VM allocates 32 zeroed bytes, copies the 24-byte input into <code>mem[0..23]</code>,
+and leaves <code>mem[24..31]</code> zero.</p>
+<h2 id="3-the-substitution-table">3. The substitution table</h2>
+<p><code>vm_run.part.0</code> generates a 256-byte xorshift32 keystream from the seed at
+<code>+0x14</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">uint32_t</span> <span class="n">s</span> <span class="o">=</span> <span class="n">seed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">256</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">e</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span><span class="p">)</span> <span class="o">^</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span> <span class="o">^=</span> <span class="n">e</span> <span class="o">&gt;&gt;</span> <span class="mi">17</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">^</span> <span class="n">e</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Then it XOR-decrypts the 256 bytes at blob offset <code>0x28</code> with that keystream:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="mh">0x28</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span></code></pre></div><p>A common trap is to use the raw keystream as the S-box. The decrypted table
+<code>S</code> is what opcode 1 indexes, and crucially <strong><code>S</code> is a permutation</strong> (all 256
+outputs distinct). This makes the whole checker bijective on the 24 input
+bytes, which is what makes inversion possible.</p>
+<h2 id="4-instruction-encoding">4. Instruction encoding</h2>
+<p>Each instruction is 8 bytes and is decoded with a rolling 32-bit state:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">op</span> <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span><span class="p">]</span>     <span class="o">^</span> <span class="p">(</span><span class="n">state</span>        <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span>  <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">^</span> <span class="p">((</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span>  <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span>  <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">^</span> <span class="p">((</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span>  <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span>  <span class="o">=</span> <span class="nf">u32</span><span class="p">(</span><span class="n">blob</span> <span class="o">+</span> <span class="n">pc</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">^</span> <span class="n">state</span><span class="p">;</span>
+</span></span></code></pre></div><p>After execution the state is updated from the decoded fields:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">op</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+</span> <span class="n">state</span> <span class="o">*</span> <span class="mh">0x1000193</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+</span> <span class="mh">0x9E3779B1</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+</span> <span class="p">(((</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">^</span> <span class="n">c</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">;</span>
+</span></span></code></pre></div><p>The next PC is <code>pc + 8</code>, except for opcode 7 (see below). Because all fields
+come from the blob and the current state, decoding is input-independent.</p>
+<h2 id="5-opcode-table">5. Opcode table</h2>
+<p>Reverse engineering <code>vm_run.part.0</code> gives eight opcodes:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Op</th>
+					<th>Semantics</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>0</td>
+					<td>HALT: return <code>1</code> iff <code>mem[24] == 0</code>, else <code>0</code></td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td><code>mem[a] = S[mem[a]]</code></td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td><code>mem[a] += d &amp; 0xff</code></td>
+			</tr>
+			<tr>
+					<td>3</td>
+					<td><code>mem[a] ^= mem[b]</code></td>
+			</tr>
+			<tr>
+					<td>4</td>
+					<td>no-op (only state/PC advance)</td>
+			</tr>
+			<tr>
+					<td>5</td>
+					<td><code>mem[a] = d &amp; 0xff</code></td>
+			</tr>
+			<tr>
+					<td>6</td>
+					<td>`mem[24]</td>
+			</tr>
+			<tr>
+					<td>7</td>
+					<td>unconditional jump to PC <code>d</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>Opcode 7 is the control-flow flattening: the dispatch path skips the
+<code>rax = pc + 8</code> assignment and jumps to <code>d</code> instead. Opcodes 4 and 7 do not
+touch memory.</p>
+<p>Following these jumps from <code>0x2f2418</code> produces a single straight-line trace of
+<strong>1,015,724 instructions</strong> (including the final HALT), with this distribution:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Op</th>
+					<th>Count</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1 (S-box)</td>
+					<td>401,065</td>
+			</tr>
+			<tr>
+					<td>2 (add)</td>
+					<td>299,840</td>
+			</tr>
+			<tr>
+					<td>3 (xor)</td>
+					<td>229,276</td>
+			</tr>
+			<tr>
+					<td>4 (nop)</td>
+					<td>69,891</td>
+			</tr>
+			<tr>
+					<td>7 (jump)</td>
+					<td>15,626</td>
+			</tr>
+			<tr>
+					<td>6 (check)</td>
+					<td>24</td>
+			</tr>
+			<tr>
+					<td>5 (set)</td>
+					<td>1</td>
+			</tr>
+			<tr>
+					<td>0 (halt)</td>
+					<td>1</td>
+			</tr>
+	</tbody>
+</table>
+<p>There are no conditional branches: control flow is fixed and depends only on
+the blob.</p>
+<h2 id="6-what-the-program-computes">6. What the program computes</h2>
+<p>The trace has a clear shape:</p>
+<ul>
+<li>
+<p><strong>Prologue:</strong> for each of the 24 bytes, apply the S-box and add a per-byte
+constant (<code>op1</code>/<code>op2</code> pairs), then a short XOR diffusion chain.</p>
+</li>
+<li>
+<p><strong>Body:</strong> roughly a million mixed S-box / add / XOR instructions — a
+byte-oriented permutation network over the 24-byte state.</p>
+</li>
+<li>
+<p><strong>Epilogue:</strong> an XOR diffusion chain, <code>mem[24] = 0</code> (<code>op5</code>), then 24 checks
+of the form</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">mem</span><span class="p">[</span><span class="mi">24</span><span class="p">]</span> <span class="o">|=</span> <span class="n">mem</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">target</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>   <span class="c1">// i = 0..23
+</span></span></span></code></pre></div><p>and finally HALT, which accepts iff <code>mem[24] == 0</code>.</p>
+</li>
+</ul>
+<p>Since <code>|</code> can only clear the accumulator if every term is zero, acceptance is
+exactly:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F(input)[i] == target[i]   for all i = 0..23
+</span></span></code></pre></div><p>The constants are read directly from the 24 <code>op6</code> instructions:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">2a 45 56 1f c6 8a 1a db 9f 3e c8 b9 de f0 9c 4f fa f0 61 0d 66 9c a8 df
+</span></span></code></pre></div><h2 id="7-inverting-the-checker">7. Inverting the checker</h2>
+<p>Every memory operation used on <code>mem[0..23]</code> is invertible:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Op</th>
+					<th>Forward</th>
+					<th>Inverse</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td><code>x = S[x]</code></td>
+					<td><code>x = S^-1[x]</code></td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td><code>x += k</code></td>
+					<td><code>x -= k</code></td>
+			</tr>
+			<tr>
+					<td>3</td>
+					<td><code>x ^= y</code></td>
+					<td><code>x ^= y</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>Opcodes 4, 5, 6, 7 and 0 do not modify <code>mem[0..23]</code>, so they are skipped.</p>
+<p>Starting from the required final bytes, walk the instruction trace backwards:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">mem</span><span class="p">[:</span><span class="mi">24</span><span class="p">]</span> <span class="o">=</span> <span class="n">targets</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span>   <span class="n">op</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">invS</span><span class="p">[</span><span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">d</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0xff</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span> <span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">^=</span> <span class="n">mem</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+</span></span></code></pre></div><p>Because <code>S</code> is a permutation, the inverse is unique, so this recovers exactly
+one 24-byte input:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">7a56e835fc372462249b2c08fe6349ce8f8699d3599a02f8
+</span></span></code></pre></div><p>It is not ASCII — the validator expects it as 48 hex characters.</p>
+<h2 id="8-verification">8. Verification</h2>
+<p>Local checker:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="gp">$</span> ./pinaka_bow 7a56e835fc372462249b2c08fe6349ce8f8699d3599a02f8
+</span></span><span class="line"><span class="cl"><span class="go">ACCEPT
+</span></span></span><span class="line"><span class="cl"><span class="gp">$</span> <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="go">0
+</span></span></span></code></pre></div><p>A deliberately wrong byte is rejected:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="gp">$</span> ./pinaka_bow 0056e835fc372462249b2c08fe6349ce8f8699d3599a02f8
+</span></span><span class="line"><span class="cl"><span class="go">REJECT
+</span></span></span><span class="line"><span class="cl"><span class="gp">$</span> <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="go">1
+</span></span></span></code></pre></div><p>Validator:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="gp">$</span> curl -sS -X POST <span class="s1">&#39;https://pinaka-m03-cyber-xo-x.vercel.app/bow/string&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="go">    -H &#39;Content-Type: application/json&#39; \
+</span></span></span><span class="line"><span class="cl"><span class="go">    --data &#39;{&#34;draw&#34;:&#34;7a56e835fc372462249b2c08fe6349ce8f8699d3599a02f8&#34;}&#39;
+</span></span></span><span class="line"><span class="cl"><span class="go">{&#34;flag&#34;:&#34;PINAKA{one_true_draw_bends_shivas_bow_and_rama_wins_mithila}&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="go"> &#34;proclamation&#34;:&#34;The bow bends, the string sings, Pinaka is strung.&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="go"> &#34;result&#34;:&#34;accepted&#34;}
+</span></span></span></code></pre></div><h2 id="9-answer">9. Answer</h2>
+<p><strong>Draw:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">7a56e835fc372462249b2c08fe6349ce8f8699d3599a02f8
+</span></span></code></pre></div><p><strong>Flag:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PINAKA{one_true_draw_bends_shivas_bow_and_rama_wins_mithila}
+</span></span></code></pre></div><hr>
+<h2 id="appendix-standalone-solver">Appendix: standalone solver</h2>
+<p>Save as <code>solve.py</code> next to <code>bow.vmx</code> and run it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python3</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;Recover the 24-byte input accepted by pinaka_bow.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">struct</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">blob</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;bow.vmx&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">u32</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&#34;&lt;I&#34;</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">o</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">seed</span>     <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="mh">0x14</span><span class="p">)</span>   <span class="c1"># PRNG seed / initial decode state</span>
+</span></span><span class="line"><span class="cl"><span class="n">in_len</span>   <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="mh">0x0c</span><span class="p">)</span>   <span class="c1"># 24</span>
+</span></span><span class="line"><span class="cl"><span class="n">mem_size</span> <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="mh">0x10</span><span class="p">)</span>   <span class="c1"># 32</span>
+</span></span><span class="line"><span class="cl"><span class="n">pc</span>       <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="mh">0x18</span><span class="p">)</span>   <span class="c1"># entry point</span>
+</span></span><span class="line"><span class="cl"><span class="n">max_cnt</span>  <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="mh">0x1c</span><span class="p">)</span>   <span class="c1"># instruction budget</span>
+</span></span><span class="line"><span class="cl"><span class="n">check_i</span>  <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="mh">0x20</span><span class="p">)</span>   <span class="c1"># 24 (accumulator byte)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 1. Recover the substitution table S ---</span>
+</span></span><span class="line"><span class="cl"><span class="n">K</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">st</span> <span class="o">=</span> <span class="n">seed</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span> <span class="o">=</span> <span class="n">st</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span> <span class="o">=</span> <span class="p">((</span><span class="n">e</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">)</span> <span class="o">^</span> <span class="n">st</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span> <span class="o">^=</span> <span class="n">e</span> <span class="o">&gt;&gt;</span> <span class="mi">17</span>
+</span></span><span class="line"><span class="cl">    <span class="n">st</span> <span class="o">=</span> <span class="p">(((</span><span class="n">e</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">)</span> <span class="o">^</span> <span class="n">e</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">    <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span> <span class="o">&amp;</span> <span class="mh">0xff</span>
+</span></span><span class="line"><span class="cl"><span class="n">S</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">blob</span><span class="p">[</span><span class="mh">0x28</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">))</span>     <span class="c1"># a permutation</span>
+</span></span><span class="line"><span class="cl"><span class="n">invS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">invS</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 2. Decode the instruction stream, following jumps ---</span>
+</span></span><span class="line"><span class="cl"><span class="n">ops</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">state</span> <span class="o">=</span> <span class="n">seed</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_cnt</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">op</span> <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span><span class="p">]</span>      <span class="o">^</span> <span class="p">(</span><span class="n">state</span>         <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span>  <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>  <span class="o">^</span> <span class="p">((</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span>  <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span>  <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>  <span class="o">^</span> <span class="p">((</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span>  <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d</span>  <span class="o">=</span> <span class="n">u32</span><span class="p">(</span><span class="n">pc</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>   <span class="o">^</span>  <span class="n">state</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ops</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">op</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>                       <span class="c1"># HALT: accept iff mem[check_i] == 0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">op</span> <span class="o">+</span> <span class="n">state</span> <span class="o">*</span> <span class="mh">0x1000193</span> <span class="o">+</span> <span class="mh">0x9E3779B1</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">             <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="p">(((</span><span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">^</span> <span class="n">c</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pc</span> <span class="o">=</span> <span class="n">d</span> <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">7</span> <span class="k">else</span> <span class="n">pc</span> <span class="o">+</span> <span class="mi">8</span>     <span class="c1"># opcode 7 = unconditional jump</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 3. Required final bytes, read from the 24 opcode-6 checks ---</span>
+</span></span><span class="line"><span class="cl"><span class="n">expected</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">in_len</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">in_len</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">expected</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span> <span class="o">&amp;</span> <span class="mh">0xff</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --- 4. Invert the (bijective) pipeline ---</span>
+</span></span><span class="line"><span class="cl"><span class="n">mem</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">mem</span><span class="p">[:</span><span class="n">in_len</span><span class="p">]</span> <span class="o">=</span> <span class="n">expected</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">invS</span><span class="p">[</span><span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">d</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0xff</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mem</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">^=</span> <span class="n">mem</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">mem</span><span class="p">[:</span><span class="n">in_len</span><span class="p">])</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">7a56e835fc372462249b2c08fe6349ce8f8699d3599a02f8
+</span></span></code></pre></div>
+    </div>
+
+    
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      
+      <span class="tag-pill">Reverse Engineering</span>
+      
+      <span class="tag-pill">Pinaka CTF</span>
+      
+      <span class="tag-pill">Pinaka 2026</span>
+      
+    </div>
+    
+
+    
+    <nav class="prev-next" aria-label="Previous and next writeup">
+      
+      <a href="/writeups/pinaka/sampati-hundred-yojana/" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">Sampati: Hundred-Yojana Sight</span>
+      </a>
+      
+      
+      <a href="/writeups/pinaka/panchavati-boundary/" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">Panchavati: The Fifth Boundary</span>
+      </a>
+      
+    </nav>
+
+  </div>
+</article>
+
+    </main>
+
+    
+    <footer class="archive-footer">
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33
+          </a>
+          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          
+          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+        </nav>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
+
+      <div class="footer-bottom">
+        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
+</a>
+      </div>
+    </footer>
+  </div>
+
+  
+  <div id="grain" aria-hidden="true"></div>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

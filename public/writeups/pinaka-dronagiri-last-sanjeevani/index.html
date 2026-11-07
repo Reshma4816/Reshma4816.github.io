@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dronagiri: The Last Sanjeevani | C01DC0FF33</title>
+  <meta name="description" content="Deep disk image analysis across custom B-Tree file systems with carved metadata.">
+  <link rel="canonical" href="http://localhost:1313/writeups/pinaka-dronagiri-last-sanjeevani/">
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://localhost:1313/writeups/pinaka-dronagiri-last-sanjeevani/">
+  <meta property="og:title" content="Dronagiri: The Last Sanjeevani | C01DC0FF33">
+  <meta property="og:description" content="Deep disk image analysis across custom B-Tree file systems with carved metadata.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="/css/main.css">
+
+  
+  
+</head>
+<body class="min-h-screen">
+  <div class="flex-col-layout">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    
+    
+
+    
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
+        </a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <nav id="primary-navigation" aria-label="Primary navigation">
+          
+          <a href="/">Home</a>
+          
+          <a href="/writeups/">Writeups</a>
+          
+          <a href="/ctfs/">CTFs</a>
+          
+          <a href="/about/">About</a>
+          
+          <a href="/connect/">Connect</a>
+          
+        </nav>
+      </div>
+    </header>
+
+    
+    <main id="main-content" class="flex-1">
+      
+<article class="layout-page writeup-page">
+  <div class="wrap">
+
+    
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/writeups/">Writeups</a>
+      <span aria-hidden="true">/</span>
+      
+      <span>Digital Forensics</span>
+      <span aria-hidden="true">/</span>
+      
+      <span aria-current="page">Dronagiri: The Last Sanjeevani</span>
+    </nav>
+
+    <header class="writeup-header">
+      <div class="writeup-badges">
+        <span class="badge badge-rose">Digital Forensics</span>
+        <span class="badge badge-ctf">Pinaka CTF 2026</span>
+        <span class="badge badge-diff-hard">Hard</span>
+        <span class="badge badge-pts">500 pts</span>
+      </div>
+      <h1>Dronagiri: The Last Sanjeevani</h1>
+      <p class="writeup-desc">Deep disk image analysis across custom B-Tree file systems with carved metadata.</p>
+      
+      <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Reshma Al (Coldcoffee)
+        </span>
+        <span>·</span>
+        <span>15 Feb 2026</span>
+        <span>·</span>
+        <span>3 min read</span>
+        
+      </div>
+    </header>
+
+    <div class="writeup-body prose">
+      <div class="flag-callout">
+  <span class="flag-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Captured Flag</span>
+  <code>PINAKA{dronagiri_the_last_sanjeevani}</code>
+  <button class="flag-copy-btn" onclick="navigator.clipboard.writeText('PINAKA{dronagiri_the_last_sanjeevani}');this.innerText='Copied!';setTimeout(()=>this.innerText='Copy',2000)">Copy</button>
+</div>
+<p><strong>Flag:</strong> <code>PINAKA{dronagiri_the_last_sanjeevani}</code></p>
+<h2 id="overview">Overview</h2>
+<p>The challenge gave me three replicated database nodes (<code>node0/1/2.seg</code> and <code>.wal</code>), a spectrometer calibration file (<code>instrument.cal</code>) and a terrain grid (<code>dronagiri.dem</code>). All of them are custom binary formats with no documentation. I had to find the one real Sanjeevani specimen and submit its full record to <code>/dronagiri/sanjeevani</code>.</p>
+<h2 id="1-reversing-the-files">1. Reversing the files</h2>
+<ul>
+<li><strong><code>instrument.cal</code></strong>: it has two lamp lines, index 5 = 1045 nm and index 25 = 1105 nm. That gives <code>nm = 3 * index + 1030</code>.</li>
+<li><strong><code>dronagiri.dem</code></strong>: a 26-byte header, then a 256x256 grid of little-endian 16-bit elevations (row-major, <code>y*256+x</code>).</li>
+<li><strong><code>.seg</code> snapshots</strong>: a 28-byte header, then 1200 records of 173 bytes: <code>[key u32][seqno u64][op][length][value][crc32]</code>. The three nodes were identical.</li>
+<li><strong><code>.wal</code> logs</strong>: a 20-byte header, then <code>DREC</code> frames: <code>[lsn][seqno][op][key][length][value][crc32]</code>. About 600 frames per node failed the CRC (torn), and the end of each log was zeroed.</li>
+</ul>
+<p>The record CRC is a plain crc32 over everything before the last 4 bytes, which confirmed my field boundaries.</p>
+<h2 id="2-decoding-the-spectrum">2. Decoding the spectrum</h2>
+<p>Each value has an <code>HPAK</code> blob with a crc32 and 32 sign-magnitude words. One record had words -48067, -24193, -12200, -6006 and +3003, each about half the last. That is what a single spike looks like after a Haar transform. The layout is <code>[DC, 16 fine, 8, 4, 2, 1]</code>, and the reversible step is <code>d = b - a</code>, <code>s = a + (d &gt;&gt; 1)</code>. Inverting it gave sensible positive intensities, and the embedded crc32 checked out on every record.</p>
+<h2 id="3-reconciling-the-logs-quorum">3. Reconciling the logs (quorum)</h2>
+<ul>
+<li>I discarded every frame whose CRC failed.</li>
+<li>A write counts as committed only if at least 2 of the 3 nodes hold an identical valid frame.</li>
+<li>That gave exactly 1200 committed writes: 1180 puts and 20 deletes, with seqnos <code>1000000 + id</code>. They are newer than the snapshot, so they replace it.</li>
+<li>About 10,900 other frames sat on a single node with larger seqnos, including a decoy for the real specimen. Those are not committed, so I ignored them.</li>
+<li>After applying the puts and deletes, 1180 records remained, and I built the archive digest from them.</li>
+</ul>
+<h2 id="4-finding-the-real-specimen">4. Finding the real specimen</h2>
+<p>I decoded all 1180 specimens and kept the ones whose peak wavelength is in 1108-1123 nm (bands 26-31). Then I checked each one&rsquo;s terrain cell: elevation 3000-3400 and strictly higher than all 8 neighbours. Exactly one specimen passed:</p>
+<ul>
+<li>specimen <strong>488</strong>, seqno <strong>1000488</strong></li>
+<li>cell <strong>(52, 210)</strong>, elevation <strong>3332</strong></li>
+<li>peak band <strong>27</strong> = <strong>1111 nm</strong></li>
+<li>spectrum: <code>[381,358,227,189,280,170,135,159,415,88,154,324,264,102,219,187,412,181,361,244,229,220,268,86,205,403,346,57817,384,253,141,240]</code></li>
+<li>committed record count <strong>1180</strong></li>
+<li>archive digest <code>4dbe165e82832e0290e17ea1bcc85bdd1a18a0ae2bd68bdebb1468bfca2c1cf0</code></li>
+</ul>
+<h2 id="5-submission">5. Submission</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -sS -X POST https://pinaka-l04-cyber-xo-x.vercel.app/dronagiri/sanjeevani <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -H <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d <span class="s1">&#39;{&#34;specimen_id&#34;:488,&#34;commit_seqno&#34;:1000488,&#34;cell&#34;:[52,210],&#34;elevation&#34;:3332,&#34;peak_band&#34;:27,&#34;peak_wavelength&#34;:[1111,1],&#34;wavelength_solution&#34;:[3,1,1030,1],&#34;restored_spectrum&#34;:[381,358,227,189,280,170,135,159,415,88,154,324,264,102,219,187,412,181,361,244,229,220,268,86,205,403,346,57817,384,253,141,240],&#34;committed_record_count&#34;:1180,&#34;committed_archive_digest&#34;:&#34;4dbe165e82832e0290e17ea1bcc85bdd1a18a0ae2bd68bdebb1468bfca2c1cf0&#34;}&#39;</span>
+</span></span></code></pre></div><p>Response:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;flag&#34;</span><span class="p">:</span><span class="s2">&#34;PINAKA{dronagiri_the_last_sanjeevani}&#34;</span><span class="p">,</span><span class="nt">&#34;proclamation&#34;</span><span class="p">:</span><span class="s2">&#34;The true Sanjeevani is found; the fallen will rise.&#34;</span><span class="p">,</span><span class="nt">&#34;status&#34;</span><span class="p">:</span><span class="s2">&#34;sanjeevani-confirmed&#34;</span><span class="p">}</span>
+</span></span></code></pre></div>
+    </div>
+
+    
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      
+      <span class="tag-pill">Digital Forensics</span>
+      
+      <span class="tag-pill">Pinaka CTF</span>
+      
+      <span class="tag-pill">Pinaka 2026</span>
+      
+    </div>
+    
+
+    
+    <nav class="prev-next" aria-label="Previous and next writeup">
+      
+      <a href="/writeups/pinaka-jambavan-forgotten-strength/" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">Jambavan: The Forgotten Strength</span>
+      </a>
+      
+      
+      <a href="/writeups/pinaka-ravana-ten/" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">Dasha-Mukha: Ravana&#39;s Ten Heads</span>
+      </a>
+      
+    </nav>
+
+  </div>
+</article>
+
+    </main>
+
+    
+    <footer class="archive-footer">
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="/"><svg class="brand-emblem" viewBox="0 0 96 96" fill="none" aria-hidden="true" focusable="false">
+  <ellipse cx="48" cy="74" rx="30" ry="6.5" fill="rgba(58,10,24,.8)" stroke="rgba(241,217,181,.3)" stroke-width=".8"/>
+  <path d="M22 42C20 57 22 66 32 73L64 73C74 66 76 57 74 42Z" fill="url(#bnc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.2"/>
+  <ellipse cx="48" cy="42" rx="26" ry="8" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width=".8"/>
+  <ellipse cx="48" cy="45" rx="21" ry="5.5" fill="#120408"/>
+  <ellipse cx="48" cy="45" rx="15" ry="3.5" fill="url(#bnc-cof)"/>
+  <path d="M74 53C86 53 92 60 92 67C92 74 86 78 74 77" fill="none" stroke="rgba(241,217,181,.5)" stroke-width="3.8" stroke-linecap="round"/>
+  
+  <path d="M38 33 Q34 25 38 17 Q42 9 38 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M48 31 Q44 21 48 11 Q52 1 48 -5" stroke="rgba(246,238,240,.38)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M58 33 Q62 25 58 17 Q54 9 58 2" stroke="rgba(246,238,240,.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="bnc-cup" x1="22" y1="42" x2="74" y2="73" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
+    </linearGradient>
+    <radialGradient id="bnc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".38"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+C01DC0FF33
+          </a>
+          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          
+          <a href="/">Home<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/writeups/">Writeups<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/ctfs/">CTFs<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/about/">About<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/connect/">Connect<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+          
+          <a href="/index.xml">RSS<svg class="ui-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12"/></svg>
+</a>
+        </nav>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">C01DC0FF33<span>_</span></div>
+
+      <div class="footer-bottom">
+        <span>© 2026 C01DC0FF33 · CTF WRITEUP ARCHIVE</span>
+        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+        <a href="#main-content">BACK TO TOP<svg class="ui-arrow ui-arrow--up" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg>
+</a>
+      </div>
+    </footer>
+  </div>
+
+  
+  <div id="grain" aria-hidden="true"></div>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

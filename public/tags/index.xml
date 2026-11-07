@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Tags on C01DC0FF33</title>
-		<link>http://localhost:37194/tags/</link>
+		<link>https://c01dc0ff33.pages.dev/tags/</link>
 		<description>Recent content in Tags on C01DC0FF33</description>
 		<generator>Hugo</generator>
 		<language>en</language>
@@ -10,224 +10,175 @@
 		
 		
 		
-			<lastBuildDate>Fri, 01 Nov 2024 00:00:00 +0000</lastBuildDate>
+			<lastBuildDate>Wed, 04 Nov 2026 10:00:00 +0530</lastBuildDate>
 		
-			<atom:link href="http://localhost:37194/tags/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://c01dc0ff33.pages.dev/tags/index.xml" rel="self" type="application/rss+xml" />
 			<item>
-				<title>64bit</title>
-				<link>http://localhost:37194/tags/64bit/</link>
-				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/64bit/</guid>
+				<title>Binary Exploitation</title>
+				<link>https://c01dc0ff33.pages.dev/tags/binary-exploitation/</link>
+				<pubDate>Wed, 04 Nov 2026 10:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/binary-exploitation/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Pwn</title>
-				<link>http://localhost:37194/tags/pwn/</link>
-				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/pwn/</guid>
+				<title>Coldcoffee Solves</title>
+				<link>https://c01dc0ff33.pages.dev/tags/coldcoffee-solves/</link>
+				<pubDate>Wed, 04 Nov 2026 10:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/coldcoffee-solves/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Pwntools</title>
-				<link>http://localhost:37194/tags/pwntools/</link>
-				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/pwntools/</guid>
+				<title>ISFCR CryoVault Finals 2026</title>
+				<link>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault-finals-2026/</link>
+				<pubDate>Wed, 04 Nov 2026 10:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault-finals-2026/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Ret2libc</title>
-				<link>http://localhost:37194/tags/ret2libc/</link>
-				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/ret2libc/</guid>
+				<title>Cryptography</title>
+				<link>https://c01dc0ff33.pages.dev/tags/cryptography/</link>
+				<pubDate>Wed, 04 Nov 2026 09:30:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/cryptography/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Rop</title>
-				<link>http://localhost:37194/tags/rop/</link>
-				<pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/rop/</guid>
+				<title>CryoVault 2026</title>
+				<link>https://c01dc0ff33.pages.dev/tags/cryovault-2026/</link>
+				<pubDate>Tue, 03 Nov 2026 18:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/cryovault-2026/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Algorithm-Confusion</title>
-				<link>http://localhost:37194/tags/algorithm-confusion/</link>
-				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/algorithm-confusion/</guid>
+				<title>ISFCR CryoVault</title>
+				<link>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault/</link>
+				<pubDate>Tue, 03 Nov 2026 18:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Hmac</title>
-				<link>http://localhost:37194/tags/hmac/</link>
-				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/hmac/</guid>
+				<title>OSINT</title>
+				<link>https://c01dc0ff33.pages.dev/tags/osint/</link>
+				<pubDate>Tue, 03 Nov 2026 18:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/osint/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Jwt</title>
-				<link>http://localhost:37194/tags/jwt/</link>
-				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/jwt/</guid>
+				<title>Pinaka 2026</title>
+				<link>https://c01dc0ff33.pages.dev/tags/pinaka-2026/</link>
+				<pubDate>Tue, 03 Nov 2026 18:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/pinaka-2026/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Python</title>
-				<link>http://localhost:37194/tags/python/</link>
-				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/python/</guid>
+				<title>Pinaka CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/pinaka-ctf/</link>
+				<pubDate>Tue, 03 Nov 2026 18:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/pinaka-ctf/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Rsa</title>
-				<link>http://localhost:37194/tags/rsa/</link>
-				<pubDate>Fri, 18 Oct 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/rsa/</guid>
+				<title>Reverse Engineering</title>
+				<link>https://c01dc0ff33.pages.dev/tags/reverse-engineering/</link>
+				<pubDate>Mon, 02 Nov 2026 20:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/reverse-engineering/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Audacity</title>
-				<link>http://localhost:37194/tags/audacity/</link>
-				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/audacity/</guid>
+				<title>Sea of Secrets CTF 2026</title>
+				<link>https://c01dc0ff33.pages.dev/tags/sea-of-secrets-ctf-2026/</link>
+				<pubDate>Sun, 01 Nov 2026 12:30:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/sea-of-secrets-ctf-2026/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Lsb</title>
-				<link>http://localhost:37194/tags/lsb/</link>
-				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/lsb/</guid>
+				<title>Mobile Security</title>
+				<link>https://c01dc0ff33.pages.dev/tags/mobile-security/</link>
+				<pubDate>Sun, 01 Nov 2026 12:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/mobile-security/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Spectrogram</title>
-				<link>http://localhost:37194/tags/spectrogram/</link>
-				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/spectrogram/</guid>
+				<title>Web Exploitation</title>
+				<link>https://c01dc0ff33.pages.dev/tags/web-exploitation/</link>
+				<pubDate>Sun, 01 Nov 2026 11:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/web-exploitation/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Steghide</title>
-				<link>http://localhost:37194/tags/steghide/</link>
-				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/steghide/</guid>
+				<title>Digital Forensics</title>
+				<link>https://c01dc0ff33.pages.dev/tags/digital-forensics/</link>
+				<pubDate>Sun, 01 Nov 2026 09:49:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/digital-forensics/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Stegsolve</title>
-				<link>http://localhost:37194/tags/stegsolve/</link>
-				<pubDate>Thu, 05 Sep 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/stegsolve/</guid>
+				<title>Misc</title>
+				<link>https://c01dc0ff33.pages.dev/tags/misc/</link>
+				<pubDate>Sun, 01 Nov 2026 09:06:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/misc/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Lsass</title>
-				<link>http://localhost:37194/tags/lsass/</link>
-				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/lsass/</guid>
+				<title>Netrunner Gaultnet CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/netrunner-gaultnet-ctf/</link>
+				<pubDate>Wed, 28 Oct 2026 18:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/netrunner-gaultnet-ctf/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Memory-Forensics</title>
-				<link>http://localhost:37194/tags/memory-forensics/</link>
-				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/memory-forensics/</guid>
+				<title>IoT</title>
+				<link>https://c01dc0ff33.pages.dev/tags/iot/</link>
+				<pubDate>Sun, 11 Oct 2026 12:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/iot/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Mimikatz</title>
-				<link>http://localhost:37194/tags/mimikatz/</link>
-				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/mimikatz/</guid>
+				<title>ISFCR CryoVault Quals 2026</title>
+				<link>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault-quals-2026/</link>
+				<pubDate>Sun, 11 Oct 2026 12:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/isfcr-cryovault-quals-2026/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Volatility</title>
-				<link>http://localhost:37194/tags/volatility/</link>
-				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/volatility/</guid>
+				<title>Sea of Secrets CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/sea-of-secrets-ctf/</link>
+				<pubDate>Mon, 05 Oct 2026 09:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/sea-of-secrets-ctf/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Windows</title>
-				<link>http://localhost:37194/tags/windows/</link>
-				<pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/windows/</guid>
+				<title>H7CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/h7ctf/</link>
+				<pubDate>Fri, 18 Sep 2026 10:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/h7ctf/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Burpsuite</title>
-				<link>http://localhost:37194/tags/burpsuite/</link>
-				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/burpsuite/</guid>
+				<title>Lunar CTF Quals</title>
+				<link>https://c01dc0ff33.pages.dev/tags/lunar-ctf-quals/</link>
+				<pubDate>Wed, 02 Sep 2026 15:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/lunar-ctf-quals/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Cache</title>
-				<link>http://localhost:37194/tags/cache/</link>
-				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/cache/</guid>
+				<title>CyberShield CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/cybershield-ctf/</link>
+				<pubDate>Mon, 20 Jul 2026 11:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/cybershield-ctf/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Http-Headers</title>
-				<link>http://localhost:37194/tags/http-headers/</link>
-				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/http-headers/</guid>
+				<title>XploitX CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/xploitx-ctf/</link>
+				<pubDate>Tue, 12 May 2026 13:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/xploitx-ctf/</guid>
 				<description></description>
 			</item>
 			<item>
-				<title>Web-Cache-Poisoning</title>
-				<link>http://localhost:37194/tags/web-cache-poisoning/</link>
-				<pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/web-cache-poisoning/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Frequency-Analysis</title>
-				<link>http://localhost:37194/tags/frequency-analysis/</link>
-				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/frequency-analysis/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Known-Plaintext</title>
-				<link>http://localhost:37194/tags/known-plaintext/</link>
-				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/known-plaintext/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Xor</title>
-				<link>http://localhost:37194/tags/xor/</link>
-				<pubDate>Mon, 10 Jun 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/xor/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Binwalk</title>
-				<link>http://localhost:37194/tags/binwalk/</link>
-				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/binwalk/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Embedded</title>
-				<link>http://localhost:37194/tags/embedded/</link>
-				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/embedded/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Entropy</title>
-				<link>http://localhost:37194/tags/entropy/</link>
-				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/entropy/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title>Firmware</title>
-				<link>http://localhost:37194/tags/firmware/</link>
-				<pubDate>Fri, 15 Mar 2024 00:00:00 +0000</pubDate>
-				<guid>http://localhost:37194/tags/firmware/</guid>
+				<title>Root@localhost CTF</title>
+				<link>https://c01dc0ff33.pages.dev/tags/root@localhost-ctf/</link>
+				<pubDate>Sun, 10 Nov 2024 12:00:00 +0530</pubDate>
+				<guid>https://c01dc0ff33.pages.dev/tags/root@localhost-ctf/</guid>
 				<description></description>
 			</item>
 	</channel>

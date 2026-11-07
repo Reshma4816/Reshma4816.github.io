@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=37194&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Memory Dump: Credential Extraction | C01DC0FF33</title>
   <meta name="description" content="Extract plaintext credentials from a Windows memory dump using Volatility 3 and LSASS process analysis.">
-  <link rel="canonical" href="http://localhost:37194/writeups/h7ctf-memory-dump/">
+  <link rel="canonical" href="http://localhost:1313/writeups/h7ctf-memory-dump/">
 
   
   <meta property="og:type" content="article">
-  <meta property="og:url" content="http://localhost:37194/writeups/h7ctf-memory-dump/">
+  <meta property="og:url" content="http://localhost:1313/writeups/h7ctf-memory-dump/">
   <meta property="og:title" content="Memory Dump: Credential Extraction | C01DC0FF33">
   <meta property="og:description" content="Extract plaintext credentials from a Windows memory dump using Volatility 3 and LSASS process analysis.">
   <meta name="twitter:card" content="summary_large_image">
@@ -94,22 +94,33 @@ C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
       <span aria-hidden="true">/</span>
       <a href="/writeups/">Writeups</a>
       <span aria-hidden="true">/</span>
+      
+      <span>Digital Forensics</span>
+      <span aria-hidden="true">/</span>
+      
       <span aria-current="page">Memory Dump: Credential Extraction</span>
     </nav>
 
     <header class="writeup-header">
       <div class="writeup-badges">
         <span class="badge badge-rose">Digital Forensics</span>
-        <span class="badge">Medium</span>
-        <span class="badge">400 pts</span>
+        <span class="badge badge-ctf">H7CTF</span>
+        <span class="badge badge-diff-medium">Medium</span>
+        <span class="badge badge-pts">400 pts</span>
       </div>
       <h1>Memory Dump: Credential Extraction</h1>
       <p class="writeup-desc">Extract plaintext credentials from a Windows memory dump using Volatility 3 and LSASS process analysis.</p>
+      
       <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Reshma Al (Coldcoffee)
+        </span>
+        <span>·</span>
         <span>20 Aug 2024</span>
         <span>·</span>
         <span>1 min read</span>
-        <span>·</span><span>H7CTF</span>
+        
       </div>
     </header>
 
@@ -143,17 +154,34 @@ C01DC0FF33<span class="brand-sub"> / coldcoffee</span>
     </div>
 
     
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      
+      <span class="tag-pill">volatility</span>
+      
+      <span class="tag-pill">memory-forensics</span>
+      
+      <span class="tag-pill">lsass</span>
+      
+      <span class="tag-pill">windows</span>
+      
+      <span class="tag-pill">mimikatz</span>
+      
+    </div>
+    
 
     
     <nav class="prev-next" aria-label="Previous and next writeup">
       
-      <a href="/writeups/xploitx-web-cache-poisoning/" class="prev-next-link">
-        ← Web Cache Poisoning via Unkeyed Header
+      <a href="/writeups/xploitx-web-cache-poisoning/" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">Web Cache Poisoning via Unkeyed Header</span>
       </a>
       
       
-      <a href="/writeups/netrunner-steghide-lsb/" class="prev-next-link" style="margin-left:auto;text-align:right">
-        Hidden in Plain Sight: Steghide LSB →
+      <a href="/writeups/netrunner-steghide-lsb/" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">Hidden in Plain Sight: Steghide LSB</span>
       </a>
       
     </nav>

@@ -323,16 +323,13 @@ h1,h2,h3,h4{
   font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;
   color:var(--muted);text-transform:uppercase;align-self:flex-start;
 }
-.steam-box{display:flex;gap:14px;justify-content:center;height:50px;align-items:flex-end}
-.wisp{
-  display:block;width:3px;border-radius:3px;
-  background:linear-gradient(to top,transparent,rgba(246,238,240,.45),transparent);
-  animation:steam 2.8s ease-in-out infinite;
-}
-.wisp:nth-child(1){height:36px;animation-delay:0s}
-.wisp:nth-child(2){height:52px;animation-delay:.7s}
-.wisp:nth-child(3){height:36px;animation-delay:1.4s}
-@keyframes steam{0%{transform:translateY(0) scaleX(1);opacity:0}25%{opacity:.8}75%{opacity:.4}100%{transform:translateY(-44px) scaleX(1.8);opacity:0}}
+.chill-box,.steam-box{display:flex;gap:18px;justify-content:center;height:32px;align-items:center;margin-bottom:6px}
+.frost-glint{display:inline-block;font-size:12px;color:var(--champagne);opacity:.75;animation:ice-shimmer 3s ease-in-out infinite}
+.frost-glint:nth-child(3){font-size:9px;animation-delay:1.5s;opacity:.5}
+.frost-drop{display:block;width:3px;height:7px;border-radius:2px;background:linear-gradient(to bottom,rgba(241,217,181,.7),rgba(212,87,122,.3));animation:chill-mist 2.6s ease-in-out infinite;animation-delay:.8s}
+.wisp{display:none}
+@keyframes ice-shimmer{0%,100%{transform:scale(.8) rotate(0deg);opacity:.35}50%{transform:scale(1.2) rotate(15deg);opacity:1}}
+@keyframes chill-mist{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(4px);opacity:.8}}
 
 /* floating panels — exact hotwater */
 .floating-panels{

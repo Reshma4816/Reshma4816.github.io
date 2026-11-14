@@ -1,0 +1,167 @@
+{{ define "main" }}
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<section class="archive-hero cinematic-hero" aria-label="Hero">
+  <div class="cyber-background" aria-hidden="true">
+    <img class="hero-bg-img" src="/images/bg-burgundy.webp" alt="" fetchpriority="high">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+  </div>
+
+  <div class="hero-topline">
+    <span><i class="status-dot"></i> THE C01DC0FF33 ARCHIVE</span>
+    <span>CTF / SECURITY RESEARCH</span>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-copy">
+      <p class="eyebrow">Patience. Persistence. Find the flag.</p>
+      <h1>
+        <span class="hero-heading-line">SIP.</span>
+        <span class="hero-heading-line">SOLVE.</span>
+        <span class="hero-heading-line hero-outline">DECODE.</span>
+      </h1>
+      <p class="hero-description">
+        A personal archive of CTF solves, deep dive investigations and security research —
+        written by <strong>Coldcoffee!</strong>
+      </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="/writeups/">
+          Explore Writeups {{ partial "svg/arrow-up-right.html" . }}
+        </a>
+        <a class="btn-ghost" href="/ctfs/">
+          Browse CTFs {{ partial "svg/arrow-right.html" . }}
+        </a>
+      </div>
+    </div>
+
+    <!-- coffee cup art -->
+    <div class="hero-art" aria-hidden="true">
+      <div class="artifact-orbit"></div>
+      <div class="cup-panel">
+        <span class="artifact-coordinate">ARTIFACT_001 / COLD BREW</span>
+        <div class="steam-box">
+          <span class="wisp"></span><span class="wisp"></span><span class="wisp"></span>
+        </div>
+        {{ partial "svg/cup-large.html" . }}
+        <span class="artifact-coordinate" style="align-self:flex-end">INSPECT → UNDERSTAND</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <span class="hero-bottom-label">KNOWLEDGE, OPEN BY DEFAULT</span>
+    <div class="archive-summary">
+      {{ $writeups := where .Site.RegularPages "Section" "writeups" }}
+      <span><strong>{{ len $writeups }}</strong> WRITEUPS</span>
+      {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
+      <span><strong>{{ len $ctfs }}</strong> CTF EVENTS</span>
+    </div>
+    <a href="#latest" class="scroll-cue">
+      SCROLL TO EXPLORE {{ partial "svg/arrow-down.html" . }}
+    </a>
+  </div>
+</section>
+
+<!-- ── LATEST WRITEUPS ───────────────────────────────────────── -->
+<section id="latest" class="section-standard" data-reveal>
+  <div class="wrap">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">01 / Fresh from the terminal</p>
+        <h2>Recent <span class="text-muted">writeups.</span></h2>
+      </div>
+      <a class="section-link" href="/writeups/">Browse the full archive {{ partial "svg/arrow-up-right.html" . }}</a>
+    </div>
+
+    <div class="latest-grid">
+      {{ $writeups := where .Site.RegularPages "Section" "writeups" }}
+      {{ $latest := first 6 ($writeups.ByDate.Reverse) }}
+      {{ range $latest }}
+      <article class="card writeup-card" data-cat="{{ .Params.category | urlize }}" data-event="{{ .Params.ctf | urlize }}">
+        <a href="{{ .RelPermalink }}" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            {{ partial "svg/art-card.html" (dict "category" .Params.category) }}
+            <span class="card-art-label">{{ .Params.category }}</span>
+            <span class="card-arrow">{{ partial "svg/arrow-up-right.html" . }}</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>{{ .Params.ctf }}</span>
+              <span>{{ .Params.category }}</span>
+            </div>
+            <h3>{{ .Title }}</h3>
+            <p class="clamp-3">{{ .Description | default .Summary }}</p>
+            <div class="card-meta card-bottom">
+              <span>{{ .Date.Format "02 Jan 2006" }} · {{ .ReadingTime }} min read</span>
+              <span class="read-label">Read writeup {{ partial "svg/arrow-up-right.html" . }}</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      {{ else }}
+      {{ partial "placeholder-cards.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ── CTF EVENTS ─────────────────────────────────────────────── -->
+<section class="events-section section-standard" data-reveal>
+  <div class="wrap">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">02 / Competition history</p>
+        <h2>Every arena.<br><span class="text-muted">One mindset.</span></h2>
+      </div>
+      <a class="section-link" href="/ctfs/">All CTF events {{ partial "svg/arrow-up-right.html" . }}</a>
+    </div>
+
+    <div class="event-grid">
+      {{ $home_ctf_slugs := slice "pinaka-ctf" "sea-of-secrets-ctf" "isfcr-cryovault-finals" "isfcr-cryovault-quals" "h7ctf-quals" "breach-point-ctf" }}
+      {{ range $idx, $slug := $home_ctf_slugs }}
+        {{ with $.Site.GetPage (printf "ctfs/%s" $slug) }}
+        <a href="{{ .Params.target_url | default .RelPermalink }}" class="event-tile" aria-label="{{ .Title }}">
+          {{ partial "svg/event-art.html" (dict "slug" $slug) }}
+          <div class="event-top">
+            <span class="event-number">{{ printf "%02d" (add $idx 1) }}</span>
+            <span class="event-arrow" aria-hidden="true">{{ partial "svg/arrow-up-right.html" . }}</span>
+          </div>
+          <h3>
+            <span class="event-title-name">{{ .Params.short_name | default .Title }}</span>
+            <span class="event-year">{{ .Params.year }}</span>
+          </h3>
+          <div class="event-bottom">
+            <span class="event-count">
+              <svg width="13" height="15" viewBox="0 0 13 15" fill="none" aria-hidden="true"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
+              {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Competed{{ end }}
+            </span>
+            <span class="event-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </a>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ARCHIVE ──────────────────────────────────────────── -->
+<section class="about-archive" data-reveal>
+  <div class="wrap">
+    <div class="about-symbol" aria-hidden="true">
+      <div class="emblem-orbit"></div>
+      <div class="emblem-display">
+        {{ partial "svg/cup.html" . }}
+      </div>
+      <span class="emblem-caption">QUESTION / UNDERSTAND</span>
+    </div>
+
+    <div class="about-text">
+      <p class="eyebrow">The person behind C01DC0FF33</p>
+      <h2>Scenes behind<br>each flag.</h2>
+      <p>Writeups are how I think out loud — every dead end, every pivot, every "wait, that's it" moment. This archive is built to be <strong>useful</strong>, not just impressive.</p>
+      <a class="btn-ghost" href="/about/">About C01DC0FF33 {{ partial "svg/arrow-up-right.html" . }}</a>
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,74 @@
+{{/* event-art.html — unique background SVG art for each CTF event tile */}}
+{{ $slug := .slug }}
+<svg class="event-artwork" viewBox="0 0 600 360" fill="none" aria-hidden="true" focusable="false">
+  {{ if eq $slug "cybershield-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-cs)"/>
+  <path d="M300 30 C200 100 150 200 300 330 C450 200 400 100 300 30Z" fill="rgba(212,87,122,.06)" stroke="rgba(212,87,122,.12)" stroke-width="1"/>
+  <ellipse cx="300" cy="180" rx="120" ry="120" stroke="rgba(241,217,181,.05)" stroke-width="1" stroke-dasharray="4 12"/>
+  <defs><linearGradient id="ea-cs" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a0509"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "netrunner-gaultnet-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-ng)"/>
+  <circle cx="300" cy="180" r="140" stroke="rgba(212,87,122,.07)" stroke-width="1"/>
+  <circle cx="300" cy="180" r="80" fill="none" stroke="rgba(241,217,181,.05)" stroke-dasharray="3 9"/>
+  <path d="M160 180h280M300 40v280" stroke="rgba(212,87,122,.06)" stroke-width=".8"/>
+  <defs><linearGradient id="ea-ng" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#150609"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "xploitx-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-xx)"/>
+  <path d="M100 50 L300 310 L500 50Z" fill="none" stroke="rgba(212,87,122,.07)" stroke-width="1"/>
+  <path d="M150 170 L300 280 L450 170 L300 60Z" fill="none" stroke="rgba(241,217,181,.04)" stroke-width=".8"/>
+  <defs><linearGradient id="ea-xx" x1="0" y1="360" x2="600" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a0509"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "h7ctf-quals" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-h7)"/>
+  <path d="M60 60h480M60 180h480M60 300h480M60 60v240M300 60v240M540 60v240" stroke="rgba(212,87,122,.05)" stroke-width=".7"/>
+  <rect x="150" y="110" width="300" height="140" rx="6" fill="none" stroke="rgba(241,217,181,.05)" stroke-width=".8"/>
+  <defs><linearGradient id="ea-h7" x1="600" y1="0" x2="0" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#150609"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "isfcr-cryovault-quals" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-icq)"/>
+  <path d="M300 20 L560 180 L300 340 L40 180Z" fill="none" stroke="rgba(212,87,122,.07)" stroke-width="1"/>
+  <circle cx="300" cy="180" r="100" fill="none" stroke="rgba(241,217,181,.05)" stroke-dasharray="5 15"/>
+  <defs><linearGradient id="ea-icq" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a0509"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "isfcr-cryovault-finals" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-icf)"/>
+  <circle cx="300" cy="180" r="160" fill="none" stroke="rgba(212,87,122,.06)"/>
+  <circle cx="300" cy="180" r="100" fill="none" stroke="rgba(212,87,122,.04)"/>
+  <circle cx="300" cy="180" r="40" fill="none" stroke="rgba(241,217,181,.07)"/>
+  <defs><linearGradient id="ea-icf" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a0509"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "root-localhost-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-rl)"/>
+  <path d="M300 180 m-200 0 a200,140 0 1,0 400,0 a200,140 0 1,0 -400,0" fill="none" stroke="rgba(212,87,122,.07)" stroke-width="1"/>
+  <path d="M100 180 Q300 20 500 180 Q300 340 100 180Z" fill="none" stroke="rgba(241,217,181,.04)"/>
+  <defs><linearGradient id="ea-rl" x1="0" y1="360" x2="600" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#150609"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "isfcr-cryovault" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-cv)"/>
+  <path d="M300 20 L560 180 L300 340 L40 180Z" fill="none" stroke="rgba(212,87,122,.07)" stroke-width="1"/>
+  <circle cx="300" cy="180" r="100" fill="none" stroke="rgba(241,217,181,.05)" stroke-dasharray="5 15"/>
+  <defs><linearGradient id="ea-cv" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a0509"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "pinaka-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-pin)"/>
+  <path d="M120 180 C120 70 200 40 300 40 C400 40 480 70 480 180 C480 290 400 320 300 320 C200 320 120 290 120 180Z" fill="none" stroke="rgba(212,87,122,.08)" stroke-width="1.2"/>
+  <path d="M80 180h440M300 40v280" stroke="rgba(241,217,181,.05)" stroke-width=".8"/>
+  <circle cx="300" cy="180" r="60" stroke="rgba(212,87,122,.09)" stroke-dasharray="4 8"/>
+  <defs><linearGradient id="ea-pin" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1c060d"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else if eq $slug "sea-of-secrets-ctf" }}
+  <path d="M0 0h600v360H0z" fill="url(#ea-sos)"/>
+  <path d="M50 140 Q175 100 300 140 T550 140 M50 180 Q175 140 300 180 T550 180 M50 220 Q175 180 300 220 T550 220" fill="none" stroke="rgba(212,87,122,.08)" stroke-width="1"/>
+  <circle cx="300" cy="180" r="90" stroke="rgba(241,217,181,.05)" stroke-dasharray="3 10"/>
+  <defs><linearGradient id="ea-sos" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#15060b"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+
+  {{ else }}
+  <!-- generic event art -->
+  <path d="M0 0h600v360H0z" fill="url(#ea-gen)"/>
+  <path d="M50 50 L550 310M550 50 L50 310" stroke="rgba(212,87,122,.05)" stroke-width="1"/>
+  <circle cx="300" cy="180" r="120" fill="none" stroke="rgba(241,217,181,.04)" stroke-dasharray="6 18"/>
+  <defs><linearGradient id="ea-gen" x1="0" y1="0" x2="600" y2="360" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#150609"/><stop offset="100%" stop-color="#0b0508"/></linearGradient></defs>
+  {{ end }}
+</svg>

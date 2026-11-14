@@ -1,0 +1,238 @@
+{{ define "main" }}
+{{ $isRoot := eq .RelPermalink "/writeups/" }}
+{{ $pages := cond $isRoot .RegularPagesRecursive .RegularPages }}
+
+<div class="layout-page writeups-archive-page">
+  <div class="wrap">
+
+    <!-- Breadcrumb for subsections -->
+    {{ if not $isRoot }}
+    <nav class="breadcrumb" aria-label="Breadcrumb" data-reveal>
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/ctfs/">CTFs</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ .Title }}</span>
+    </nav>
+    {{ end }}
+
+    <header class="section-hero-sm" data-reveal>
+      {{ if $isRoot }}
+        <p class="eyebrow">{{ len $pages }} writeups · verified flag captures</p>
+        <h1>The security <span class="text-muted">archive.</span></h1>
+        <p style="color:var(--muted);margin-top:.75rem;max-width:58ch;line-height:1.68;font-size:1.02rem;">
+          Walkthroughs, mathematical proofs, exploit scripts, and memory forensics reconstructions from live CTF competitions. Filter by domain or search across challenges.
+        </p>
+      {{ else }}
+        <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.5rem;">
+          <a href="/ctfs/" class="badge badge-muted" style="text-decoration:none;">← All CTFs</a>
+          <a href="/writeups/" class="badge badge-rose" style="text-decoration:none;">← Full Archive</a>
+        </div>
+        <p class="eyebrow">{{ .Params.year | default "Competition" }} · {{ len $pages }} solved challenge{{ if gt (len $pages) 1 }}s{{ end }}</p>
+        <h1>{{ .Title }} <span class="text-muted">writeups.</span></h1>
+        <p style="color:var(--muted);margin-top:.75rem;max-width:62ch;line-height:1.68;font-size:1.02rem;">
+          {{ .Description | default "Technical breakdowns and reverse-engineered solutions for challenges solved during this event." }}
+        </p>
+      {{ end }}
+    </header>
+
+    <!-- Hotwater / s31zur3 style Interactive Category Filter & Search -->
+    <div class="archive-controls" data-reveal>
+      <div class="search-box-wrapper">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="archive-search" placeholder="Search by title, technique, flag, or tag... (/ to focus)" autocomplete="off">
+        <button id="search-clear" class="search-clear-btn" aria-label="Clear search" style="display:none;">&times;</button>
+      </div>
+
+      <div class="category-filter-pills" id="category-pills" role="tablist">
+        <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+          All <span class="pill-count">{{ len $pages }}</span>
+        </button>
+        {{ $cats := slice "Cryptography" "Digital Forensics" "Reverse Engineering" "Binary Exploitation" "Web Exploitation" "OSINT" "IoT" "Mobile Security" }}
+        {{ range $cats }}
+          {{ $count := len (where $pages "Params.category" .) }}
+          {{ if gt $count 0 }}
+          <button class="filter-pill" data-filter="{{ . | lower }}" role="tab" aria-selected="false">
+            {{ . }} <span class="pill-count">{{ $count }}</span>
+          </button>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      <div class="filter-status">
+        <span>Showing <strong id="visible-count">{{ len $pages }}</strong> of {{ len $pages }} writeups</span>
+      </div>
+    </div>
+
+    <!-- Writeups Grid -->
+    {{ if $pages }}
+    <div class="latest-grid writeups-grid" id="writeups-container">
+      {{ range $pages.ByDate.Reverse }}
+      <article class="card writeup-card" 
+               data-category="{{ .Params.category | lower }}" 
+               data-ctf="{{ .Params.ctf | lower }}" 
+               data-title="{{ .Title | lower }}" 
+               data-desc="{{ .Description | default .Summary | lower }}"
+               data-tags="{{ with .Params.tags }}{{ delimit . " " | lower }}{{ end }}"
+               data-flag="{{ .Params.flag | default "" | lower }}">
+        <a href="{{ .RelPermalink }}" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            {{ partial "svg/art-card.html" (dict "category" .Params.category) }}
+            <span class="card-art-label">{{ .Params.category }}</span>
+            <span class="card-arrow">{{ partial "svg/arrow-up-right.html" . }}</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="meta-ctf">{{ .Params.ctf }}</span>
+              {{ with .Params.difficulty }}<span class="meta-diff badge-diff-{{ . | lower }}">{{ . }}</span>{{ end }}
+              {{ with .Params.points }}<span class="meta-pts">{{ . }} pts</span>{{ end }}
+            </div>
+            <h3>{{ .Title }}</h3>
+            <p class="clamp-3">{{ .Description | default .Summary }}</p>
+            <div class="card-meta card-bottom">
+              <span>{{ .Date.Format "02 Jan 2006" }} · {{ .ReadingTime }} min read</span>
+              <span class="read-label">Read solve {{ partial "svg/arrow-up-right.html" . }}</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      {{ end }}
+    </div>
+
+    <div id="no-results" class="no-results-msg" style="display:none;">
+      <p>No writeups found matching your filter or query.</p>
+      <button class="btn btn-sm btn-outline" id="reset-filters">Reset filters</button>
+    </div>
+    {{ end }}
+
+  </div>
+</div>
+
+<script>
+(function() {
+  function initWriteupArchive() {
+    const searchInput = document.getElementById('archive-search');
+    const searchClear = document.getElementById('search-clear');
+    const pills = document.querySelectorAll('.filter-pill');
+    const cards = document.querySelectorAll('.writeup-card');
+    const visibleCountEl = document.getElementById('visible-count');
+    const noResults = document.getElementById('no-results');
+    const resetBtn = document.getElementById('reset-filters');
+    
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    function filterCards() {
+      let visible = 0;
+      const query = searchQuery.trim().toLowerCase();
+
+      cards.forEach(card => {
+        const cat = (card.getAttribute('data-category') || '').trim().toLowerCase();
+        const ctf = (card.getAttribute('data-ctf') || '').trim().toLowerCase();
+        const title = (card.getAttribute('data-title') || '').trim().toLowerCase();
+        const desc = (card.getAttribute('data-desc') || '').trim().toLowerCase();
+        const tags = (card.getAttribute('data-tags') || '').trim().toLowerCase();
+        const flag = (card.getAttribute('data-flag') || '').trim().toLowerCase();
+
+        let catMatch = false;
+        if (currentCategory === 'all') {
+          catMatch = true;
+        } else if (currentCategory === 'iot') {
+          catMatch = cat === 'iot' || cat.includes('iot');
+        } else if (currentCategory === 'mobile security' || currentCategory === 'mobile') {
+          catMatch = cat === 'mobile security' || cat === 'mobile';
+        } else {
+          catMatch = cat === currentCategory;
+        }
+
+        let textMatch = true;
+        if (query.length > 0) {
+          textMatch = title.includes(query) || 
+                      ctf.includes(query) || 
+                      desc.includes(query) || 
+                      tags.includes(query) || 
+                      flag.includes(query);
+        }
+
+        if (catMatch && textMatch) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (visibleCountEl) visibleCountEl.textContent = visible;
+      if (noResults) noResults.style.display = (visible === 0) ? 'block' : 'none';
+    }
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-selected', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-selected', 'true');
+        currentCategory = (pill.getAttribute('data-filter') || 'all').toLowerCase();
+        filterCards();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        if (searchClear) searchClear.style.display = searchQuery.length > 0 ? 'block' : 'none';
+        filterCards();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput && !['input','textarea'].includes(document.activeElement.tagName.toLowerCase())) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+        if (e.key === 'Escape' && document.activeElement === searchInput) {
+          searchInput.value = '';
+          searchQuery = '';
+          if (searchClear) searchClear.style.display = 'none';
+          filterCards();
+          searchInput.blur();
+        }
+      });
+    }
+
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchQuery = '';
+        searchClear.style.display = 'none';
+        filterCards();
+        searchInput.focus();
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        searchQuery = '';
+        if (searchClear) searchClear.style.display = 'none';
+        const allPill = document.querySelector('.filter-pill[data-filter="all"]');
+        if (allPill) allPill.click();
+      });
+    }
+
+    // Immediately run filterCards on load so all cards are explicitly visible & counted
+    filterCards();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWriteupArchive);
+  } else {
+    initWriteupArchive();
+  }
+})();
+</script>
+{{ end }}

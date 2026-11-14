@@ -1,0 +1,37 @@
+{{ define "main" }}
+<div class="layout-page ctfs-page">
+  <div class="wrap">
+
+    <header class="section-hero-sm" data-reveal>
+      <p class="eyebrow">All CTF events · {{ len (where .Site.RegularPages "Section" "ctfs") }} competitions</p>
+      <h1>New arenas.<br><span class="text-muted">Same hustle.</span></h1>
+    </header>
+
+    <div class="event-grid" data-reveal>
+      {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
+      {{ range $ctfs.ByWeight }}
+      <a href="{{ .Params.target_url | default .RelPermalink }}" class="event-tile" aria-label="{{ .Title }}">
+        {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
+        <div class="event-top">
+          <span class="event-number">{{ printf "%02d" .Weight }}</span>
+          
+          <span class="event-arrow" aria-hidden="true">{{ partial "svg/arrow-up-right.html" . }}</span>
+        </div>
+        <h3>
+          <span class="event-title-name">{{ .Params.short_name | default .Title }}</span>
+          <span class="event-year">{{ .Params.year }}</span>
+        </h3>
+        <div class="event-bottom">
+          <span class="event-count">
+            <svg width="13" height="15" viewBox="0 0 13 15" fill="none"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
+            {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Competed{{ end }}
+          </span>
+          <span class="event-signal"><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+
+  </div>
+</div>
+{{ end }}

@@ -1,0 +1,120 @@
+{{ define "main" }}
+<div class="layout-page about-page">
+  <div class="page-int">
+
+    <!-- ── ABOUT HERO / POSTER REVEAL ────────────────────────────── -->
+    <section class="about-hero" aria-label="About Reshma Al">
+      <div class="cyber-background" aria-hidden="true">
+        <img class="hero-bg-img" src="/images/bg-burgundy.webp" alt="">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+      </div>
+      <div class="about-hero-inner wrap">
+        
+        <!-- Full Cinematic Poster Frame -->
+        <div class="about-poster-wrap" data-reveal>
+          <div class="about-poster-card">
+            <div class="about-poster-curtain" id="poster-curtain" aria-hidden="true"></div>
+            <img class="about-poster-img"
+                 src="/images/reshma-poster.png"
+                 alt="Reshma Al (C01DC0FF33) — Explore, Analyse, Break, Learn, Repeat · CTF Player | Researcher"
+                 loading="eager" width="1024" height="603">
+            <div class="poster-scanlines" aria-hidden="true"></div>
+            <div class="photo-corner photo-corner--tl"></div>
+            <div class="photo-corner photo-corner--tr"></div>
+            <div class="photo-corner photo-corner--bl"></div>
+            <div class="photo-corner photo-corner--br"></div>
+            <div class="poster-footer-hud" aria-hidden="true">
+              <span><i class="hud-dot"></i> PROFILE_RENDER // C01DC0FF33</span>
+              <span>CLASSIFIED / ARCHIVE_001</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio & Presentation -->
+        <div class="about-hero-copy" data-reveal>
+          <p class="eyebrow">The person behind C01DC0FF33</p>
+          <h1>Not just flags —<br><span class="text-muted">understanding.</span></h1>
+          <div class="tag-row">
+            <span class="badge badge-rose">C01DC0FF33</span>
+            <span class="badge">Coldcoffee</span>
+            <span class="badge">CTF Player</span>
+            <span class="badge">Security Researcher</span>
+            <span class="badge">Reverse Engineering</span>
+          </div>
+          <p class="about-bio">
+            I'm Reshma Al, handle C01DC0FF33 — Coldcoffee in the CTF world. Third-year CSE undergrad at REC who treats every system like a puzzle that needs to be disassembled. I break things to see how they tick, then leave the blueprints behind so you don't have to start from scratch. Pull up a chair, grab a cup, and let’s dive into the logic. ☕👨💻
+          </p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="/writeups/">Browse Writeups {{ partial "svg/arrow-up-right.html" . }}</a>
+            <a class="btn-ghost" href="/connect/">Connect {{ partial "svg/arrow-right.html" . }}</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SKILLS / THE BREWING STATION ───────────────────────────── -->
+    <section class="section-standard" data-reveal>
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / What I work with</p>
+            <h2>The Brewing <span class="text-muted">Station.</span></h2>
+          </div>
+        </div>
+        <div class="skills-grid">
+          {{ $skills := slice "Digital Forensics" "Reverse Engineering" "Binary Exploitation" "Cryptography" "Steganography" "OSINT" "IoT" "Cloud Security" }}
+          {{ range $skills }}
+          <div class="skill-row"><div class="skill-dot"></div>{{ . }}</div>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ACHIEVEMENTS / KEY RECORDS ─────────────────────────────── -->
+    <section class="section-standard events-section" data-reveal>
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / Competition record</p>
+            <h2>Key records.<br><span class="text-muted">Great experience.</span></h2>
+          </div>
+          <a class="section-link" href="/ctfs/">All CTF events {{ partial "svg/arrow-up-right.html" . }}</a>
+        </div>
+        <div class="event-grid">
+          {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
+          {{ range ($ctfs.ByWeight) }}
+          {{ if and (ne .File.ContentBaseName "lunar-ctf-quals") (ne .File.ContentBaseName "breach-point-ctf") }}
+          <a href="{{ .RelPermalink }}" class="event-tile">
+            {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
+            <div class="event-top">
+              <span class="event-number">{{ printf "%02d" .Weight }}</span>
+              {{ with .Params.placement }}<span class="place-badge {{ if eq . "2nd" }}place-gold{{ else if eq . "6th" }}place-rose{{ else if eq . "16th" }}place-rose{{ else if or (eq . "Top 20") (eq . "Top 25") }}place-rose{{ else if eq . "Top 30" }}place-muted{{ else if eq . "Top 35" }}place-muted{{ else }}place-muted{{ end }}">{{ . }}</span>{{ end }}
+              <span class="event-arrow">{{ partial "svg/arrow-up-right.html" . }}</span>
+            </div>
+            <h3><span>{{ .Params.short_name | default .Title }}</span> <span class="event-year">{{ .Params.year }}</span></h3>
+            <div class="event-bottom">
+              <span class="event-count">
+                <svg width="13" height="15" viewBox="0 0 13 15" fill="none"><path d="M3 1.5h4l3 3V13H3zm4 0v3h3M5 7h3M5 9h3" stroke="currentColor" stroke-linejoin="round"/></svg>
+                {{ with .Params.writeup_count }}{{ . }} writeup{{ if gt . 1 }}s{{ end }}{{ else }}Ranked{{ end }}
+              </span>
+              <span class="event-signal"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+          </a>
+          {{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTENT (bio markdown) ─────────────────────────────── -->
+    {{ if .Content }}
+    <section class="section-standard" data-reveal>
+      <div class="wrap prose">{{ .Content }}</div>
+    </section>
+    {{ end }}
+
+  </div>
+</div>
+{{ end }}

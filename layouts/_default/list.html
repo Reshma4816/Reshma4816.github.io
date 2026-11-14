@@ -1,0 +1,44 @@
+{{ define "main" }}
+<div class="layout-page">
+  <div class="wrap">
+
+    <header class="section-hero-sm" data-reveal>
+      <p class="eyebrow">{{ len .Pages }} writeups · all open</p>
+      <h1>The full <span class="text-muted">archive.</span></h1>
+      <p style="color:var(--muted);margin-top:.75rem;max-width:52ch;line-height:1.68;font-size:1rem;">
+        Every solve I've written up — the method, the rabbit holes, and the flag.
+        Sorted newest first.
+      </p>
+    </header>
+
+    {{ if .Pages }}
+    <div class="latest-grid" data-reveal>
+      {{ range .Pages.ByDate.Reverse }}
+      <article class="card writeup-card">
+        <a href="{{ .RelPermalink }}" class="card-home-body">
+          <div class="card-art" aria-hidden="true">
+            {{ partial "svg/art-card.html" (dict "category" .Params.category) }}
+            <span class="card-art-label">{{ .Params.category }}</span>
+            <span class="card-arrow">{{ partial "svg/arrow-up-right.html" . }}</span>
+          </div>
+          <div class="card-content">
+            <div class="card-meta">
+              <span>{{ .Params.ctf }}</span>
+              <span>{{ .Params.category }}</span>
+            </div>
+            <h3>{{ .Title }}</h3>
+            <p class="clamp-3">{{ .Description | default .Summary }}</p>
+            <div class="card-meta card-bottom">
+              <span>{{ .Date.Format "02 Jan 2006" }} · {{ .ReadingTime }} min read</span>
+              <span class="read-label">Read writeup {{ partial "svg/arrow-up-right.html" . }}</span>
+            </div>
+          </div>
+        </a>
+      </article>
+      {{ end }}
+    </div>
+    {{ end }}
+
+  </div>
+</div>
+{{ end }}

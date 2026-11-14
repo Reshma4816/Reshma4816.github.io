@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }} | {{ .Site.Params.handle }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ with .Permalink }}<link rel="canonical" href="{{ . }}">{{ end }}
+
+  <!-- OG / Twitter -->
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:title" content="{{ .Title }} | {{ .Site.Title }}">
+  <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/css/main.css">
+
+  <!-- RSS -->
+  {{ range .AlternativeOutputFormats }}<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">{{ end }}
+</head>
+<body class="min-h-screen">
+  <div class="flex-col-layout">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- ── PHOTO INTRO OVERLAY (home only) ──────────────────── -->
+    {{ if .IsHome }}
+    <div id="intro-overlay" aria-hidden="true" role="presentation">
+      <div>
+        <div class="intro-screen">
+          <img class="intro-photo" src="/images/reshma.jpg" alt="" width="340" height="453">
+          <!-- scan-line via ::after -->
+          <div class="intro-curtain" id="intro-curtain"></div>
+          <div class="intro-hud">
+            <div class="intro-hud-tl">CYBERSECURITY<br>CTF PLAYER<br>RESEARCHER</div>
+            <div class="intro-hud-tr">C01DC0FF33<br><span style="color:var(--rose)">COLDCOFFEE</span></div>
+            <div class="intro-hud-bl">CHENNAI, IN<br>RAJALAKSHMI ENG</div>
+            <div class="intro-hud-br"><span class="intro-hud-dot"></span> ACTIVE<br>SECURITY RESEARCH</div>
+          </div>
+          <div class="intro-corner intro-corner--tl"></div>
+          <div class="intro-corner intro-corner--tr"></div>
+          <div class="intro-corner intro-corner--bl"></div>
+          <div class="intro-corner intro-corner--br"></div>
+          <div class="intro-bar-wrap"><div class="intro-bar" id="intro-bar"></div></div>
+        </div>
+        <p class="intro-label"><span class="intro-handle">C01DC0FF33</span> · INITIALISING ARCHIVE</p>
+      </div>
+      <button class="intro-skip" id="intro-skip" type="button">SKIP ↓</button>
+    </div>
+    {{ end }}
+
+    <!-- ── HEADER ─────────────────────────────────────────────── -->
+    <header class="site-header">
+      <div class="site-nav">
+        <a class="brand" href="/">
+          {{- partial "svg/cup.html" . -}}
+          {{ .Site.Title }}<span class="brand-sub"> / coldcoffee</span>
+        </a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <nav id="primary-navigation" aria-label="Primary navigation">
+          {{ range .Site.Menus.main }}
+          <a href="{{ .URL }}"{{ if eq $.RelPermalink .URL }} aria-current="page"{{ end }}>{{ .Name }}</a>
+          {{ end }}
+        </nav>
+      </div>
+    </header>
+
+    <!-- ── MAIN ──────────────────────────────────────────────── -->
+    <main id="main-content" class="flex-1">
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    <!-- ── FOOTER ─────────────────────────────────────────────── -->
+    <footer class="archive-footer">
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="/">
+            {{- partial "svg/cup.html" . -}}
+            {{ .Site.Title }}
+          </a>
+          <p>Sip. Solve. Decode.<br>Write it down. Share it.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          {{ range .Site.Menus.main }}
+          <a href="{{ .URL }}">{{ .Name }} {{- partial "svg/arrow-up-right.html" . -}}</a>
+          {{ end }}
+          <a href="/index.xml">RSS {{- partial "svg/arrow-up-right.html" . -}}</a>
+        </nav>
+      </div>
+
+      <div class="footer-wordmark" aria-hidden="true">{{ .Site.Title }}<span>_</span></div>
+
+      <div class="footer-bottom">
+        <span>© {{ now.Format "2006" }} {{ .Site.Title | upper }} · CTF WRITEUP ARCHIVE</span>
+        <span>BUILT WITH COLD BREW / POWERED BY HUGO</span>
+        <a href="#main-content">BACK TO TOP {{- partial "svg/arrow-up.html" . -}}</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Film grain -->
+  <div id="grain" aria-hidden="true"></div>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

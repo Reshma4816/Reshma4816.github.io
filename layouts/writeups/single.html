@@ -1,0 +1,77 @@
+{{ define "main" }}
+<article class="layout-page writeup-page">
+  <div class="wrap">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/writeups/">Writeups</a>
+      <span aria-hidden="true">/</span>
+      {{ with .CurrentSection }}
+        {{ if ne .RelPermalink "/writeups/" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <span aria-hidden="true">/</span>
+        {{ end }}
+      {{ end }}
+      <span aria-current="page">{{ .Title }}</span>
+    </nav>
+
+    <header class="writeup-header">
+      <div class="writeup-badges">
+        {{ with .Params.category }}<span class="badge badge-rose">{{ . }}</span>{{ end }}
+        {{ with .Params.ctf }}<span class="badge badge-ctf">{{ . }}</span>{{ end }}
+        {{ with .Params.difficulty }}<span class="badge badge-diff-{{ . | lower }}">{{ . }}</span>{{ end }}
+        {{ with .Params.points }}<span class="badge badge-pts">{{ . }} pts</span>{{ end }}
+      </div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="writeup-desc">{{ . }}</p>{{ end }}
+      
+      <div class="writeup-meta">
+        <span class="author-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          {{ .Params.author | default "Reshma Al (Coldcoffee)" }}
+        </span>
+        <span>·</span>
+        <span>{{ .Date.Format "02 Jan 2006" }}</span>
+        <span>·</span>
+        <span>{{ .ReadingTime }} min read</span>
+        {{ with .Params.tools }}
+        <span>·</span>
+        <span class="tools-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> {{ . }}</span>
+        {{ end }}
+      </div>
+    </header>
+
+    <div class="writeup-body prose">
+      {{ .Content }}
+    </div>
+
+    {{ with .Params.tags }}
+    <div class="writeup-tags-footer">
+      <span class="tags-label">Tags:</span>
+      {{ range . }}
+      <span class="tag-pill">{{ . }}</span>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    <!-- Prev / Next Navigation in Section -->
+    <nav class="prev-next" aria-label="Previous and next writeup">
+      {{ with .PrevInSection }}
+      <a href="{{ .RelPermalink }}" class="prev-next-link prev-link">
+        <span class="pn-dir">← Previous Solve</span>
+        <span class="pn-title">{{ .Title }}</span>
+      </a>
+      {{ end }}
+      {{ with .NextInSection }}
+      <a href="{{ .RelPermalink }}" class="prev-next-link next-link">
+        <span class="pn-dir">Next Solve →</span>
+        <span class="pn-title">{{ .Title }}</span>
+      </a>
+      {{ end }}
+    </nav>
+
+  </div>
+</article>
+{{ end }}

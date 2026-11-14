@@ -14,7 +14,7 @@
         {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
         <div class="event-top">
           <span class="event-number">{{ printf "%02d" .Weight }}</span>
-          {{ with .Params.placement }}<span class="place-badge {{ if eq . "2nd" }}place-gold{{ else if eq . "6th" }}place-rose{{ else if eq . "16th" }}place-rose{{ else if eq . "Top 20" }}place-rose{{ else if eq . "Top 30" }}place-muted{{ else if eq . "Top 35" }}place-muted{{ else }}place-muted{{ end }}">{{ . }}</span>{{ end }}
+          
           <span class="event-arrow" aria-hidden="true">{{ partial "svg/arrow-up-right.html" . }}</span>
         </div>
         <h3>

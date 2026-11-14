@@ -85,7 +85,7 @@
         <div class="event-grid">
           {{ $ctfs := where .Site.RegularPages "Section" "ctfs" }}
           {{ range ($ctfs.ByWeight) }}
-          {{ if and (ne .File.ContentBaseName "lunar-ctf-quals") (ne .File.ContentBaseName "breach-point-ctf") (ne .File.ContentBaseName "pinaka-ctf") }}
+          {{ if and (ne .File.ContentBaseName "lunar-ctf-quals") (ne .File.ContentBaseName "breach-point-ctf") }}
           <a href="{{ .RelPermalink }}" class="event-tile">
             {{ partial "svg/event-art.html" (dict "slug" .File.ContentBaseName) }}
             <div class="event-top">

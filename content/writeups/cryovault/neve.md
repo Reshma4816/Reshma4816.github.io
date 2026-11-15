@@ -3,7 +3,7 @@ title: "neve"
 date: 2026-11-02T11:00:00+05:30
 description: "Adaptive statistical hypothesis testing and Markov chain calibration to extract a 512-grade firmware table and decrypt an HKDF recovery bundle."
 category: "Cryptography"
-ctf: "ISFCR CryoVault Finals 2026"
+ctf: "ISFCR CryoVault Quals 2026"
 difficulty: "Hard"
 points: 500
 flag: "isfcr{neve_e60e_jacket_67de9384_loop}"

@@ -1,127 +1,20 @@
 <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:216px" aria-hidden="true">
+  <ellipse cx="100" cy="210" rx="68" ry="13" fill="rgba(58,10,24,.7)" stroke="rgba(241,217,181,.3)" stroke-width="1"/>
+  <path d="M42 120C38 160 40 188 60 202L140 202C160 188 162 160 158 120Z" fill="url(#lc-cup)" stroke="rgba(241,217,181,.4)" stroke-width="1.5"/>
+  <ellipse cx="100" cy="120" rx="58" ry="15" fill="#4a0d22" stroke="rgba(241,217,181,.4)" stroke-width="1"/>
+  <ellipse cx="100" cy="123" rx="50" ry="11" fill="#130408"/>
+  <ellipse cx="100" cy="123" rx="38" ry="7" fill="url(#lc-cof)"/>
+  <path d="M158 140C188 140 200 155 200 170C200 185 188 195 158 193" fill="none" stroke="rgba(241,217,181,.55)" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M76 110 Q71 94 76 78 Q81 62 76 46" stroke="rgba(246,238,240,.3)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M100 108 Q95 89 100 70 Q105 51 100 34" stroke="rgba(246,238,240,.5)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M124 110 Q129 94 124 78 Q119 62 124 46" stroke="rgba(246,238,240,.3)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="100" cy="120" rx="58" ry="15" fill="none" stroke="rgba(241,217,181,.75)" stroke-width=".75"/>
   <defs>
-    <!-- Dark Cold Brew Coffee Gradient -->
-    <linearGradient id="coldbrew-liquid" x1="60" y1="75" x2="140" y2="205" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#4a0d22" stop-opacity="0.95"/>
-      <stop offset="45%" stop-color="#2a0612" stop-opacity="0.98"/>
-      <stop offset="100%" stop-color="#120307"/>
+    <linearGradient id="lc-cup" x1="42" y1="120" x2="158" y2="202" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5a0f26"/><stop offset="100%" stop-color="#3a0a18"/>
     </linearGradient>
-
-    <!-- Glass Highlights -->
-    <linearGradient id="glass-reflection" x1="45" y1="55" x2="155" y2="205" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#f1d9b5" stop-opacity="0.3"/>
-      <stop offset="20%" stop-color="#ffffff" stop-opacity="0.08"/>
-      <stop offset="80%" stop-color="#f1d9b5" stop-opacity="0.04"/>
-      <stop offset="100%" stop-color="#f1d9b5" stop-opacity="0.25"/>
-    </linearGradient>
-
-    <!-- Straw Gradient -->
-    <linearGradient id="straw-grad" x1="135" y1="20" x2="80" y2="200" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#f1d9b5"/>
-      <stop offset="40%" stop-color="#d4577a"/>
-      <stop offset="100%" stop-color="#5a0f26"/>
-    </linearGradient>
-
-    <!-- Ice Cube Frosted Facet -->
-    <linearGradient id="ice-facet-1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#f1d9b5" stop-opacity="0.2"/>
-    </linearGradient>
-    <linearGradient id="ice-facet-2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#d4577a" stop-opacity="0.2"/>
-    </linearGradient>
+    <radialGradient id="lc-cof" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#f1d9b5" stop-opacity=".4"/><stop offset="100%" stop-color="#3a0a18" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-
-  <!-- Cold Coaster / Base Shadow -->
-  <ellipse cx="100" cy="216" rx="58" ry="11" fill="rgba(58,10,24,.6)" stroke="rgba(241,217,181,.25)" stroke-width="0.8"/>
-  <ellipse cx="100" cy="214" rx="46" ry="8" fill="rgba(18,3,7,.8)" stroke="rgba(212,87,122,.2)" stroke-width="0.6"/>
-
-  <!-- Straw (Lower Section inside liquid - faint through glass) -->
-  <line x1="126" y1="28" x2="82" y2="198" stroke="url(#straw-grad)" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
-  <line x1="127" y1="28" x2="83" y2="198" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
-
-  <!-- Tapered Cold Brew Tumbler Glass (Back & Liquid Body) -->
-  <!-- Outer Glass Wall Background -->
-  <path d="M52 58 L63 204 Q64 212 76 212 L124 212 Q136 212 137 204 L148 58 Z" fill="rgba(21,6,9,0.75)" stroke="rgba(241,217,181,0.3)" stroke-width="1.2"/>
-
-  <!-- Cold Brew Liquid Fill -->
-  <path d="M54 82 L64 202 Q65 210 77 210 L123 210 Q135 210 136 202 L146 82 Z" fill="url(#coldbrew-liquid)"/>
-
-  <!-- Liquid Surface Ellipse -->
-  <ellipse cx="100" cy="82" rx="46" ry="9" fill="#4a0d22" stroke="rgba(241,217,181,0.4)" stroke-width="1"/>
-  <ellipse cx="100" cy="83" rx="40" ry="7" fill="#1b050c"/>
-
-  <!-- Submerged Ice Cube (Deep in cold brew) -->
-  <g opacity="0.7">
-    <!-- Top Face -->
-    <polygon points="76,128 92,122 106,127 90,133" fill="url(#ice-facet-1)" stroke="rgba(241,217,181,0.5)" stroke-width="0.8"/>
-    <!-- Left Face -->
-    <polygon points="76,128 90,133 90,148 76,143" fill="url(#ice-facet-2)" stroke="rgba(241,217,181,0.4)" stroke-width="0.8"/>
-    <!-- Right Face -->
-    <polygon points="90,133 106,127 106,142 90,148" fill="rgba(255,255,255,0.15)" stroke="rgba(241,217,181,0.4)" stroke-width="0.8"/>
-  </g>
-
-  <!-- Mid Ice Cube (Floating near surface left) -->
-  <g>
-    <!-- Top Face -->
-    <polygon points="68,76 86,70 100,77 82,83" fill="url(#ice-facet-1)" stroke="rgba(255,255,255,0.75)" stroke-width="1"/>
-    <!-- Left Face -->
-    <polygon points="68,76 82,83 82,98 68,91" fill="url(#ice-facet-2)" stroke="rgba(241,217,181,0.55)" stroke-width="1"/>
-    <!-- Right Face -->
-    <polygon points="82,83 100,77 100,92 82,98" fill="rgba(255,255,255,0.25)" stroke="rgba(241,217,181,0.55)" stroke-width="1"/>
-    <!-- Crystal internal refraction line -->
-    <line x1="82" y1="83" x2="88" y2="73" stroke="rgba(255,255,255,0.6)" stroke-width="0.8"/>
-  </g>
-
-  <!-- Top Floating Ice Cube (Breaking the surface right) -->
-  <g>
-    <!-- Top Face -->
-    <polygon points="102,68 122,63 134,71 114,76" fill="url(#ice-facet-1)" stroke="rgba(255,255,255,0.85)" stroke-width="1.1"/>
-    <!-- Left Face -->
-    <polygon points="102,68 114,76 114,92 102,84" fill="url(#ice-facet-2)" stroke="rgba(241,217,181,0.65)" stroke-width="1"/>
-    <!-- Right Face -->
-    <polygon points="114,76 134,71 134,87 114,92" fill="rgba(255,255,255,0.3)" stroke="rgba(241,217,181,0.65)" stroke-width="1"/>
-    <!-- Sparkle on corner -->
-    <circle cx="114" cy="76" r="1.5" fill="#ffffff"/>
-  </g>
-
-  <!-- Tumbler Glass Lip & Rim -->
-  <ellipse cx="100" cy="58" rx="48" ry="10" fill="none" stroke="rgba(241,217,181,0.7)" stroke-width="1.5"/>
-  <ellipse cx="100" cy="57" rx="49" ry="10.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.8"/>
-
-  <!-- Glass Vertical Reflections (Cold sleek gloss) -->
-  <path d="M57 68 L67 198" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M62 74 L70 190" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-linecap="round"/>
-  <path d="M143 68 L133 198" stroke="rgba(241,217,181,0.25)" stroke-width="1.8" stroke-linecap="round"/>
-
-  <!-- Condensation Moisture Droplets (Chilled Glass effect) -->
-  <g fill="#f1d9b5" opacity="0.75">
-    <circle cx="64" cy="108" r="1.6"/>
-    <circle cx="65" cy="112" r="1.1"/>
-    <circle cx="67" cy="138" r="2.2"/>
-    <circle cx="68" cy="143" r="1.4"/>
-    <circle cx="70" cy="168" r="1.8"/>
-    <circle cx="71" cy="172" r="1.2"/>
-    <circle cx="134" cy="118" r="2"/>
-    <circle cx="133" cy="123" r="1.3"/>
-    <circle cx="131" cy="152" r="2.2"/>
-    <circle cx="130" cy="157" r="1.5"/>
-    <circle cx="127" cy="180" r="1.8"/>
-    <circle cx="94" cy="188" r="1.6"/>
-    <circle cx="104" cy="192" r="1.3"/>
-  </g>
-
-  <!-- Frost Crystals / Cold Glints (Replacing hot steam!) -->
-  <g stroke="rgba(241,217,181,0.7)" stroke-width="0.9" fill="none">
-    <!-- Star 1 Top Left -->
-    <path d="M62 38 L62 48 M57 43 L67 43 M58.5 39.5 L65.5 46.5 M58.5 46.5 L65.5 39.5"/>
-    <!-- Star 2 Top Right -->
-    <path d="M142 32 L142 40 M138 36 L146 36 M139 33 L145 39 M139 39 L145 33" stroke-width="0.8"/>
-    <!-- Small Glint Center -->
-    <path d="M100 24 L100 30 M97 27 L103 27" stroke-width="0.7" opacity="0.6"/>
-  </g>
-
-  <!-- Straw Top Accent -->
-  <ellipse cx="126" cy="27" rx="2.5" ry="1.2" fill="#f1d9b5" stroke="#ffffff" stroke-width="0.6" transform="rotate(-30 126 27)"/>
 </svg>

@@ -1,6 +1,6 @@
 ---
 title: "Sea of Secrets CTF"
-description: "Maritime communications forensics, satellite signal modulation, and naval telemetry decoding."
+description: "Cryptography, reverse engineering, mobile security, digital forensics, and OSINT across a pirate-themed CTF."
 ctf: "Sea of Secrets CTF"
 year: "October 2026"
 ---

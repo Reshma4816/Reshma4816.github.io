@@ -2,7 +2,7 @@
 title: "Sleeper"
 date: 2026-10-12T10:00:00+05:30
 description: "Beam-search a char-level transformer's log-probabilities to find a memorized backdoor trigger hiding among glyph noise, then decrypt the sealed envelope it unlocks."
-category: "Reverse Engineering"
+category: "Miscellaneous"
 ctf: "ISFCR CryoVault Finals 2026"
 difficulty: "Hard"
 points: 500
